@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pcfx.org/schemas/knowledge_atom.schema.json",
+  "title": "KnowledgeAtom",
+  "type": "object",
+  "required": [
+    "id",
+    "ts",
+    "provenance",
+    "text"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "text": {
+      "type": "string"
+    }
+  }
+}

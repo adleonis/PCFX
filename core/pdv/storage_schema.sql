@@ -1,0 +1,1 @@
+CREATE TABLE events(id TEXT, ts TEXT, device TEXT);

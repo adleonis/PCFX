@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pcfx.org/schemas/exposure_event.schema.json",
+  "title": "ExposureEvent",
+  "type": "object",
+  "required": [
+    "id",
+    "ts",
+    "device",
+    "adapter_id",
+    "source",
+    "content"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "device": {
+      "type": "string"
+    },
+    "adapter_id": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object"
+    },
+    "content": {
+      "type": "object"
+    }
+  }
+}

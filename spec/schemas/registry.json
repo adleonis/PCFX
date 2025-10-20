@@ -1,0 +1,6 @@
+{
+  "schemas": [
+    "exposure_event",
+    "knowledge_atom"
+  ]
+}
