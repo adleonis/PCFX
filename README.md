@@ -7,7 +7,7 @@ record and analyze the information entering a person’s perceptual environment�
 enabling individuals to see *who* is influencing them, *how*, and *to what extent*.
 
 📘 **Resources**
-- [Whitepaper](spec/pcfx_whitepaper.tex)
+- [Whitepaper](spec/pcfx_whitepaper.md)
 - [JSON Schemas](spec/schemas/)
 - [Core Runtime](core/)
 - [Implementations](implementations/)
