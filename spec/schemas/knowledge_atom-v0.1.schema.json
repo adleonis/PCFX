@@ -1,0 +1,32 @@
+{
+  "$id": "https://pcfx.org/schemas/knowledge_atom-0.1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type":"object",
+  "required":["schema","id","ts","provenance","text","tone","confidence","signature"],
+  "properties":{
+    "schema":{"const":"pcfx.knowledge_atom/0.1"},
+    "id":{"type":"string"},
+    "ts":{"type":"string","format":"date-time"},
+    "provenance":{
+      "type":"object",
+      "required":["event_id","adapter_id","analysis_node_id"],
+      "properties":{
+        "event_id":{"type":"string"},
+        "adapter_id":{"type":"string"},
+        "analysis_node_id":{"type":"string"}
+      },
+      "additionalProperties":false
+    },
+    "text":{"type":"string"},
+    "entities":{"type":"array","items":{"type":"object","properties":{
+      "id":{"type":"string"},"type":{"type":"string"},"name":{"type":"string"}
+    },"additionalProperties":false}},
+    "tone":{"type":"object"}, 
+    "vector_ref":{"type":"string"},
+    "confidence":{"type":"object"},
+    "blob_refs":{"type":"array","items":{"type":"string"}},
+    "extensions":{"type":"object"},
+    "signature":{"type":"string"}
+  },
+  "additionalProperties": false
+}

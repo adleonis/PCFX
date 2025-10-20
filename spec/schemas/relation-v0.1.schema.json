@@ -1,0 +1,19 @@
+{
+  "$id":"https://pcfx.org/schemas/relation-0.1.json",
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object",
+  "required":["schema","id","ts","src","dst","type","analysis_node_id","signature"],
+  "properties":{
+    "schema":{"const":"pcfx.relation/0.1"},
+    "id":{"type":"string"},
+    "ts":{"type":"string","format":"date-time"},
+    "src":{"type":"string"},
+    "dst":{"type":"string"},
+    "type":{"type":"string","enum":["supports","refutes","near_duplicate","same_template","co_timed","quotes","mentions"]},
+    "weight":{"type":"number","minimum":0,"maximum":1},
+    "analysis_node_id":{"type":"string"},
+    "extensions":{"type":"object"},
+    "signature":{"type":"string"}
+  },
+  "additionalProperties": false
+}

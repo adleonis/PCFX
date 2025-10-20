@@ -1,0 +1,19 @@
+{
+  "$id":"https://pcfx.org/schemas/metric-0.1.json",
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object",
+  "required":["schema","id","ts","scope","name","value","window","signature"],
+  "properties":{
+    "schema":{"const":"pcfx.metric/0.1"},
+    "id":{"type":"string"},
+    "ts":{"type":"string","format":"date-time"},
+    "scope":{"type":"string"}, 
+    "name":{"type":"string"},
+    "value":{"type":"number"},
+    "window":{"type":"string"}, 
+    "explain":{"type":"object"},
+    "extensions":{"type":"object"},
+    "signature":{"type":"string"}
+  },
+  "additionalProperties": false
+}
