@@ -1,8 +1,210 @@
 
-\documentclass{article}
+\documentclass[12pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{xcolor}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+\setlist{nosep}
+\setstretch{1.15}
+
+\title{\textbf{The Personal Cognitive Firewall eXchange Protocol (PCF-X)}\\
+\vspace{0.3em}
+\large A Universal Framework for Individual Cognitive Security}
+
+\author{
+\textbf{Whitepaper v1.0 — Draft for Public Consultation}\\[1em]
+Stephane Gallet (Concept Lead)\\
+\texttt{©2025 — CC BY-SA 4.0}
+}
+
+\date{}
+
 \begin{document}
-\title{Personal Cognitive Firewall eXchange Protocol (PCF-X)}
 \maketitle
-\section*{Abstract}
-An open standard for cognitive security and personal informational transparency.
+\begin{abstract}
+Human civilization has entered an age where \textit{information itself has agency}.  
+Large language models, synthetic media, and algorithmic recommendation engines generate persuasive content at a scale and speed no human cognition can match.  
+In this environment, the self becomes the final unsecured endpoint.
+
+The \textbf{Personal Cognitive Firewall eXchange Protocol (PCF-X)} establishes an open, decentralized standard for capturing, describing, and analyzing the informational inputs that shape individual thought.  
+It defines a modular protocol—spanning ingestion, analysis, and presentation—designed for privacy-preserving interoperability between devices, platforms, and independent developers.
+
+Its goal is to make cognitive influence visible, measurable, and owned by the individual.  
+PCF-X is not a product: it is an epistemic infrastructure for the digital age, a public good analogous to HTTPS or SMTP—securing not communication, but \textit{comprehension itself}.
+\end{abstract}
+
+\section{Background: From Cybersecurity to Cognitive Security}
+
+\subsection{The Erosion of Cognitive Boundaries}
+Human attention has become the most valuable and contested resource of the twenty-first century.  
+Recommendation algorithms, targeted advertising, and now generative models continuously adjust content to optimize persuasion.  
+These mechanisms operate invisibly—adapting faster than any individual’s capacity for reflection.  
+The result is a new class of threat: \textbf{cognitive intrusion}.
+
+\subsection{The Limits of Existing Frameworks}
+Privacy regulations (GDPR, CCPA) protect data ownership; cybersecurity frameworks protect device integrity.  
+But neither addresses cognitive integrity.  
+There is no protocol ensuring that individuals can \textbf{see and audit the informational forces shaping their worldview}.
+
+\subsection{The Need for an Open Protocol}
+If each company or government implements its own opaque “attention defense,” cognitive security will fragment into competing silos.  
+What humanity needs is a \textbf{shared, auditable protocol} ensuring cognitive autonomy remains a public standard, not a corporate feature.
+
+\section{Foundational Philosophy}
+
+\subsection{Post-Truth and the Architecture of Perception}
+As Hannah Arendt warned, “The ideal subject of totalitarian rule is not the convinced Nazi or Communist, but people for whom the distinction between fact and fiction no longer exists.”  
+In the digital era, this condition is automated.
+
+\subsection{From Subjectivity to Transparency}
+Following Kuhn, Latour, and Bayesian epistemology, PCF-X accepts that all knowledge is perspectival.  
+Rather than enforcing “objective truth,” it exposes the \textbf{topology of influence}—mapping how narratives and emotions interact within each user’s informational field.
+
+\subsection{Digital Autonomy as a Human Right}
+If privacy was the right to silence, cognitive transparency is the right to awareness.  
+PCF-X gives individuals instruments to observe, without intermediaries, the informational patterns acting upon them.
+
+\section{The Vision: A Universal Cognitive Defense Layer}
+PCF-X proposes a three-layer framework:
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Layer} & \textbf{Function} & \textbf{Analogy}\\
+\hline
+Information Ingestion & Capture human-facing informational input & Network Interface\\
+Data Analysis & Transform input into semantic, emotional, relational atoms & Transport/Interpretation\\
+Presentation & Render analytics and controls for the individual & Application\\
+\hline
+\end{tabular}
+\end{center}
+
+Each layer is modular and independently implementable.  
+The protocol defines data contracts and consent primitives enabling secure interoperability.
+
+\section{Design Principles}
+\begin{enumerate}
+\item \textbf{Local-first sovereignty}: computation on user device.  
+\item \textbf{Modularity and extensibility}: independent development encouraged.  
+\item \textbf{Capability-based security}: least privilege per component.  
+\item \textbf{Human-readable transparency}: every result links to evidence.  
+\item \textbf{Interoperability over ownership}: protocol $>$ platform.  
+\item \textbf{Ethical universality}: respect for local privacy norms.  
+\end{enumerate}
+
+\section{Protocol Overview}
+
+\subsection{Core Data Model}
+Artifacts include:
+\begin{itemize}
+\item \textbf{ExposureEvent} — informational exposure (app use, ad view, audio segment)
+\item \textbf{KnowledgeAtom} — extracted claim with entities, tones, sources
+\item \textbf{Relation} — linkage (similarity, contradiction, coordination)
+\item \textbf{Metric} — aggregate analytic result
+\item \textbf{ConsentManifest} — human-signed capability grants
+\end{itemize}
+
+All artifacts are signed, timestamped, and stored in a \textbf{Personal Data Vault (PDV)}.
+
+\subsection{System Flow}
+\begin{verbatim}
+[ Ingestion Adapters ] → [ Event Bus ] → [ Analysis Nodes ] → [ Presentation Clients ]
+\end{verbatim}
+
+\subsection{Governance of Data Flow}
+Adapters emit only \textit{ExposureEvents}; analysis nodes produce \textit{KnowledgeAtoms} and \textit{Relations}; presentation clients are read-only.  
+The PDV enforces retention and cryptographic integrity.
+
+\section{Privacy and Consent Framework}
+PCF-X uses a capability-grant model inspired by object-capability security and Kantara consent receipts.  
+Every component declares capabilities (e.g., \texttt{microphone.capture}).  
+Users issue signed, time-limited \textit{ConsentManifests}.  
+The PDV enforces consent at runtime.
+
+\section{Technical Reference Architecture}
+
+\subsection{Personal Data Vault}
+Append-only log and column store with vector index; user-owned keys.  
+APIs:  
+\texttt{/events}, \texttt{/atoms}, \texttt{/relations}, \texttt{/metrics}.  
+
+\subsection{Event Bus}
+Local gRPC/WebSocket pub-sub; localhost only by default.  
+Optional encrypted federation for aggregated metrics.
+
+\subsection{Runtime and Sandboxing}
+Preferred runtime: WebAssembly with restricted WASI; outbound networking requires explicit capability.
+
+\section{Example Workflow}
+\begin{enumerate}
+\item Android adapter captures app focus, emits \texttt{ExposureEvent}.  
+\item Atomizer node converts text/audio into \texttt{KnowledgeAtoms}.  
+\item Coordination node detects repeated phrasing, emits \texttt{Relation}.  
+\item Metrics node computes exposure velocity and influence index.  
+\item Dashboard renders the daily influence report.
+\end{enumerate}
+
+\section{Future Directions}
+\subsection{Federated Cognitive Weather System}
+Anonymized metrics from multiple PDVs could form real-time maps of global influence flows.  
+
+\subsection{Integration with LLMs}
+Local agents can explain: “This article repeats phrasing seen 23 times this week.”  
+
+\subsection{Civic and Research Use}
+Academics and journalists can study media ecosystems with consent.  
+
+\subsection{Hardware Integrations}
+Smart glasses, vehicles, TVs—any surface emitting \texttt{ExposureEvents} can join the protocol.
+
+\section{Governance and Participation}
+\subsection{PCF-X Consortium}
+A nonprofit standards body similar to W3C/IETF.  
+Working groups: Ingestion, Analysis, Privacy, UX.
+
+\subsection{Open-Source Reference Stack}
+\texttt{pcfx-spec}, \texttt{pcfx-core}, \texttt{pcfx-sdk} repositories.
+
+\subsection{Stakeholders}
+Academia, industry, civil society, governments, and open-source developers.
+
+\section{Why It Matters}
+\subsection{The Next Layer of the Internet}
+HTTP transferred information, HTTPS secured it, PCF-X will make it intelligible.  
+
+\subsection{Restoring the Social Contract of Knowledge}
+When every feed is personalized, common reality fragments.  
+PCF-X restores minimal transparency for pluralism without chaos.  
+
+\subsection{Human Augmentation, not Control}
+It equips individuals with mirrors, not filters.
+
+\section{Philosophical References}
+Kuhn (1962), Latour (1987), Wiener (1948), Simon (1957), McLuhan (1964), Arendt (1951), Ostrom (1990).
+
+\section{Technical References}
+Miller et al. (Object Capability Security), Cavoukian (Privacy by Design, 2011), Berners-Lee (Solid Project),  
+IETF JSON Schema, W3C DID, McMahan \& Ramage (Federated Learning, 2017).
+
+\section{Call to Action}
+Without transparent tools for self-observation, humans risk becoming programmable substrates for algorithmic economies.  
+PCF-X invites engineers, philosophers, and citizens to secure the most valuable system we possess: the human mind in a networked world.
+
+\begin{quote}
+\textit{Let there be a standard for awareness.  
+Let cognition itself have a protocol.}
+\end{quote}
+
+\bigskip
+\noindent\textbf{Contact and Stewardship (proposed):}\\
+\textit{PCF-X Working Group — Open founding members sought}\\
+\texttt{https://pcfx.org (placeholder)}
+
 \end{document}
+
