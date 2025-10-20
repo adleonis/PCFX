@@ -1,3 +1,3 @@
-# Nodes
+# README
 
-Perform semantic and statistical analysis.
+- See Node-Spec-v1.md 
