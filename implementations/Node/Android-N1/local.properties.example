@@ -1,0 +1,5 @@
+# Android SDK location
+sdk.dir=/path/to/Android/sdk
+
+# NDK location (optional)
+ndk.dir=/path/to/Android/ndk
