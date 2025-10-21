@@ -4,6 +4,8 @@ import android.content.Context
 import com.github.erosb.jsonsKema.Schema
 import com.github.erosb.jsonsKema.SchemaLoader
 import com.github.erosb.jsonsKema.ValidationException
+import com.github.erosb.jsonsKema.Validator
+import com.github.erosb.jsonsKema.ValidatorConfig
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.json.JSONObject
