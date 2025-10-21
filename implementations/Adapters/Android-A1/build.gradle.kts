@@ -1,7 +1,10 @@
+// C:/CODE/PCFX/implementations/Adapters/Android-A1/build.gradle.kts
+
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
+    // Apply the plugins directly to this module.    // Versions are defined here because this is a self-contained project.
+    id("com.android.application") version "8.2.2"
+    id("org.jetbrains.kotlin.android") version "1.9.22"
+    id("org.jetbrains.kotlin.kapt") version "1.9.22"
 }
 
 android {
@@ -52,8 +55,8 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.material:material:1.11.0")
 
-    // Kotlin
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    // Kotlin - The version is managed by the org.jetbrains.kotlin.android plugin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
@@ -70,8 +73,9 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
 
-    // JSON Schema Validation
-    implementation("com.github.everit-org.json-schema:org.everit.json.schema:1.14.4")
+    // JSON Schema Validation (Successor to everit-org)
+    //implementation("org.json-schema:json-sKema:0.9.1")
+    implementation("com.github.erosb:json-sKema:0.27.0")
 
     // Cryptography & Security
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
@@ -79,9 +83,10 @@ dependencies {
 
     // Logging
     implementation("org.slf4j:slf4j-api:2.0.9")
-    implementation("ch.qos.logback:logback-android:0.1.5")
+    implementation("com.github.tony19:logback-android:3.0.0")//r a more recent version
+//    implementation("org.slf4j:slf4j-api:1.7.30") // logback-android requires the SLF4J API
 
-    // Testing
+    // Testings
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.5.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")

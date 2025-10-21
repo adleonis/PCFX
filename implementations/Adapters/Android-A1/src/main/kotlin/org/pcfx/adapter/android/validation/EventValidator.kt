@@ -1,16 +1,18 @@
 package org.pcfx.adapter.android.validation
 
 import android.content.Context
+import com.erosb.jsonschema.Schema
+import com.erosb.jsonschema.SchemaLoader
+import com.erosb.jsonschema.ValidationException
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import org.everit.json.schema.Schema
-import org.everit.json.schema.loader.SchemaLoader
 import org.json.JSONObject
+import org.json.JSONTokener
 import java.io.InputStreamReader
 
 class EventValidator(private val context: Context) {
     private val schema: Schema by lazy {
-        loadSchema("exposure_event-v0.1.schema.json")
+        loadSchema("pcfx_exposure_event-v0.1.schema.json")
     }
 
     fun validateEvent(eventJson: String): ValidationResult {
@@ -18,7 +20,7 @@ class EventValidator(private val context: Context) {
             val jsonObject = JSONObject(eventJson)
             schema.validate(jsonObject)
             ValidationResult.Valid
-        } catch (e: org.everit.json.schema.ValidationException) {
+        } catch (e: ValidationException) {
             ValidationResult.Invalid(e.message ?: "Unknown validation error")
         } catch (e: Exception) {
             ValidationResult.Invalid(e.message ?: "Invalid JSON")
