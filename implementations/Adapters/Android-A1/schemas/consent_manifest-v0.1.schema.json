@@ -1,0 +1,22 @@
+{
+  "$id":"https://pcfx.org/schemas/consent-0.1.json",
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object",
+  "required":["schema","consent_id","subject","adapter_id","grants","created_at","expires_at","signature"],
+  "properties":{
+    "schema":{"const":"pcfx.consent/0.1"},
+    "consent_id":{"type":"string"},
+    "subject":{"type":"string"},
+    "adapter_id":{"type":"string"},
+    "grants":{"type":"array","items":{"type":"object","required":["cap","purpose","retention_days"],"properties":{
+      "cap":{"type":"string"},
+      "purpose":{"type":"string"},
+      "retention_days":{"type":"integer","minimum":0}
+    },"additionalProperties":false}},
+    "created_at":{"type":"string","format":"date-time"},
+    "expires_at":{"type":"string","format":"date-time"},
+    "extensions":{"type":"object"},
+    "signature":{"type":"string"}
+  },
+  "additionalProperties": false
+}
