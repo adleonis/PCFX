@@ -20,7 +20,8 @@ class EventValidator(private val context: Context) {
     fun validateEvent(eventJson: String): ValidationResult {
         return try {
             val jsonObject = JSONObject(eventJson)
-            schema.validate(jsonObject)
+            val validator = Validator.create(schema, ValidatorConfig())
+            validator.validate(jsonObject)
             ValidationResult.Valid
         } catch (e: ValidationException) {
             ValidationResult.Invalid(e.message ?: "Unknown validation error")
