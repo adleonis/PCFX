@@ -77,9 +77,7 @@ class KeyManager(context: Context) {
         val publicKeyBase64 = Base64.encodeToString(keyPair.public.encoded, Base64.DEFAULT)
         sharedPrefs.edit().putString(PREFS_PUBLIC_KEY, publicKeyBase64).apply()
 
-        // [IMPROVEMENT] Return the generated KeyPair object directly.
-        // Creating a new one is unnecessary.
-        return keyPair
+        return KeyPair(keyPair.private, keyPair.public)
     }
 
 
@@ -114,7 +112,7 @@ class KeyManager(context: Context) {
     }
 
     fun getPublicKeyBase64(): String {
-        val publicKey = getOrGenerateKeyPair().public
+        val publicKey = getOrGenerateKeyPair().publicKey
         return Base64.encodeToString(publicKey.encoded, Base64.DEFAULT)
     }
 
