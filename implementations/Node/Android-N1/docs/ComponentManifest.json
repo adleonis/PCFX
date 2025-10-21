@@ -1,0 +1,90 @@
+{
+  "schema": "pcfx.node_manifest/0.1",
+  "node_id": "pcfx.atomizer.android-n1/0.1.0",
+  "name": "PCF-X Atomizer Node (Android)",
+  "version": "0.1.0",
+  "description": "Native Android implementation of the PCF-X Atomizer Node for transforming ExposureEvents into KnowledgeAtoms with NER, tone classification, and vector embeddings.",
+  "maintainer": {
+    "name": "PCF-X Foundation",
+    "email": "support@pcfx.org",
+    "repo": "https://github.com/pcfx/pcfx"
+  },
+  "runtime": {
+    "platform": "android",
+    "minSdk": 26,
+    "targetSdk": 34,
+    "language": "kotlin",
+    "framework": "androidx"
+  },
+  "capabilities": [
+    "pdv.read.events",
+    "pdv.write.atoms"
+  ],
+  "optional_capabilities": [
+    "pdv.read.blobs",
+    "pdv.write.relations",
+    "pdv.write.metrics"
+  ],
+  "inputs": [
+    {
+      "schema": "pcfx.exposure_event/0.1",
+      "description": "ExposureEvent from PDV or Event Bus"
+    }
+  ],
+  "outputs": [
+    {
+      "schema": "pcfx.knowledge_atom/0.1",
+      "description": "KnowledgeAtom with entities, tone, and embeddings"
+    }
+  ],
+  "requires_net": true,
+  "network_endpoints": [
+    "GET /events (PDV)",
+    "POST /atoms (PDV)",
+    "POST /atoms/batch (PDV)"
+  ],
+  "scheduling": {
+    "manual": true,
+    "scheduled": true,
+    "scheduler_type": "AlarmManager",
+    "default_interval": "P1D",
+    "configurable": true
+  },
+  "atomizer_pipeline": {
+    "ner": {
+      "type": "rule_based",
+      "entities": ["brand", "person", "topic", "url"],
+      "description": "Regex-based NER for brands, @handles, #hashtags, URLs"
+    },
+    "tone": {
+      "type": "lexicon_based",
+      "classes": ["aspiration", "authority", "fear", "scarcity", "guilt", "curiosity", "social_proof"],
+      "description": "Keyword-based tone classification with normalized scores"
+    },
+    "vectorization": {
+      "type": "hashed_bag_of_words",
+      "description": "Deterministic hash-based vector reference; future: TF-Lite embeddings"
+    }
+  },
+  "data_handling": {
+    "pii_policy": "no_duplication",
+    "logging_level": "hash_only",
+    "retention": "ephemeral",
+    "encryption": "none_for_local_processing"
+  },
+  "error_handling": {
+    "rate_limit_strategy": "exponential_backoff",
+    "retry_max_attempts": 3,
+    "partial_batch_handling": "skip_invalid_continue"
+  },
+  "hash": "sha256:placeholder-android-binary-hash",
+  "signature": "eddsa-p256:placeholder-signature",
+  "repository": "https://github.com/pcfx/pcfx",
+  "license": "Apache-2.0",
+  "compliance": {
+    "no_direct_ipc": true,
+    "pdv_only": true,
+    "idempotent_processing": true,
+    "schema_validation": true
+  }
+}

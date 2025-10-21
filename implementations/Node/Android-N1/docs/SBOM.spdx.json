@@ -1,0 +1,189 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "PCF-X Atomizer Node (Android-N1) SBOM",
+  "documentNamespace": "https://pcfx.org/sbom/android-n1/0.1.0",
+  "creationInfo": {
+    "created": "2025-01-01T00:00:00Z",
+    "creators": ["Tool: PCF-X Build System"],
+    "licenseListVersion": "3.21"
+  },
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package",
+      "name": "pcfx-atomizer-android-n1",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "https://github.com/pcfx/pcfx",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "copyrightText": "Copyright PCF-X Foundation"
+    },
+    {
+      "SPDXID": "SPDXRef-Kotlin-Stdlib",
+      "name": "org.jetbrains.kotlin:kotlin-stdlib",
+      "versionInfo": "2.2.0",
+      "downloadLocation": "https://github.com/JetBrains/kotlin",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright JetBrains"
+    },
+    {
+      "SPDXID": "SPDXRef-AndroidX-Core",
+      "name": "androidx.core:core",
+      "versionInfo": "1.17.0",
+      "downloadLocation": "https://developer.android.com/jetpack",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright Google"
+    },
+    {
+      "SPDXID": "SPDXRef-Retrofit",
+      "name": "com.squareup.retrofit2:retrofit",
+      "versionInfo": "2.11.0",
+      "downloadLocation": "https://github.com/square/retrofit",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright Square"
+    },
+    {
+      "SPDXID": "SPDXRef-OkHttp",
+      "name": "com.squareup.okhttp3:okhttp",
+      "versionInfo": "5.2.1",
+      "downloadLocation": "https://github.com/square/okhttp",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright Square"
+    },
+    {
+      "SPDXID": "SPDXRef-GSON",
+      "name": "com.google.code.gson:gson",
+      "versionInfo": "2.13.2",
+      "downloadLocation": "https://github.com/google/gson",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright Google"
+    },
+    {
+      "SPDXID": "SPDXRef-Room",
+      "name": "androidx.room:room-runtime",
+      "versionInfo": "2.8.2",
+      "downloadLocation": "https://developer.android.com/jetpack",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright Google"
+    },
+    {
+      "SPDXID": "SPDXRef-WorkManager",
+      "name": "androidx.work:work-runtime-ktx",
+      "versionInfo": "2.9.1",
+      "downloadLocation": "https://developer.android.com/jetpack",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright Google"
+    },
+    {
+      "SPDXID": "SPDXRef-DataStore",
+      "name": "androidx.datastore:datastore-preferences",
+      "versionInfo": "1.1.1",
+      "downloadLocation": "https://developer.android.com/jetpack",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright Google"
+    },
+    {
+      "SPDXID": "SPDXRef-Coroutines",
+      "name": "org.jetbrains.kotlinx:kotlinx-coroutines-android",
+      "versionInfo": "1.10.2",
+      "downloadLocation": "https://github.com/Kotlin/kotlinx.coroutines",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright JetBrains"
+    },
+    {
+      "SPDXID": "SPDXRef-BouncyCastle",
+      "name": "org.bouncycastle:bcprov-jdk15on",
+      "versionInfo": "1.70",
+      "downloadLocation": "https://www.bouncycastle.org/",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "copyrightText": "Copyright Legion of the Bouncy Castle Inc."
+    },
+    {
+      "SPDXID": "SPDXRef-SLF4J",
+      "name": "org.slf4j:slf4j-api",
+      "versionInfo": "2.0.17",
+      "downloadLocation": "https://www.slf4j.org/",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "copyrightText": "Copyright QOS.ch"
+    },
+    {
+      "SPDXID": "SPDXRef-Logback",
+      "name": "com.github.tony19:logback-android",
+      "versionInfo": "3.0.0",
+      "downloadLocation": "https://github.com/tony19/logback-android",
+      "filesAnalyzed": false,
+      "licenseConcluded": "EPL-1.0",
+      "copyrightText": "Copyright Tony19"
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Kotlin-Stdlib"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-AndroidX-Core"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Retrofit"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-OkHttp"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-GSON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Room"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Coroutines"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-BouncyCastle"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-SLF4J"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Logback"
+    }
+  ]
+}

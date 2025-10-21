@@ -1,0 +1,46 @@
+# Gradle files
+.gradle/
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# Android specific
+.idea/
+.DS_Store
+*.iml
+*.apk
+*.aar
+*.so
+*.jniLibs
+local.properties
+key.properties
+
+# Kotlin
+.kotlin/
+
+# Build artifacts
+*.dex
+*.class
+*.jar
+*.zip
+
+# Intellij
+*.iws
+.classpath
+.c9/
+*.launch
+.cproject
+.loadpath
+.preferences
+.project
+.pydevproject
+.settings/
+DerivedData/
+
+# Node/npm
+node_modules/
+npm-debug.log
+
+# Output of the go coverage tool
+*.out

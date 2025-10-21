@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PCF-X Atomizer Node</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">PDV Settings</string>
+    <string name="title_activity_schedule">Schedule Settings</string>
+    <string name="run_now">Run Atomizer Now</string>
+    <string name="pdv_settings">PDV Settings</string>
+    <string name="schedule">Schedule</string>
+    <string name="last_run">Last Run</string>
+    <string name="events_processed">Events Processed</string>
+    <string name="atoms_published">Atoms Published</string>
+    <string name="daily_run">Daily Run</string>
+    <string name="disabled">Disabled</string>
+    <string name="test_connectivity">Test Connectivity</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="enable_daily_atomization">Enable Daily Atomization</string>
+    <string name="select_time">Select Time</string>
+    <string name="set_time">Set Time</string>
+</resources>
