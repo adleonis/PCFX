@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PCF-X Adapter</string>
+    <string name="accessibility_service_description">
+        PCF-X Adapter monitors foreground app changes and notifications to track cognitive exposure.
+        This service runs locally on your device and respects your consent choices.
+    </string>
+</resources>
