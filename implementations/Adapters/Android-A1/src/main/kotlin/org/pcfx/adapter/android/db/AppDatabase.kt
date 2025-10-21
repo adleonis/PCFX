@@ -1,6 +1,7 @@
 package org.pcfx.adapter.android.db
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -19,13 +20,18 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): AppDatabase {
             return instance ?: synchronized(this) {
-                val db = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "pcfx_adapter.db"
-                ).build()
-                instance = db
-                db
+                try {
+                    val db = Room.databaseBuilder(
+                        context.applicationContext,
+                        AppDatabase::class.java,
+                        "pcfx_adapter.db"
+                    ).build()
+                    instance = db
+                    db
+                } catch (e: Exception) {
+                    Log.e("AppDatabase", "Error initializing database", e)
+                    throw e
+                }
             }
         }
     }

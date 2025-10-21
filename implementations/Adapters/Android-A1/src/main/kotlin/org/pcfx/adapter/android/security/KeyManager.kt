@@ -30,13 +30,18 @@ class KeyManager(context: Context) {
     }
 
     fun getOrGenerateKeyPair(): KeyManager.KeyPair {
-        val existingPrivateKey = getPrivateKey()
-        val existingPublicKey = getPublicKey()
+        return try {
+            val existingPrivateKey = getPrivateKey()
+            val existingPublicKey = getPublicKey()
 
-        return if (existingPrivateKey != null && existingPublicKey != null) {
-            KeyPair(existingPrivateKey, existingPublicKey)
-        } else {
-            generateNewKeyPair()
+            if (existingPrivateKey != null && existingPublicKey != null) {
+                KeyPair(existingPrivateKey, existingPublicKey)
+            } else {
+                generateNewKeyPair()
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("KeyManager", "Error retrieving or generating key pair", e)
+            throw e
         }
     }
 
@@ -47,37 +52,39 @@ class KeyManager(context: Context) {
 
 
     private fun generateNewKeyPair(): KeyManager.KeyPair {
-        val keyPairGen = KeyPairGenerator.getInstance(
-            KeyProperties.KEY_ALGORITHM_EC, // Use the constant for clarity
-            KEYSTORE_PROVIDER
-        )
-
-        val spec = KeyGenParameterSpec.Builder(
-            KEYSTORE_ALIAS,
-            KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
-        ).apply {
-            // [FIX] Correctly specify the elliptic curve using the dedicated builder method.
-            setAlgorithmParameterSpec(ECGenParameterSpec("secp256r1"))
-
-            setDigests(
-                KeyProperties.DIGEST_SHA256,
-                KeyProperties.DIGEST_SHA512
+        try {
+            val keyPairGen = KeyPairGenerator.getInstance(
+                KeyProperties.KEY_ALGORITHM_EC,
+                KEYSTORE_PROVIDER
             )
 
-            // [IMPROVEMENT] Use modern time API (available since API 26).
-            // This is more readable and less error-prone than Calendar.
-            val validityEnd = Instant.now().plus(5, ChronoUnit.YEARS)
-            setKeyValidityEnd(Date.from(validityEnd))
+            val spec = KeyGenParameterSpec.Builder(
+                KEYSTORE_ALIAS,
+                KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
+            ).apply {
+                setAlgorithmParameterSpec(ECGenParameterSpec("secp256r1"))
 
-        }.build()
+                setDigests(
+                    KeyProperties.DIGEST_SHA256,
+                    KeyProperties.DIGEST_SHA512
+                )
 
-        keyPairGen.initialize(spec)
-        val keyPair = keyPairGen.generateKeyPair()
+                val validityEnd = Instant.now().plus(5, ChronoUnit.YEARS)
+                setKeyValidityEnd(Date.from(validityEnd))
 
-        val publicKeyBase64 = Base64.encodeToString(keyPair.public.encoded, Base64.DEFAULT)
-        sharedPrefs.edit().putString(PREFS_PUBLIC_KEY, publicKeyBase64).apply()
+            }.build()
 
-        return KeyPair(keyPair.private, keyPair.public)
+            keyPairGen.initialize(spec)
+            val keyPair = keyPairGen.generateKeyPair()
+
+            val publicKeyBase64 = Base64.encodeToString(keyPair.public.encoded, Base64.DEFAULT)
+            sharedPrefs.edit().putString(PREFS_PUBLIC_KEY, publicKeyBase64).apply()
+
+            return KeyPair(keyPair.private, keyPair.public)
+        } catch (e: Exception) {
+            android.util.Log.e("KeyManager", "Error generating new key pair", e)
+            throw e
+        }
     }
 
 
@@ -85,6 +92,7 @@ class KeyManager(context: Context) {
         return try {
             (keyStore.getEntry(KEYSTORE_ALIAS, null) as? KeyStore.PrivateKeyEntry)?.privateKey
         } catch (e: Exception) {
+            android.util.Log.w("KeyManager", "Could not retrieve private key: ${e.message}")
             null
         }
     }
@@ -94,11 +102,17 @@ class KeyManager(context: Context) {
             val certificate = keyStore.getCertificate(KEYSTORE_ALIAS)
             certificate?.publicKey
         } catch (e: Exception) {
-            val publicKeyBase64 = sharedPrefs.getString(PREFS_PUBLIC_KEY, null) ?: return null
-            val decodedKey = Base64.decode(publicKeyBase64, Base64.DEFAULT)
-            java.security.KeyFactory.getInstance("EC").generatePublic(
-                java.security.spec.X509EncodedKeySpec(decodedKey)
-            )
+            android.util.Log.w("KeyManager", "Could not retrieve public key from certificate: ${e.message}")
+            try {
+                val publicKeyBase64 = sharedPrefs.getString(PREFS_PUBLIC_KEY, null) ?: return null
+                val decodedKey = Base64.decode(publicKeyBase64, Base64.DEFAULT)
+                java.security.KeyFactory.getInstance("EC").generatePublic(
+                    java.security.spec.X509EncodedKeySpec(decodedKey)
+                )
+            } catch (ex: Exception) {
+                android.util.Log.w("KeyManager", "Could not retrieve public key from preferences: ${ex.message}")
+                null
+            }
         }
     }
 
