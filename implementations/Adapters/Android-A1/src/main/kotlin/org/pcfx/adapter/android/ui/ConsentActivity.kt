@@ -2,6 +2,7 @@ package org.pcfx.adapter.android.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -18,25 +19,60 @@ class ConsentActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_consent)
+        try {
+            setContentView(R.layout.activity_consent)
 
-        consentManager = ConsentManager(this)
-        keyManager = KeyManager(this)
+            consentManager = ConsentManager(this)
+            keyManager = KeyManager(this)
 
-        setupUI()
+            setupUI()
 
-        // Generate or retrieve keypair on first launch
-        keyManager.getOrGenerateKeyPair()
+            // Generate or retrieve keypair on first launch
+            try {
+                keyManager.getOrGenerateKeyPair()
+            } catch (e: Exception) {
+                Log.e("ConsentActivity", "Error during key pair generation", e)
+                Toast.makeText(
+                    this,
+                    "Error initializing security: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } catch (e: Exception) {
+            Log.e("ConsentActivity", "Fatal error in onCreate", e)
+            finish()
+        }
     }
 
     private fun setupUI() {
-        val titleTextView = findViewById<TextView>(R.id.consent_title)
-        val descriptionTextView = findViewById<TextView>(R.id.consent_description)
-        val grantsTextView = findViewById<TextView>(R.id.consent_grants)
-        val acceptButton = findViewById<Button>(R.id.consent_accept_btn)
-        val declineButton = findViewById<Button>(R.id.consent_decline_btn)
-        val statusButton = findViewById<Button>(R.id.consent_status_btn)
-        val regenerateKeyButton = findViewById<Button>(R.id.regenerate_key_btn)
+        val titleTextView = findViewById<TextView>(R.id.consent_title) ?: run {
+            Log.e("ConsentActivity", "Missing required view: consent_title")
+            return
+        }
+        val descriptionTextView = findViewById<TextView>(R.id.consent_description) ?: run {
+            Log.e("ConsentActivity", "Missing required view: consent_description")
+            return
+        }
+        val grantsTextView = findViewById<TextView>(R.id.consent_grants) ?: run {
+            Log.e("ConsentActivity", "Missing required view: consent_grants")
+            return
+        }
+        val acceptButton = findViewById<Button>(R.id.consent_accept_btn) ?: run {
+            Log.e("ConsentActivity", "Missing required view: consent_accept_btn")
+            return
+        }
+        val declineButton = findViewById<Button>(R.id.consent_decline_btn) ?: run {
+            Log.e("ConsentActivity", "Missing required view: consent_decline_btn")
+            return
+        }
+        val statusButton = findViewById<Button>(R.id.consent_status_btn) ?: run {
+            Log.e("ConsentActivity", "Missing required view: consent_status_btn")
+            return
+        }
+        val regenerateKeyButton = findViewById<Button>(R.id.regenerate_key_btn) ?: run {
+            Log.e("ConsentActivity", "Missing required view: regenerate_key_btn")
+            return
+        }
 
         titleTextView.text = "PCF-X Adapter: Privacy & Consent Request"
 
