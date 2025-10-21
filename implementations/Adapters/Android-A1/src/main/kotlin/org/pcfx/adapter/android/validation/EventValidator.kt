@@ -1,9 +1,11 @@
 package org.pcfx.adapter.android.validation
 
 import android.content.Context
-import com.erosb.jsonschema.Schema
-import com.erosb.jsonschema.SchemaLoader
-import com.erosb.jsonschema.ValidationException
+import com.github.erosb.jsonsKema.Schema
+import com.github.erosb.jsonsKema.SchemaLoader
+import com.github.erosb.jsonsKema.ValidationException
+import com.github.erosb.jsonsKema.Validator
+import com.github.erosb.jsonsKema.ValidatorConfig
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.json.JSONObject
@@ -18,7 +20,8 @@ class EventValidator(private val context: Context) {
     fun validateEvent(eventJson: String): ValidationResult {
         return try {
             val jsonObject = JSONObject(eventJson)
-            schema.validate(jsonObject)
+            val validator = Validator.create(schema, ValidatorConfig())
+            validator.validate(jsonObject)
             ValidationResult.Valid
         } catch (e: ValidationException) {
             ValidationResult.Invalid(e.message ?: "Unknown validation error")
