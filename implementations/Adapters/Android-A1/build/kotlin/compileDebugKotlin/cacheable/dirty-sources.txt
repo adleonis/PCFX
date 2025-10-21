@@ -1,0 +1,14 @@
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\model\ExposureEvent.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\model\ConsentManifest.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\service\AccessibilityMonitorService.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\network\PDVClient.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\event\EventBuilder.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\db\EventDao.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\service\EventPublisherService.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\ui\ConsentActivity.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\service\NotificationListenerService.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\security\KeyManager.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\db\EventEntity.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\consent\ConsentManager.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\db\AppDatabase.kt
+C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\kotlin\org\pcfx\adapter\android\validation\EventValidator.kt

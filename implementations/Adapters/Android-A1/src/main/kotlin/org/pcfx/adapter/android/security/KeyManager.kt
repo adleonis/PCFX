@@ -10,6 +10,10 @@ import java.security.KeyStore
 import java.security.PrivateKey
 import java.security.PublicKey
 import java.util.Calendar
+import java.security.spec.ECGenParameterSpec // <-- Add this import
+import java.time.Instant
+import java.time.temporal.ChronoUnit
+import java.util.Date
 
 class KeyManager(context: Context) {
     companion object {
@@ -41,24 +45,30 @@ class KeyManager(context: Context) {
         generateNewKeyPair()
     }
 
+
     private fun generateNewKeyPair(): KeyPair {
-        val keyPairGen = KeyPairGenerator.getInstance("EC", KEYSTORE_PROVIDER)
+        val keyPairGen = KeyPairGenerator.getInstance(
+            KeyProperties.KEY_ALGORITHM_EC, // Use the constant for clarity
+            KEYSTORE_PROVIDER
+        )
 
         val spec = KeyGenParameterSpec.Builder(
             KEYSTORE_ALIAS,
             KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
         ).apply {
-            setAlgorithmParameterSpec(android.security.keystore.ECGenParameterSpec("secp256r1"))
+            // [FIX] Correctly specify the elliptic curve using the dedicated builder method.
+            setAlgorithmParameterSpec(ECGenParameterSpec("secp256r1"))
+
             setDigests(
                 KeyProperties.DIGEST_SHA256,
                 KeyProperties.DIGEST_SHA512
             )
-            setSignaturePaddings(KeyProperties.SIGNATURE_PADDING_RSA_PKCS1)
 
-            val calendar = Calendar.getInstance().apply {
-                add(Calendar.YEAR, 5)
-            }
-            setKeyValidityEnd(calendar.time)
+            // [IMPROVEMENT] Use modern time API (available since API 26).
+            // This is more readable and less error-prone than Calendar.
+            val validityEnd = Instant.now().plus(5, ChronoUnit.YEARS)
+            setKeyValidityEnd(Date.from(validityEnd))
+
         }.build()
 
         keyPairGen.initialize(spec)
@@ -67,8 +77,11 @@ class KeyManager(context: Context) {
         val publicKeyBase64 = Base64.encodeToString(keyPair.public.encoded, Base64.DEFAULT)
         sharedPrefs.edit().putString(PREFS_PUBLIC_KEY, publicKeyBase64).apply()
 
-        return KeyPair(keyPair.private, keyPair.public)
+        // [IMPROVEMENT] Return the generated KeyPair object directly.
+        // Creating a new one is unnecessary.
+        return keyPair
     }
+
 
     private fun getPrivateKey(): PrivateKey? {
         return try {
