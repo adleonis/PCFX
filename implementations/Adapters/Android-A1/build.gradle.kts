@@ -72,11 +72,7 @@ dependencies {
     // JSON
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0")
-
-    // JSON Schema Validation (Successor to everit-org)
-    //implementation("org.json-schema:json-schema:0.9.1")
-    //implementation("com.github.erosb:json-schema:0.27.0")
-    implementation("com.github.erosb:json-sKema:0.25.0")
+    implementation("org.json:json:20250517")
     
     // Cryptography & Security
     implementation("androidx.security:security-crypto:1.1.0")
