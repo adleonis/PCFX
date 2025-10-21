@@ -29,7 +29,7 @@ class KeyManager(context: Context) {
         load(null)
     }
 
-    fun getOrGenerateKeyPair(): KeyPair {
+    fun getOrGenerateKeyPair(): KeyManager.KeyPair {
         val existingPrivateKey = getPrivateKey()
         val existingPublicKey = getPublicKey()
 
@@ -46,7 +46,7 @@ class KeyManager(context: Context) {
     }
 
 
-    private fun generateNewKeyPair(): KeyPair {
+    private fun generateNewKeyPair(): KeyManager.KeyPair {
         val keyPairGen = KeyPairGenerator.getInstance(
             KeyProperties.KEY_ALGORITHM_EC, // Use the constant for clarity
             KEYSTORE_PROVIDER
@@ -77,9 +77,7 @@ class KeyManager(context: Context) {
         val publicKeyBase64 = Base64.encodeToString(keyPair.public.encoded, Base64.DEFAULT)
         sharedPrefs.edit().putString(PREFS_PUBLIC_KEY, publicKeyBase64).apply()
 
-        // [IMPROVEMENT] Return the generated KeyPair object directly.
-        // Creating a new one is unnecessary.
-        return keyPair
+        return KeyPair(keyPair.private, keyPair.public)
     }
 
 
@@ -114,7 +112,7 @@ class KeyManager(context: Context) {
     }
 
     fun getPublicKeyBase64(): String {
-        val publicKey = getOrGenerateKeyPair().public
+        val publicKey = getOrGenerateKeyPair().publicKey
         return Base64.encodeToString(publicKey.encoded, Base64.DEFAULT)
     }
 
