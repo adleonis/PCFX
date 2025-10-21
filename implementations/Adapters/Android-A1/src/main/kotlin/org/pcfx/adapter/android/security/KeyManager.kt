@@ -29,7 +29,7 @@ class KeyManager(context: Context) {
         load(null)
     }
 
-    fun getOrGenerateKeyPair(): KeyPair {
+    fun getOrGenerateKeyPair(): KeyManager.KeyPair {
         val existingPrivateKey = getPrivateKey()
         val existingPublicKey = getPublicKey()
 
@@ -46,7 +46,7 @@ class KeyManager(context: Context) {
     }
 
 
-    private fun generateNewKeyPair(): KeyPair {
+    private fun generateNewKeyPair(): KeyManager.KeyPair {
         val keyPairGen = KeyPairGenerator.getInstance(
             KeyProperties.KEY_ALGORITHM_EC, // Use the constant for clarity
             KEYSTORE_PROVIDER
