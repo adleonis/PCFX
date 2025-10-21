@@ -75,8 +75,9 @@ dependencies {
 
     // JSON Schema Validation (Successor to everit-org)
     //implementation("org.json-schema:json-schema:0.9.1")
-    implementation("com.github.erosb:json-schema:0.27.0")
-
+    //implementation("com.github.erosb:json-schema:0.27.0")
+    implementation("com.github.erosb:json-sKema:0.25.0")
+    
     // Cryptography & Security
     implementation("androidx.security:security-crypto:1.1.0")
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")
