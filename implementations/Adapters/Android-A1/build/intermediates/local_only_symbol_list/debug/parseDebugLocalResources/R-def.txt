@@ -1,0 +1,17 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id consent_accept_btn
+id consent_decline_btn
+id consent_description
+id consent_grants
+id consent_status_btn
+id consent_title
+id regenerate_key_btn
+layout activity_consent
+mipmap ic_launcher
+mipmap ic_launcher_round
+string accessibility_service_description
+string app_name
+xml accessibility_service_config
