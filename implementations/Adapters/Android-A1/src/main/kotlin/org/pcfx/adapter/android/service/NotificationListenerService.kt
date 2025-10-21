@@ -16,7 +16,10 @@ class NotificationListenerService : NotificationListenerService() {
     private val gson = Gson()
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
+        android.util.Log.d("NotificationListener", "Notification posted from ${sbn.packageName}")
+
         if (!isConsentGranted()) {
+            android.util.Log.d("NotificationListener", "No consent granted, skipping notification")
             return
         }
 
@@ -40,11 +43,17 @@ class NotificationListenerService : NotificationListenerService() {
 
             // Skip if minimal content
             if (notificationTitle.isNullOrBlank() && notificationText.isNullOrBlank()) {
+                android.util.Log.d("NotificationListener", "Skipping notification with no title or text")
                 return
             }
 
             val consentManager = ConsentManager(this@NotificationListenerService)
-            val consent = consentManager.getActiveConsent() ?: return
+            val consent = consentManager.getActiveConsent()
+
+            if (consent == null) {
+                android.util.Log.d("NotificationListener", "No active consent, skipping notification")
+                return
+            }
 
             val eventBuilder = EventBuilder(this@NotificationListenerService)
             val exposureEvent = eventBuilder.buildNotificationEvent(
@@ -75,6 +84,8 @@ class NotificationListenerService : NotificationListenerService() {
             )
 
             db.eventDao().insertEvent(eventEntity)
+
+            android.util.Log.d("NotificationListener", "Notification event stored: ${exposureEvent.id}")
 
             // Trigger event publisher to post events
             val intent = android.content.Intent(

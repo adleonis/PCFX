@@ -111,6 +111,59 @@ class EventBuilder(private val context: Context) {
         )
     }
 
+    fun buildVideoRecordingStartEvent(
+        outputFilePath: String,
+        consentId: String,
+        retentionDays: Int
+    ): ExposureEvent {
+        val source = ExposureEvent.Source(
+            surface = "video",
+            frame = null
+        )
+
+        val content = ExposureEvent.Content(
+            kind = "video",
+            text = "Screen recording started: $outputFilePath",
+            lang = "en",
+            blobRef = null
+        )
+
+        return createEvent(
+            source = source,
+            content = content,
+            consentId = consentId,
+            retentionDays = retentionDays,
+            capabilitiesUsed = listOf("screen.video.record")
+        )
+    }
+
+    fun buildVideoRecordingStopEvent(
+        outputFilePath: String,
+        durationSeconds: Long,
+        consentId: String,
+        retentionDays: Int
+    ): ExposureEvent {
+        val source = ExposureEvent.Source(
+            surface = "video",
+            frame = null
+        )
+
+        val content = ExposureEvent.Content(
+            kind = "video",
+            text = "Screen recording stopped. File: $outputFilePath, Duration: ${durationSeconds}s",
+            lang = "en",
+            blobRef = null
+        )
+
+        return createEvent(
+            source = source,
+            content = content,
+            consentId = consentId,
+            retentionDays = retentionDays,
+            capabilitiesUsed = listOf("screen.video.record")
+        )
+    }
+
     private fun createEvent(
         source: ExposureEvent.Source,
         content: ExposureEvent.Content,

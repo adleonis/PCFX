@@ -1,8 +1,11 @@
 package org.pcfx.adapter.android.ui
 
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
+import android.view.accessibility.AccessibilityManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -10,12 +13,15 @@ import androidx.appcompat.app.AppCompatActivity
 import org.pcfx.adapter.android.R
 import org.pcfx.adapter.android.consent.ConsentManager
 import org.pcfx.adapter.android.model.ConsentManifestBuilder
+import org.pcfx.adapter.android.recording.VideoRecordingHelper
 import org.pcfx.adapter.android.security.KeyManager
 import org.pcfx.adapter.android.service.EventPublisherService
 
 class ConsentActivity : AppCompatActivity() {
     private lateinit var consentManager: ConsentManager
     private lateinit var keyManager: KeyManager
+    private lateinit var recordingHelper: VideoRecordingHelper
+    private var isRecording = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +30,10 @@ class ConsentActivity : AppCompatActivity() {
 
             consentManager = ConsentManager(this)
             keyManager = KeyManager(this)
+            recordingHelper = VideoRecordingHelper(this)
 
             setupUI()
+            checkAccessibilityServiceStatus()
 
             // Generate or retrieve keypair on first launch
             try {
@@ -42,6 +50,12 @@ class ConsentActivity : AppCompatActivity() {
             Log.e("ConsentActivity", "Fatal error in onCreate", e)
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkAccessibilityServiceStatus()
+        updateButtonStates()
     }
 
     private fun setupUI() {
@@ -73,6 +87,8 @@ class ConsentActivity : AppCompatActivity() {
             Log.e("ConsentActivity", "Missing required view: regenerate_key_btn")
             return
         }
+        val accessibilityStatusText = findViewById<TextView>(R.id.accessibility_status_text)
+        val enableAccessibilityButton = findViewById<Button>(R.id.enable_accessibility_button)
 
         titleTextView.text = "PCF-X Adapter: Privacy & Consent Request"
 
@@ -114,14 +130,52 @@ class ConsentActivity : AppCompatActivity() {
             regenerateKeyPair()
         }
 
+        enableAccessibilityButton?.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+        }
+
+        val debugButton = findViewById<Button>(R.id.debug_button)
+        debugButton?.setOnClickListener {
+            val intent = Intent(this, DebugExposureEventsActivity::class.java)
+            startActivity(intent)
+        }
+
+        val videoRecordingButton = findViewById<Button>(R.id.video_recording_button)
+        videoRecordingButton?.setOnClickListener {
+            toggleVideoRecording()
+        }
+
         // Update button states based on current consent
         updateButtonStates()
+    }
+
+    private fun checkAccessibilityServiceStatus() {
+        val accessibilityManager = getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
+        val enabledServices = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
+
+        val accessibilityServiceEnabled = enabledServices.any {
+            it.resolveInfo.serviceInfo.packageName == packageName
+        }
+
+        val statusText = findViewById<TextView>(R.id.accessibility_status_text)
+        val enableButton = findViewById<Button>(R.id.enable_accessibility_button)
+
+        if (accessibilityServiceEnabled) {
+            statusText?.visibility = android.view.View.GONE
+            enableButton?.visibility = android.view.View.GONE
+        } else {
+            val statusMessage = "⚠️ To capture app usage events, please enable the Accessibility Service:\n1. Tap 'Enable Accessibility Service'\n2. Find 'PCF-X Adapter' in the list\n3. Toggle it ON"
+            statusText?.text = statusMessage
+            statusText?.visibility = android.view.View.VISIBLE
+            enableButton?.visibility = android.view.View.VISIBLE
+        }
     }
 
     private fun updateButtonStates() {
         val acceptButton = findViewById<Button>(R.id.consent_accept_btn)
         val declineButton = findViewById<Button>(R.id.consent_decline_btn)
         val statusButton = findViewById<Button>(R.id.consent_status_btn)
+        val videoRecordingButton = findViewById<Button>(R.id.video_recording_button)
 
         if (consentManager.isConsentActive()) {
             acceptButton.text = "Consent Granted"
@@ -129,12 +183,51 @@ class ConsentActivity : AppCompatActivity() {
             declineButton.text = "Revoke Consent"
             declineButton.isEnabled = true
             statusButton.isEnabled = true
+            videoRecordingButton?.isEnabled = true
         } else {
             acceptButton.text = "Accept Consent"
             acceptButton.isEnabled = true
             declineButton.text = "Decline"
             declineButton.isEnabled = false
             statusButton.isEnabled = false
+            videoRecordingButton?.isEnabled = false
+            videoRecordingButton?.text = "Start Recording (Require Consent)"
+            isRecording = false
+        }
+
+        updateVideoRecordingButtonText()
+    }
+
+    private fun toggleVideoRecording() {
+        if (!consentManager.isConsentActive()) {
+            Toast.makeText(
+                this,
+                "Please grant consent before recording",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        if (!isRecording) {
+            recordingHelper.requestScreenCapturePermission(this)
+        } else {
+            recordingHelper.stopRecording()
+            isRecording = false
+            updateVideoRecordingButtonText()
+        }
+    }
+
+    private fun updateVideoRecordingButtonText() {
+        val videoRecordingButton = findViewById<Button>(R.id.video_recording_button)
+        videoRecordingButton?.text = if (isRecording) "Stop Recording" else "Start Recording"
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == VideoRecordingHelper.REQUEST_MEDIA_PROJECTION) {
+            recordingHelper.handleScreenCaptureResult(resultCode, data)
+            isRecording = true
+            updateVideoRecordingButtonText()
         }
     }
 

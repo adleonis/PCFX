@@ -1482,7 +1482,11 @@ attr yearStyle
 attr yearTodayStyle
 bool abc_action_bar_embed_tabs
 bool abc_config_actionMenuItemAllCaps
+bool enable_system_alarm_service_default
+bool enable_system_foreground_service_default
+bool enable_system_job_service_default
 bool mtrl_btn_textappearance_all_caps
+bool workmanager_test_configuration
 color abc_background_cache_hint_selector_material_dark
 color abc_background_cache_hint_selector_material_light
 color abc_btn_colored_borderless_text_material
@@ -1508,6 +1512,7 @@ color abc_tint_edittext
 color abc_tint_seek_thumb
 color abc_tint_spinner
 color abc_tint_switch_track
+color accent
 color accent_material_dark
 color accent_material_light
 color androidx_core_ripple_material_light
@@ -2405,6 +2410,8 @@ color mtrl_textinput_focused_box_stroke_color
 color mtrl_textinput_hovered_box_stroke_color
 color notification_action_color_filter
 color notification_icon_bg_color
+color primary
+color primary_dark
 color primary_dark_material_dark
 color primary_dark_material_light
 color primary_material_dark
@@ -3700,6 +3707,7 @@ id accessibility_custom_action_6
 id accessibility_custom_action_7
 id accessibility_custom_action_8
 id accessibility_custom_action_9
+id accessibility_status_text
 id actionDown
 id actionDownUp
 id actionUp
@@ -3744,6 +3752,7 @@ id autoHide
 id autoLimit
 id availableSpace
 id axisRelative
+id back_button
 id barrier
 id baseline
 id beginOnFirstDraw
@@ -3797,11 +3806,13 @@ id coordinator
 id cos
 id counterclockwise
 id cradle
+id create_test_event_button
 id currentState
 id custom
 id customPanel
 id cut
 id date_picker_actions
+id debug_button
 id decelerate
 id decelerateAndComplete
 id decor_content_parent
@@ -3839,12 +3850,14 @@ id edit_query
 id edit_text_id
 id elastic
 id embed
+id enable_accessibility_button
 id end
 id endToStart
 id enterAlways
 id enterAlwaysCollapsed
 id entireSpace
 id escape
+id events_container
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
@@ -3908,6 +3921,7 @@ id line3
 id linear
 id listMode
 id list_item
+id loading_text
 id m3_side_sheet
 id marquee
 id masked
@@ -4162,6 +4176,7 @@ id up
 id useLogo
 id vertical
 id vertical_only
+id video_recording_button
 id view_offset_helper
 id view_transition
 id view_tree_disjoint_parent
@@ -4298,6 +4313,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_consent
+layout activity_debug_exposure_events
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -4556,6 +4572,8 @@ string searchview_navigation_content_description
 string side_sheet_accessibility_pane_title
 string side_sheet_behavior
 string status_bar_notification_info_overflow
+string video_recording_notification_text
+string video_recording_notification_title
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
@@ -4567,6 +4585,7 @@ style Animation_Material3_SideSheetDialog
 style Animation_Material3_SideSheetDialog_Left
 style Animation_Material3_SideSheetDialog_Right
 style Animation_MaterialComponents_BottomSheetDialog
+style AppTheme
 style Base_AlertDialog_AppCompat
 style Base_AlertDialog_AppCompat_Light
 style Base_Animation_AppCompat_Dialog

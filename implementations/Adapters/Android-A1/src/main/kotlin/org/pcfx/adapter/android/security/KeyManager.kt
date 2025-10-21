@@ -10,9 +10,7 @@ import java.security.KeyStore
 import java.security.PrivateKey
 import java.security.PublicKey
 import java.util.Calendar
-import java.security.spec.ECGenParameterSpec // <-- Add this import
-import java.time.Instant
-import java.time.temporal.ChronoUnit
+import java.security.spec.ECGenParameterSpec
 import java.util.Date
 
 class KeyManager(context: Context) {
@@ -58,6 +56,10 @@ class KeyManager(context: Context) {
                 KEYSTORE_PROVIDER
             )
 
+            val calendar = Calendar.getInstance().apply {
+                add(Calendar.YEAR, 5)
+            }
+
             val spec = KeyGenParameterSpec.Builder(
                 KEYSTORE_ALIAS,
                 KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
@@ -69,8 +71,7 @@ class KeyManager(context: Context) {
                     KeyProperties.DIGEST_SHA512
                 )
 
-                val validityEnd = Instant.now().plus(5, ChronoUnit.YEARS)
-                setKeyValidityEnd(Date.from(validityEnd))
+                setKeyValidityEnd(calendar.time)
 
             }.build()
 

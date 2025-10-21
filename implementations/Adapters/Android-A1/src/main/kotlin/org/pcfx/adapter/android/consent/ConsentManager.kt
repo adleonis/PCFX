@@ -32,17 +32,28 @@ class ConsentManager(context: Context) {
 
     fun getActiveConsent(): ConsentManifest? {
         return try {
-            if (!sharedPrefs.getBoolean(PREFS_IS_ENABLED, false)) {
+            val isEnabled = sharedPrefs.getBoolean(PREFS_IS_ENABLED, false)
+            Log.d("ConsentManager", "Consent enabled: $isEnabled")
+
+            if (!isEnabled) {
+                Log.d("ConsentManager", "Consent not enabled")
                 return null
             }
 
-            val json = sharedPrefs.getString(PREFS_CONSENT_JSON, null) ?: return null
+            val json = sharedPrefs.getString(PREFS_CONSENT_JSON, null)
+            Log.d("ConsentManager", "Consent JSON exists: ${json != null}")
+
+            if (json == null) {
+                return null
+            }
 
             val manifest = gson.fromJson(json, ConsentManifest::class.java)
             if (manifest.isExpired()) {
+                Log.d("ConsentManager", "Consent expired")
                 clearConsent()
                 return null
             }
+            Log.d("ConsentManager", "Returning active consent: ${manifest.consentId}")
             manifest
         } catch (e: Exception) {
             Log.e("ConsentManager", "Error retrieving active consent", e)
