@@ -5,4 +5,6 @@
         PCF-X Adapter monitors foreground app changes and notifications to track cognitive exposure.
         This service runs locally on your device and respects your consent choices.
     </string>
+    <string name="video_recording_notification_title">Recording Video</string>
+    <string name="video_recording_notification_text">Screen recording is active</string>
 </resources>

@@ -39,6 +39,28 @@
             android:background="@android:color/darker_gray"
             android:lineSpacingExtra="6dp" />
 
+        <TextView
+            android:id="@+id/accessibility_status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="#D32F2F"
+            android:layout_marginBottom="8dp"
+            android:padding="12dp"
+            android:background="#FFEBEE"
+            android:lineSpacingExtra="4dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/enable_accessibility_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable Accessibility Service"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            android:backgroundTint="#FF6F00" />
+
         <Button
             android:id="@+id/consent_accept_btn"
             android:layout_width="match_parent"
@@ -69,7 +91,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Regenerate Key Pair"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/debug_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Exposure Events (Debug)"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/video_recording_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Recording"
+            android:textSize="14sp"
+            android:backgroundTint="#D32F2F" />
 
     </LinearLayout>
 

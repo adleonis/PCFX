@@ -21,6 +21,9 @@ public final class ActivityConsentBinding implements ViewBinding {
   private final ScrollView rootView;
 
   @NonNull
+  public final TextView accessibilityStatusText;
+
+  @NonNull
   public final Button consentAcceptBtn;
 
   @NonNull
@@ -39,20 +42,36 @@ public final class ActivityConsentBinding implements ViewBinding {
   public final TextView consentTitle;
 
   @NonNull
+  public final Button debugButton;
+
+  @NonNull
+  public final Button enableAccessibilityButton;
+
+  @NonNull
   public final Button regenerateKeyBtn;
 
-  private ActivityConsentBinding(@NonNull ScrollView rootView, @NonNull Button consentAcceptBtn,
+  @NonNull
+  public final Button videoRecordingButton;
+
+  private ActivityConsentBinding(@NonNull ScrollView rootView,
+      @NonNull TextView accessibilityStatusText, @NonNull Button consentAcceptBtn,
       @NonNull Button consentDeclineBtn, @NonNull TextView consentDescription,
       @NonNull TextView consentGrants, @NonNull Button consentStatusBtn,
-      @NonNull TextView consentTitle, @NonNull Button regenerateKeyBtn) {
+      @NonNull TextView consentTitle, @NonNull Button debugButton,
+      @NonNull Button enableAccessibilityButton, @NonNull Button regenerateKeyBtn,
+      @NonNull Button videoRecordingButton) {
     this.rootView = rootView;
+    this.accessibilityStatusText = accessibilityStatusText;
     this.consentAcceptBtn = consentAcceptBtn;
     this.consentDeclineBtn = consentDeclineBtn;
     this.consentDescription = consentDescription;
     this.consentGrants = consentGrants;
     this.consentStatusBtn = consentStatusBtn;
     this.consentTitle = consentTitle;
+    this.debugButton = debugButton;
+    this.enableAccessibilityButton = enableAccessibilityButton;
     this.regenerateKeyBtn = regenerateKeyBtn;
+    this.videoRecordingButton = videoRecordingButton;
   }
 
   @Override
@@ -82,6 +101,12 @@ public final class ActivityConsentBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.accessibility_status_text;
+      TextView accessibilityStatusText = ViewBindings.findChildViewById(rootView, id);
+      if (accessibilityStatusText == null) {
+        break missingId;
+      }
+
       id = R.id.consent_accept_btn;
       Button consentAcceptBtn = ViewBindings.findChildViewById(rootView, id);
       if (consentAcceptBtn == null) {
@@ -118,14 +143,34 @@ public final class ActivityConsentBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.debug_button;
+      Button debugButton = ViewBindings.findChildViewById(rootView, id);
+      if (debugButton == null) {
+        break missingId;
+      }
+
+      id = R.id.enable_accessibility_button;
+      Button enableAccessibilityButton = ViewBindings.findChildViewById(rootView, id);
+      if (enableAccessibilityButton == null) {
+        break missingId;
+      }
+
       id = R.id.regenerate_key_btn;
       Button regenerateKeyBtn = ViewBindings.findChildViewById(rootView, id);
       if (regenerateKeyBtn == null) {
         break missingId;
       }
 
-      return new ActivityConsentBinding((ScrollView) rootView, consentAcceptBtn, consentDeclineBtn,
-          consentDescription, consentGrants, consentStatusBtn, consentTitle, regenerateKeyBtn);
+      id = R.id.video_recording_button;
+      Button videoRecordingButton = ViewBindings.findChildViewById(rootView, id);
+      if (videoRecordingButton == null) {
+        break missingId;
+      }
+
+      return new ActivityConsentBinding((ScrollView) rootView, accessibilityStatusText,
+          consentAcceptBtn, consentDeclineBtn, consentDescription, consentGrants, consentStatusBtn,
+          consentTitle, debugButton, enableAccessibilityButton, regenerateKeyBtn,
+          videoRecordingButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

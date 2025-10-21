@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="accent">#FF5722</color>
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
     <string name="accessibility_service_description">
         PCF-X Adapter monitors foreground app changes and notifications to track cognitive exposure.
         This service runs locally on your device and respects your consent choices.
     </string>
     <string name="app_name">PCF-X Adapter</string>
+    <string name="video_recording_notification_text">Screen recording is active</string>
+    <string name="video_recording_notification_title">Recording Video</string>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
 </resources>

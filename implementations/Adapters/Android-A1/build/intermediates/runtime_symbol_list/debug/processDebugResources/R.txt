@@ -1481,7 +1481,11 @@ int attr yearStyle 0x7f030573
 int attr yearTodayStyle 0x7f030574
 int bool abc_action_bar_embed_tabs 0x7f040000
 int bool abc_config_actionMenuItemAllCaps 0x7f040001
+int bool enable_system_alarm_service_default 0x7f040003
+int bool enable_system_foreground_service_default 0x7f040004
+int bool enable_system_job_service_default 0x7f040005
 int bool mtrl_btn_textappearance_all_caps 0x7f040002
+int bool workmanager_test_configuration 0x7f040006
 int color abc_background_cache_hint_selector_material_dark 0x7f050000
 int color abc_background_cache_hint_selector_material_light 0x7f050001
 int color abc_btn_colored_borderless_text_material 0x7f050002
@@ -1507,6 +1511,7 @@ int color abc_tint_edittext 0x7f050015
 int color abc_tint_seek_thumb 0x7f050016
 int color abc_tint_spinner 0x7f050017
 int color abc_tint_switch_track 0x7f050018
+int color accent 0x7f0503b0
 int color accent_material_dark 0x7f050019
 int color accent_material_light 0x7f05001a
 int color androidx_core_ripple_material_light 0x7f05001b
@@ -2404,6 +2409,8 @@ int color mtrl_textinput_focused_box_stroke_color 0x7f050396
 int color mtrl_textinput_hovered_box_stroke_color 0x7f050397
 int color notification_action_color_filter 0x7f050398
 int color notification_icon_bg_color 0x7f050399
+int color primary 0x7f0503b1
+int color primary_dark 0x7f0503b2
 int color primary_dark_material_dark 0x7f05039a
 int color primary_dark_material_light 0x7f05039b
 int color primary_material_dark 0x7f05039c
@@ -3699,6 +3706,7 @@ int id accessibility_custom_action_6 0x7f08002d
 int id accessibility_custom_action_7 0x7f08002e
 int id accessibility_custom_action_8 0x7f08002f
 int id accessibility_custom_action_9 0x7f080030
+int id accessibility_status_text 0x7f080218
 int id actionDown 0x7f080031
 int id actionDownUp 0x7f080032
 int id actionUp 0x7f080033
@@ -3743,6 +3751,7 @@ int id autoHide 0x7f080059
 int id autoLimit 0x7f08005a
 int id availableSpace 0x7f08005b
 int id axisRelative 0x7f08005c
+int id back_button 0x7f080211
 int id barrier 0x7f08005d
 int id baseline 0x7f08005e
 int id beginOnFirstDraw 0x7f08005f
@@ -3796,11 +3805,13 @@ int id coordinator 0x7f08008e
 int id cos 0x7f08008f
 int id counterclockwise 0x7f080090
 int id cradle 0x7f080091
+int id create_test_event_button 0x7f080217
 int id currentState 0x7f080092
 int id custom 0x7f080093
 int id customPanel 0x7f080094
 int id cut 0x7f080095
 int id date_picker_actions 0x7f080096
+int id debug_button 0x7f080212
 int id decelerate 0x7f080097
 int id decelerateAndComplete 0x7f080098
 int id decor_content_parent 0x7f080099
@@ -3838,12 +3849,14 @@ int id edit_query 0x7f0800b8
 int id edit_text_id 0x7f0800b9
 int id elastic 0x7f0800ba
 int id embed 0x7f0800bb
+int id enable_accessibility_button 0x7f080215
 int id end 0x7f0800bc
 int id endToStart 0x7f0800bd
 int id enterAlways 0x7f0800be
 int id enterAlwaysCollapsed 0x7f0800bf
 int id entireSpace 0x7f0800c0
 int id escape 0x7f0800c1
+int id events_container 0x7f080213
 int id exitUntilCollapsed 0x7f0800c2
 int id expand_activities_button 0x7f0800c3
 int id expanded_menu 0x7f0800c4
@@ -3907,6 +3920,7 @@ int id line3 0x7f0800fd
 int id linear 0x7f0800fe
 int id listMode 0x7f0800ff
 int id list_item 0x7f080100
+int id loading_text 0x7f080214
 int id m3_side_sheet 0x7f080101
 int id marquee 0x7f080102
 int id masked 0x7f080103
@@ -4161,6 +4175,7 @@ int id up 0x7f0801fb
 int id useLogo 0x7f0801fc
 int id vertical 0x7f0801fd
 int id vertical_only 0x7f0801fe
+int id video_recording_button 0x7f080219
 int id view_offset_helper 0x7f0801ff
 int id view_transition 0x7f080200
 int id view_tree_disjoint_parent 0x7f080201
@@ -4297,6 +4312,7 @@ int layout abc_search_view 0x7f0b0019
 int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
 int layout activity_consent 0x7f0b001c
+int layout activity_debug_exposure_events 0x7f0b006e
 int layout custom_dialog 0x7f0b001d
 int layout design_bottom_navigation_item 0x7f0b001e
 int layout design_bottom_sheet_dialog 0x7f0b001f
@@ -4555,6 +4571,8 @@ int string searchview_navigation_content_description 0x7f0f00aa
 int string side_sheet_accessibility_pane_title 0x7f0f00ab
 int string side_sheet_behavior 0x7f0f00ac
 int string status_bar_notification_info_overflow 0x7f0f00ad
+int string video_recording_notification_text 0x7f0f00ae
+int string video_recording_notification_title 0x7f0f00af
 int style AlertDialog_AppCompat 0x7f100000
 int style AlertDialog_AppCompat_Light 0x7f100001
 int style Animation_AppCompat_Dialog 0x7f100002
@@ -4566,6 +4584,7 @@ int style Animation_Material3_SideSheetDialog 0x7f100007
 int style Animation_Material3_SideSheetDialog_Left 0x7f100008
 int style Animation_Material3_SideSheetDialog_Right 0x7f100009
 int style Animation_MaterialComponents_BottomSheetDialog 0x7f10000a
+int style AppTheme 0x7f1004cd
 int style Base_AlertDialog_AppCompat 0x7f10000b
 int style Base_AlertDialog_AppCompat_Light 0x7f10000c
 int style Base_Animation_AppCompat_Dialog 0x7f10000d

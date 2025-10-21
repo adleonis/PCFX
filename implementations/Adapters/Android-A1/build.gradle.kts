@@ -65,6 +65,9 @@ dependencies {
     implementation("androidx.room:room-ktx:2.8.2")
     kapt("androidx.room:room-compiler:2.8.2")
 
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
+
     // HTTP Client
     implementation("com.squareup.okhttp3:okhttp:5.2.1")
     implementation("com.squareup.okhttp3:logging-interceptor:5.2.1")

@@ -18,33 +18,49 @@ class AccessibilityMonitorService : AccessibilityService() {
     private val gson = Gson()
     private var lastPackage: String? = null
 
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        android.util.Log.d("AccessibilityMonitor", "Accessibility service connected and ready")
+    }
+
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
+        android.util.Log.d("AccessibilityMonitor", "Event received: type=${event.eventType}, package=${event.packageName}")
+
         if (!isConsentGranted()) {
+            android.util.Log.d("AccessibilityMonitor", "No consent granted, ignoring event")
             return
         }
 
         when (event.eventType) {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
+                android.util.Log.d("AccessibilityMonitor", "Window state changed event detected")
                 handleWindowStateChanged(event)
+            }
+            else -> {
+                android.util.Log.d("AccessibilityMonitor", "Event type ${event.eventType} not handled")
             }
         }
     }
 
     override fun onInterrupt() {
-        // Required by accessibility service interface
+        android.util.Log.d("AccessibilityMonitor", "onInterrupt called")
     }
 
     private fun handleWindowStateChanged(event: AccessibilityEvent) {
         val packageName = event.packageName?.toString() ?: return
-        val source = event.source ?: return
 
         // Avoid duplicate events for the same package
         if (packageName == lastPackage) {
+            android.util.Log.d("AccessibilityMonitor", "Skipping duplicate event for package: $packageName")
             return
         }
         lastPackage = packageName
 
-        val windowTitle = source.text?.toString() ?: source.contentDescription?.toString()
+        // Try to get window title from source if available
+        val source = event.source
+        val windowTitle = source?.text?.toString() ?: source?.contentDescription?.toString()
+
+        android.util.Log.d("AccessibilityMonitor", "Window changed: $packageName, title: $windowTitle")
 
         scope.launch {
             publishAppFocusEvent(packageName, windowTitle)
@@ -53,9 +69,17 @@ class AccessibilityMonitorService : AccessibilityService() {
 
     private suspend fun publishAppFocusEvent(packageName: String, windowTitle: String?) {
         try {
-            val consentManager = ConsentManager(this@AccessibilityMonitorService)
-            val consent = consentManager.getActiveConsent() ?: return
+            android.util.Log.d("AccessibilityMonitor", "publishAppFocusEvent called for package: $packageName")
 
+            val consentManager = ConsentManager(this@AccessibilityMonitorService)
+            val consent = consentManager.getActiveConsent()
+
+            if (consent == null) {
+                android.util.Log.d("AccessibilityMonitor", "No active consent, skipping event")
+                return
+            }
+
+            android.util.Log.d("AccessibilityMonitor", "Building event for package: $packageName")
             val eventBuilder = EventBuilder(this@AccessibilityMonitorService)
             val exposureEvent = eventBuilder.buildAppFocusEvent(
                 packageName = packageName,
@@ -64,10 +88,13 @@ class AccessibilityMonitorService : AccessibilityService() {
                 retentionDays = consent.getRetentionDays("screen.focus.read")
             )
 
+            android.util.Log.d("AccessibilityMonitor", "Event built successfully: ${exposureEvent.id}")
             val eventJson = eventBuilder.eventToJson(exposureEvent)
 
             // Store in local database
             val db = AppDatabase.getInstance(this@AccessibilityMonitorService)
+            android.util.Log.d("AccessibilityMonitor", "Got database instance, preparing to insert event")
+
             val eventEntity = EventEntity(
                 id = exposureEvent.id,
                 schema = exposureEvent.schema,
@@ -83,14 +110,18 @@ class AccessibilityMonitorService : AccessibilityService() {
                 isPosted = false
             )
 
+            android.util.Log.d("AccessibilityMonitor", "EventEntity created, inserting into database")
             db.eventDao().insertEvent(eventEntity)
+
+            android.util.Log.d("AccessibilityMonitor", "Event stored in database successfully: ${exposureEvent.id}")
 
             // Trigger event publisher to post events
             val intent = Intent(this@AccessibilityMonitorService, EventPublisherService::class.java)
             intent.action = EventPublisherService.ACTION_PUBLISH_QUEUED_EVENTS
             startService(intent)
         } catch (e: Exception) {
-            android.util.Log.e("AccessibilityMonitor", "Error publishing event", e)
+            android.util.Log.e("AccessibilityMonitor", "Error publishing event: ${e.message}", e)
+            e.printStackTrace()
         }
     }
 

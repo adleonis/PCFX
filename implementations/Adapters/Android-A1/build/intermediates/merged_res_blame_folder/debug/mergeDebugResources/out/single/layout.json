@@ -2,5 +2,13 @@
     {
         "merged": "org.pcfx.adapter.android-mergeDebugResources-3:/layout/activity_consent.xml",
         "source": "org.pcfx.adapter.android-main-6:/layout/activity_consent.xml"
+    },
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-mergeDebugResources-3:\\layout\\activity_debug_exposure_events.xml",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-main-6:\\layout\\activity_debug_exposure_events.xml"
+    },
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-mergeDebugResources-3:\\layout\\activity_consent.xml",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-main-6:\\layout\\activity_consent.xml"
     }
 ]
