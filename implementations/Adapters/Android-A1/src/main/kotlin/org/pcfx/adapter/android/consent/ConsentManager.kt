@@ -2,13 +2,18 @@ package org.pcfx.adapter.android.consent
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.gson.Gson
 import org.pcfx.adapter.android.model.ConsentManifest
 import java.time.Instant
 
 class ConsentManager(context: Context) {
-    private val sharedPrefs: SharedPreferences =
+    private val sharedPrefs: SharedPreferences = try {
         context.getSharedPreferences("pcfx_consent", Context.MODE_PRIVATE)
+    } catch (e: Exception) {
+        Log.e("ConsentManager", "Error accessing SharedPreferences", e)
+        throw e
+    }
     private val gson = Gson()
 
     companion object {
@@ -26,13 +31,13 @@ class ConsentManager(context: Context) {
     }
 
     fun getActiveConsent(): ConsentManifest? {
-        if (!sharedPrefs.getBoolean(PREFS_IS_ENABLED, false)) {
-            return null
-        }
-
-        val json = sharedPrefs.getString(PREFS_CONSENT_JSON, null) ?: return null
-
         return try {
+            if (!sharedPrefs.getBoolean(PREFS_IS_ENABLED, false)) {
+                return null
+            }
+
+            val json = sharedPrefs.getString(PREFS_CONSENT_JSON, null) ?: return null
+
             val manifest = gson.fromJson(json, ConsentManifest::class.java)
             if (manifest.isExpired()) {
                 clearConsent()
@@ -40,6 +45,7 @@ class ConsentManager(context: Context) {
             }
             manifest
         } catch (e: Exception) {
+            Log.e("ConsentManager", "Error retrieving active consent", e)
             clearConsent()
             null
         }
