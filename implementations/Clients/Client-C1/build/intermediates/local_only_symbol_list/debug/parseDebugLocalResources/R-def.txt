@@ -1,0 +1,18 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+mipmap ic_launcher
+mipmap ic_launcher_round
+string activity_feed
+string app_name
+string error
+string events
+string insights
+string loading
+string no_data
+string retry
+string search
+string settings
+string statistics
+style Theme.ClientC1
