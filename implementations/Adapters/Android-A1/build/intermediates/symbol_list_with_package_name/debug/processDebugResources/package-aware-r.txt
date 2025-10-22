@@ -4034,6 +4034,8 @@ id parent_matrix
 id password_toggle
 id path
 id pathRelative
+id pdv_status_icon
+id pdv_status_text
 id peekHeight
 id percent
 id pin
@@ -5970,3 +5972,4 @@ xml m3_button_group_child_size_change
 xml m3_split_button_inner_corner_size_state_list
 xml m3expressive_button_shape_state_list
 xml m3expressive_connected_buttons_inner_corner_size_state_list
+xml network_security_config

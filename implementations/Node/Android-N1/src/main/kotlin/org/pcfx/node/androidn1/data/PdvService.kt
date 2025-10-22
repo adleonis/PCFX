@@ -1,5 +1,6 @@
 package org.pcfx.node.androidn1.data
 
+import okhttp3.ResponseBody
 import org.pcfx.node.androidn1.model.ExposureEvent
 import org.pcfx.node.androidn1.model.KnowledgeAtom
 import retrofit2.Response
@@ -10,12 +11,15 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface PdvService {
+    @GET("/health")
+    suspend fun checkHealth(): Response<HealthResponse>
+
     @GET("/events")
     suspend fun getEvents(
         @Query("since") since: String,
         @Query("limit") limit: Int = 64,
         @Header("X-PCFX-Cap") capabilities: String = "pdv.read.events"
-    ): Response<EventsResponse>
+    ): Response<ResponseBody>
 
     @POST("/atoms")
     suspend fun postAtom(
@@ -29,10 +33,8 @@ interface PdvService {
         @Header("X-PCFX-Cap") capabilities: String = "pdv.write.atoms"
     ): Response<BatchAtomResponse>
 
-    data class EventsResponse(
-        val events: List<ExposureEvent>,
-        val next_cursor: String?,
-        val total: Int
+    data class HealthResponse(
+        val status: String
     )
 
     data class AtomResponse(

@@ -4,6 +4,10 @@
         "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-main-6:\\layout\\activity_debug_exposure_events.xml"
     },
     {
+        "merged": "org.pcfx.adapter.android-debug-4:/xml_network_security_config.xml.flat",
+        "source": "org.pcfx.adapter.android-main-6:/xml/network_security_config.xml"
+    },
+    {
         "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-debug-4:\\drawable_ic_launcher_background.xml.flat",
         "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-main-6:\\drawable\\ic_launcher_background.xml"
     },
@@ -26,10 +30,6 @@
     {
         "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-debug-4:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
         "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-main-6:\\mipmap-anydpi-v26\\ic_launcher.xml"
-    },
-    {
-        "merged": "org.pcfx.adapter.android-debug-4:/layout_activity_consent.xml.flat",
-        "source": "org.pcfx.adapter.android-main-6:/layout/activity_consent.xml"
     },
     {
         "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.14.3\\org.pcfx.adapter.android-debug-4:\\layout_activity_consent.xml.flat",

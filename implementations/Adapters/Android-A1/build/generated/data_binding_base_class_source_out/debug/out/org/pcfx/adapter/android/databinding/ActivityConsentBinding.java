@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -48,6 +49,12 @@ public final class ActivityConsentBinding implements ViewBinding {
   public final Button enableAccessibilityButton;
 
   @NonNull
+  public final ImageView pdvStatusIcon;
+
+  @NonNull
+  public final TextView pdvStatusText;
+
+  @NonNull
   public final Button regenerateKeyBtn;
 
   @NonNull
@@ -58,7 +65,8 @@ public final class ActivityConsentBinding implements ViewBinding {
       @NonNull Button consentDeclineBtn, @NonNull TextView consentDescription,
       @NonNull TextView consentGrants, @NonNull Button consentStatusBtn,
       @NonNull TextView consentTitle, @NonNull Button debugButton,
-      @NonNull Button enableAccessibilityButton, @NonNull Button regenerateKeyBtn,
+      @NonNull Button enableAccessibilityButton, @NonNull ImageView pdvStatusIcon,
+      @NonNull TextView pdvStatusText, @NonNull Button regenerateKeyBtn,
       @NonNull Button videoRecordingButton) {
     this.rootView = rootView;
     this.accessibilityStatusText = accessibilityStatusText;
@@ -70,6 +78,8 @@ public final class ActivityConsentBinding implements ViewBinding {
     this.consentTitle = consentTitle;
     this.debugButton = debugButton;
     this.enableAccessibilityButton = enableAccessibilityButton;
+    this.pdvStatusIcon = pdvStatusIcon;
+    this.pdvStatusText = pdvStatusText;
     this.regenerateKeyBtn = regenerateKeyBtn;
     this.videoRecordingButton = videoRecordingButton;
   }
@@ -155,6 +165,18 @@ public final class ActivityConsentBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.pdv_status_icon;
+      ImageView pdvStatusIcon = ViewBindings.findChildViewById(rootView, id);
+      if (pdvStatusIcon == null) {
+        break missingId;
+      }
+
+      id = R.id.pdv_status_text;
+      TextView pdvStatusText = ViewBindings.findChildViewById(rootView, id);
+      if (pdvStatusText == null) {
+        break missingId;
+      }
+
       id = R.id.regenerate_key_btn;
       Button regenerateKeyBtn = ViewBindings.findChildViewById(rootView, id);
       if (regenerateKeyBtn == null) {
@@ -169,8 +191,8 @@ public final class ActivityConsentBinding implements ViewBinding {
 
       return new ActivityConsentBinding((ScrollView) rootView, accessibilityStatusText,
           consentAcceptBtn, consentDeclineBtn, consentDescription, consentGrants, consentStatusBtn,
-          consentTitle, debugButton, enableAccessibilityButton, regenerateKeyBtn,
-          videoRecordingButton);
+          consentTitle, debugButton, enableAccessibilityButton, pdvStatusIcon, pdvStatusText,
+          regenerateKeyBtn, videoRecordingButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

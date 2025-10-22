@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-98:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-98:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-98:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-98:12
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-99:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-99:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-99:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-99:12
 MERGED from [androidx.databinding:viewbinding:8.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\71f8d6a582496d1658c1d33d9c5ee464\transformed\jetified-viewbinding-8.13.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\c0b9d0fe7e093e640799d3a7c518b5dc\transformed\constraintlayout-2.2.1\AndroidManifest.xml:2:1-9:12
@@ -122,8 +122,8 @@ ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidMani
 	android:name
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:28:22-74
 application
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-96:19
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-96:19
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-97:19
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-97:19
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\c0b9d0fe7e093e640799d3a7c518b5dc\transformed\constraintlayout-2.2.1\AndroidManifest.xml:7:5-20
@@ -151,7 +151,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\As
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.17.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\22cc7b6a944a59e6be0b44925b88aa3a\transformed\core-1.17.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:35:9-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:36:9-35
 	android:label
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:34:9-41
 	android:debuggable
@@ -161,91 +161,93 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\As
 	android:allowBackup
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:31:9-36
 	android:theme
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:36:9-40
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:37:9-40
+	android:networkSecurityConfig
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:35:9-69
 activity#org.pcfx.adapter.android.ui.ConsentActivity
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:40:9-49:20
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:41:9-50:20
 	android:launchMode
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:43:13-43
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:44:13-43
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:42:13-36
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:43:13-36
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:41:13-71
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:42:13-71
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:45:13-48:29
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:46:13-49:29
 action#android.intent.action.MAIN
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:46:17-69
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:47:17-69
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:46:25-66
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:47:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:47:17-77
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:48:17-77
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:47:27-74
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:48:27-74
 activity#org.pcfx.adapter.android.ui.DebugExposureEventsActivity
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:52:9-55:55
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:53:9-56:55
 	android:label
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:55:13-52
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:56:13-52
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:54:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:55:13-37
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:53:13-83
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:54:13-83
 service#org.pcfx.adapter.android.service.AccessibilityMonitorService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:58:9-69:19
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:59:9-70:19
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:60:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:61:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:61:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:62:13-37
 	android:permission
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:62:13-79
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:63:13-79
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:59:13-88
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:60:13-88
 intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:63:13-65:29
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:64:13-66:29
 action#android.accessibilityservice.AccessibilityService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:64:17-92
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:65:17-92
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:64:25-89
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:65:25-89
 meta-data#android.accessibilityservice
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:66:13-68:72
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:67:13-69:72
 	android:resource
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:68:17-69
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:69:17-69
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:67:17-60
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:68:17-60
 service#org.pcfx.adapter.android.service.NotificationListenerService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:72:9-80:19
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:73:9-81:19
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:74:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:75:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:75:13-36
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:76:13-36
 	android:permission
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:76:13-87
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:77:13-87
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:73:13-88
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:74:13-88
 intent-filter#action:name:android.service.notification.NotificationListenerService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:77:13-79:29
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:78:13-80:29
 action#android.service.notification.NotificationListenerService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:78:17-99
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:79:17-99
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:78:25-96
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:79:25-96
 service#org.pcfx.adapter.android.service.EventPublisherService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:83:9-87:56
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:84:9-88:56
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:85:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:86:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:86:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:87:13-37
 	android:foregroundServiceType
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:87:13-53
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:88:13-53
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:84:13-82
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:85:13-82
 service#org.pcfx.adapter.android.recording.VideoRecorderService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:90:9-94:63
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:91:9-95:63
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:92:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:93:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:93:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:94:13-37
 	android:foregroundServiceType
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:94:13-60
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:95:13-60
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:91:13-83
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:92:13-83
 uses-sdk
 INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml

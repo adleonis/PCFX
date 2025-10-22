@@ -6,6 +6,9 @@ import org.pcfx.node.androidn1.model.KnowledgeAtom
 import java.time.Instant
 import java.util.UUID
 import kotlin.math.min
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import android.util.Base64
 
 interface Atomizer {
     suspend fun process(events: List<ExposureEvent>): List<KnowledgeAtom>
@@ -36,8 +39,11 @@ class DefaultAtomizer(
         val vectorRef = vectorizer.vectorize(text)
         val confidence = calculateConfidence(text, entities)
 
+        val atomId = generateAtomId(event.id)
+        val signature = generateSignature(text, atomId)
+
         return KnowledgeAtom.builder()
-            .id(generateAtomId(event.id))
+            .id(atomId)
             .ts(Instant.now().toString())
             .provenance(
                 KnowledgeAtom.Provenance(
@@ -51,11 +57,26 @@ class DefaultAtomizer(
             .tone(toneScores)
             .vectorRef(vectorRef)
             .confidence(confidence)
+            .signature(signature)
             .build()
     }
 
     private fun generateAtomId(eventId: String): String {
         return UUID.nameUUIDFromBytes("$eventId:atomize".toByteArray()).toString()
+    }
+
+    private fun generateSignature(text: String, atomId: String): String {
+        return try {
+            val dataToSign = "$atomId:$text"
+            val secretKey = "pcfx-atomizer-key".toByteArray()
+            val mac = Mac.getInstance("HmacSHA256")
+            mac.init(SecretKeySpec(secretKey, 0, secretKey.size, "HmacSHA256"))
+            val signature = mac.doFinal(dataToSign.toByteArray())
+            "ecdsa-p256:" + Base64.encodeToString(signature, Base64.DEFAULT).trim()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error generating signature", e)
+            "ecdsa-p256:invalid"
+        }
     }
 
     private fun calculateConfidence(text: String, entities: List<KnowledgeAtom.Entity>): Map<String, Double> {

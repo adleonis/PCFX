@@ -4033,6 +4033,8 @@ int id parent_matrix 0x7f08016d
 int id password_toggle 0x7f08016e
 int id path 0x7f08016f
 int id pathRelative 0x7f080170
+int id pdv_status_icon 0x7f08021a
+int id pdv_status_text 0x7f08021b
 int id peekHeight 0x7f080171
 int id percent 0x7f080172
 int id pin 0x7f080173
@@ -8011,3 +8013,4 @@ int xml m3_button_group_child_size_change 0x7f120001
 int xml m3_split_button_inner_corner_size_state_list 0x7f120002
 int xml m3expressive_button_shape_state_list 0x7f120003
 int xml m3expressive_connected_buttons_inner_corner_size_state_list 0x7f120004
+int xml network_security_config 0x7f120005

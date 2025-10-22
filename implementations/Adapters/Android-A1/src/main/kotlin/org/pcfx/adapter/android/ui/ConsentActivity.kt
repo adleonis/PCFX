@@ -2,17 +2,24 @@ package org.pcfx.adapter.android.ui
 
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.accessibility.AccessibilityManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.pcfx.adapter.android.R
 import org.pcfx.adapter.android.consent.ConsentManager
 import org.pcfx.adapter.android.model.ConsentManifestBuilder
+import org.pcfx.adapter.android.network.PDVClient
 import org.pcfx.adapter.android.recording.VideoRecordingHelper
 import org.pcfx.adapter.android.security.KeyManager
 import org.pcfx.adapter.android.service.EventPublisherService
@@ -21,6 +28,9 @@ class ConsentActivity : AppCompatActivity() {
     private lateinit var consentManager: ConsentManager
     private lateinit var keyManager: KeyManager
     private lateinit var recordingHelper: VideoRecordingHelper
+    private lateinit var pdvClient: PDVClient
+    private lateinit var pdvStatusIcon: ImageView
+    private lateinit var pdvStatusText: TextView
     private var isRecording = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +41,11 @@ class ConsentActivity : AppCompatActivity() {
             consentManager = ConsentManager(this)
             keyManager = KeyManager(this)
             recordingHelper = VideoRecordingHelper(this)
+            pdvClient = PDVClient(this)
 
             setupUI()
             checkAccessibilityServiceStatus()
+            checkPdvConnectivity()
 
             // Generate or retrieve keypair on first launch
             try {
@@ -55,6 +67,7 @@ class ConsentActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         checkAccessibilityServiceStatus()
+        checkPdvConnectivity()
         updateButtonStates()
     }
 
@@ -144,6 +157,9 @@ class ConsentActivity : AppCompatActivity() {
         videoRecordingButton?.setOnClickListener {
             toggleVideoRecording()
         }
+
+        pdvStatusIcon = findViewById(R.id.pdv_status_icon)
+        pdvStatusText = findViewById(R.id.pdv_status_text)
 
         // Update button states based on current consent
         updateButtonStates()
@@ -290,6 +306,33 @@ class ConsentActivity : AppCompatActivity() {
                 "Error regenerating key pair: ${e.message}",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+    }
+
+    private fun checkPdvConnectivity() {
+        lifecycleScope.launch {
+            pdvStatusText.text = "Checking PDV connection..."
+            pdvStatusIcon.setImageResource(android.R.drawable.ic_dialog_info)
+            pdvStatusIcon.setColorFilter(Color.GRAY)
+
+            val result = withContext(Dispatchers.IO) {
+                pdvClient.testConnectivity()
+            }
+
+            when (result) {
+                is PDVClient.Result.Success -> {
+                    pdvStatusIcon.setImageResource(android.R.drawable.ic_input_get)
+                    pdvStatusIcon.setColorFilter(Color.GREEN)
+                    pdvStatusText.text = "✓ PDV Server Connected"
+                    pdvStatusText.setTextColor(Color.GREEN)
+                }
+                is PDVClient.Result.Failure -> {
+                    pdvStatusIcon.setImageResource(android.R.drawable.ic_dialog_alert)
+                    pdvStatusIcon.setColorFilter(Color.RED)
+                    pdvStatusText.text = "✗ PDV Server Disconnected\n${result.message}"
+                    pdvStatusText.setTextColor(Color.RED)
+                }
+            }
         }
     }
 }
