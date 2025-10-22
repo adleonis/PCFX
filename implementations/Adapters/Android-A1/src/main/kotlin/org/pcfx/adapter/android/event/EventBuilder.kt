@@ -141,6 +141,43 @@ class EventBuilder(private val context: Context) {
         outputFilePath: String,
         durationSeconds: Long,
         consentId: String,
+        retentionDays: Int,
+        totalChunks: Int = 0
+    ): ExposureEvent {
+        val source = ExposureEvent.Source(
+            surface = "video",
+            frame = null
+        )
+
+        val text = if (totalChunks > 0) {
+            "Screen recording stopped. Duration: ${durationSeconds}s, Chunks: $totalChunks"
+        } else {
+            "Screen recording stopped. File: $outputFilePath, Duration: ${durationSeconds}s"
+        }
+
+        val content = ExposureEvent.Content(
+            kind = "video",
+            text = text,
+            lang = "en",
+            blobRef = null
+        )
+
+        return createEvent(
+            source = source,
+            content = content,
+            consentId = consentId,
+            retentionDays = retentionDays,
+            capabilitiesUsed = listOf("screen.video.record")
+        )
+    }
+
+    fun buildVideoChunkEvent(
+        sequenceNumber: Int,
+        chunkDurationMs: Long,
+        frameCount: Int,
+        fileSizeBytes: Long,
+        blobRef: String,
+        consentId: String,
         retentionDays: Int
     ): ExposureEvent {
         val source = ExposureEvent.Source(
@@ -150,9 +187,9 @@ class EventBuilder(private val context: Context) {
 
         val content = ExposureEvent.Content(
             kind = "video",
-            text = "Screen recording stopped. File: $outputFilePath, Duration: ${durationSeconds}s",
+            text = "Video chunk $sequenceNumber: ${chunkDurationMs}ms, $frameCount frames, $fileSizeBytes bytes",
             lang = "en",
-            blobRef = null
+            blobRef = blobRef
         )
 
         return createEvent(

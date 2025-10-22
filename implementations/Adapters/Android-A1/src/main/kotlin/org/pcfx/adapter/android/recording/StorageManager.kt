@@ -41,15 +41,26 @@ class StorageManager(
 
     fun ensureSpace(): Boolean {
         val usedSpace = getTotalUsedSpace()
-        val availableSpace = getAvailableSpace()
-        val totalRequired = usedSpace + availableSpace
 
         if (usedSpace >= config.maxStorageSizeBytes) {
             cleanupOldestFiles(usedSpace - (config.maxStorageSizeBytes / 2))
-            return true
         }
 
         return true
+    }
+
+    fun getUsedSpace(): Long {
+        return getTotalUsedSpace()
+    }
+
+    fun enforceMaxStorage(): Boolean {
+        val usedSpace = getTotalUsedSpace()
+        if (usedSpace > config.maxStorageSizeBytes) {
+            val targetSize = config.maxStorageSizeBytes - (config.maxStorageSizeBytes / 10)
+            cleanupOldestFiles(usedSpace - targetSize)
+            return true
+        }
+        return false
     }
 
     fun cleanup() {
@@ -85,4 +96,6 @@ class StorageManager(
     }
 
     fun getRecordingDirPath(): String = recordingDir.absolutePath
+
+    fun getRecordingDir(): File = recordingDir
 }

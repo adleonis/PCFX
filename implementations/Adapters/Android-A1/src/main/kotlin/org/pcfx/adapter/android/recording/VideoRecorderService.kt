@@ -136,16 +136,17 @@ class VideoRecorderService : Service() {
             }
 
             stateManager.setState(RecordingState.Recording)
-            val outputFile = storageManager.getNextOutputFile()
-            currentOutputFile = outputFile
             recordingStartTime = System.currentTimeMillis()
 
-            val recordingThread = RecordingThread(outputFile, mediaProjection!!, config, stateManager, this)
+            startChunkUploadWorker()
+
+            val recordingDir = storageManager.getRecordingDir()
+            val recordingThread = RecordingThread(recordingDir, mediaProjection!!, config, stateManager, this)
             recordingThread.start()
             this.recordingThread = recordingThread
 
-            eventManager.emitRecordingStartEvent(outputFile.absolutePath)
-            android.util.Log.d("VideoRecorderService", "Recording started: ${outputFile.absolutePath}")
+            eventManager.emitRecordingStartEvent(recordingDir.absolutePath, recordingThread)
+            android.util.Log.d("VideoRecorderService", "Recording started: ${recordingDir.absolutePath}")
         } catch (e: Exception) {
             android.util.Log.e("VideoRecorderService", "Error starting recording", e)
             stateManager.setState(RecordingState.Error("Failed to start recording: ${e.message}", e))
@@ -154,17 +155,26 @@ class VideoRecorderService : Service() {
 
     private fun stopRecording() {
         try {
-            recordingThread?.stopRecording()
+            val thread = recordingThread
+
+            eventManager.stopMonitoring()
+
+            thread?.stopRecording()
             recordingThread = null
             mediaProjection?.stop()
             mediaProjection = null
 
-            val outputFile = currentOutputFile
-            if (outputFile != null && recordingStartTime > 0) {
+            if (recordingStartTime > 0) {
                 val durationSeconds = (System.currentTimeMillis() - recordingStartTime) / 1000
-                eventManager.emitRecordingStopEvent(outputFile.absolutePath, durationSeconds)
+                val totalChunks = thread?.getChunkManager()?.getAllChunks()?.size ?: 0
+                eventManager.emitRecordingStopEvent(
+                    recordingDirPath = storageManager.getRecordingDirPath(),
+                    durationSeconds = durationSeconds,
+                    totalChunks = totalChunks
+                )
             }
 
+            stopChunkUploadWorker()
             stateManager.setState(RecordingState.Idle)
             stopForeground(STOP_FOREGROUND_REMOVE)
             stopSelf()
@@ -183,6 +193,26 @@ class VideoRecorderService : Service() {
     private fun resumeRecording() {
         recordingThread?.resumeRecording()
         android.util.Log.d("VideoRecorderService", "Recording resumed")
+    }
+
+    private fun startChunkUploadWorker() {
+        val intent = Intent(this, VideoChunkUploadWorker::class.java).apply {
+            action = VideoChunkUploadWorker.ACTION_START_UPLOAD
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
+        android.util.Log.d("VideoRecorderService", "Chunk upload worker started")
+    }
+
+    private fun stopChunkUploadWorker() {
+        val intent = Intent(this, VideoChunkUploadWorker::class.java).apply {
+            action = VideoChunkUploadWorker.ACTION_STOP_UPLOAD
+        }
+        startService(intent)
+        android.util.Log.d("VideoRecorderService", "Chunk upload worker stopped")
     }
 
     private fun createNotificationChannel() {
