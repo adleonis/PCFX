@@ -206,7 +206,93 @@ PDV refuses unsigned or mutated binaries unless in explicitly enabled **dev mode
 
 ---
 
-## 9) Privacy, redaction & retention
+## 9) Health Check Registration
+
+Every Adapter MUST register itself with the PDV by sending periodic health check heartbeats. This allows the PDV to:
+
+* Track which Adapters are active and available
+* Collect connection statistics and metrics
+* Maintain an accurate registry of installed components
+
+### 9.1 Health Check Implementation
+
+**Endpoint:** `GET /health`
+
+**Required Headers:**
+
+```
+X-App-ID: <unique-uuid>           # Unique app identifier (stable per build)
+X-App-Type: adapter                 # Must be "adapter"
+X-App-Name: <display-name>          # e.g., "Android-A1"
+X-App-Version: <version-string>     # e.g., "1.0.0"
+X-Platform-Info: <platform-details> # e.g., "Android 34"
+```
+
+**Implementation Notes:**
+
+* The `X-App-ID` MUST be generated during the build phase (e.g., UUID) and persist as a constant in the compiled app.
+* The `X-App-ID` should be viewable to users in the app's settings or info page for transparency and debugging.
+* Send health checks:
+  * On app startup
+  * Periodically (every 5-30 minutes) during normal operation
+  * When connectivity is (re)established
+* Health checks are lightweight and non-blocking; failures should be logged but not block other operations.
+* The same headers MAY be used in other requests (e.g., POST /events) for consistency and additional tracking.
+
+**Pseudocode Example (Kotlin):**
+
+```kotlin
+// Define unique app ID at build time
+object AdapterBuildConfig {
+    const val APP_NAME = "Android-A1"
+    const val APP_TYPE = "adapter"
+    const val APP_VERSION = "1.0.0"
+    val UNIQUE_APP_ID = UUID.randomUUID().toString()
+}
+
+// Send health check
+fun sendHealthCheck(pdvUrl: String) {
+    val client = OkHttpClient()
+    val platformInfo = "Android ${Build.VERSION.SDK_INT}"
+
+    val request = Request.Builder()
+        .url("$pdvUrl/health")
+        .header("X-App-ID", AdapterBuildConfig.UNIQUE_APP_ID)
+        .header("X-App-Type", AdapterBuildConfig.APP_TYPE)
+        .header("X-App-Name", AdapterBuildConfig.APP_NAME)
+        .header("X-App-Version", AdapterBuildConfig.APP_VERSION)
+        .header("X-Platform-Info", platformInfo)
+        .get()
+        .build()
+
+    client.newCall(request).execute().use { response ->
+        if (response.isSuccessful) {
+            Log.d("HealthCheck", "Sent successfully")
+        } else {
+            Log.w("HealthCheck", "Failed: ${response.code}")
+        }
+    }
+}
+```
+
+### 9.2 PDV Health Check Registry
+
+The PDV maintains a health check registry with one record per unique `X-App-ID`. Each record includes:
+
+* `firstConnection`: Timestamp of first connection (set on initial health check)
+* `lastConnected`: Timestamp of most recent health check (updated on each check)
+* `connectionCount`: Total number of health checks received (incremented on each check)
+* `appType`, `appName`, `appVersion`, `platformInfo`: Metadata about the component
+
+This data is used by the PDV to:
+
+* **Display Statistics:** Show total and active (24h) Adapter counts in dashboards
+* **Monitor Availability:** Detect when Adapters become unavailable
+* **Audit Compliance:** Maintain transparent logs of which Adapters accessed the PDV and when
+
+---
+
+## 10) Privacy, redaction & retention
 
 * **Redaction before write**: remove contact names, emails, phone numbers from `content.text` unless the consent explicitly allows; prefer blobs with TTLs.
 * **TTL enforcement**: set `retention_days`; PDV will purge blobs on expiry.
@@ -215,7 +301,7 @@ PDV refuses unsigned or mutated binaries unless in explicitly enabled **dev mode
 
 ---
 
-## 10) Security & attestation
+## 11) Security & attestation
 
 * Event signing: `signature` is computed over the canonical JSON (e.g., JCS) with adapter’s private key; PDV verifies with registered public key.
 * Manifest hashing: PDV stores the binary/WASM hash; on connect, mismatch → reject.
@@ -223,7 +309,7 @@ PDV refuses unsigned or mutated binaries unless in explicitly enabled **dev mode
 
 ---
 
-## 11) Performance & resource guidance
+## 12) Performance & resource guidance
 
 * **Batching**: POST events in batches up to 64 where platform allows.
 * **Memory**: audio ring buffer with VAD; avoid retaining more than N minutes.
@@ -232,7 +318,7 @@ PDV refuses unsigned or mutated binaries unless in explicitly enabled **dev mode
 
 ---
 
-## 12) Error handling
+## 13) Error handling
 
 * **Retryable**: on 5xx/429, exponential backoff (base 500ms, max 60s, jitter).
 * **Non-retryable**: on 4xx (consent denied, schema invalid), drop event, log telemetry.
@@ -240,7 +326,7 @@ PDV refuses unsigned or mutated binaries unless in explicitly enabled **dev mode
 
 ---
 
-## 13) Health & telemetry (local only)
+## 14) Health & telemetry (local only)
 
 Adapters MAY publish local, non-PII health stats:
 
@@ -256,7 +342,7 @@ Exposed via PDV `GET /telemetry?adapter_id=…`.
 
 ---
 
-## 14) Reference Adapter profiles
+## 15) Reference Adapter profiles
 
 * **Android Accessibility Adapter**
 
@@ -276,7 +362,7 @@ Exposed via PDV `GET /telemetry?adapter_id=…`.
 
 ---
 
-## 15) Compliance checklist (for adapter implementers)
+## 16) Compliance checklist (for adapter implementers)
 
 * [ ] Manifest signed; capabilities minimal; `requires_net` false unless justified
 * [ ] Consent flow implemented; retention and zones respected
@@ -288,7 +374,7 @@ Exposed via PDV `GET /telemetry?adapter_id=…`.
 
 ---
 
-## 16) Pseudocode examples
+## 17) Pseudocode examples
 
 ### 16.1 Android (foreground app + notification titles)
 
@@ -351,7 +437,7 @@ if vad(buf):
 
 ---
 
-## 17) Schemas (to add alongside)
+## 18) Schemas (to add alongside)
 
 * `pcfx.adapter_manifest/0.1`
 * `pcfx.consent/0.1` (already sketched in earlier docs)
@@ -360,7 +446,7 @@ if vad(buf):
 
 ---
 
-## 18) Why this spec matters (for Nodes & Clients)
+## 19) Why this spec matters (for Nodes & Clients)
 
 * **Nodes** get a uniform stream of `ExposureEvent`s with stable `source.surface`, `pii_flags`, and retention semantics — enabling deterministic pipelines.
 * **Clients** can trust that any PDV populated by a compliant Adapter is interpretable and auditable, regardless of OS/device vendor.

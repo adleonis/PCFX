@@ -109,7 +109,103 @@ All outbound networking disabled unless capability `net.out` granted.
 
 ---
 
-## 7) Standard Views and UX Patterns
+## 7) Health Check Registration
+
+Every Client SHOULD register itself with the PDV by sending periodic health check heartbeats. While not strictly required (Clients are read-only), health checks enable the PDV to:
+
+* Track which Clients are active and being used
+* Collect usage statistics and metrics
+* Maintain an accurate registry of installed user-facing applications
+* Monitor user engagement with privacy-enhancing tools
+
+### 7.1 Health Check Implementation
+
+**Endpoint:** `GET /health`
+
+**Required Headers:**
+
+```
+X-App-ID: <unique-uuid>           # Unique app identifier (stable per build)
+X-App-Type: client                  # Must be "client"
+X-App-Name: <display-name>          # e.g., "PCFx-Dashboard"
+X-App-Version: <version-string>     # e.g., "1.0.0"
+X-Platform-Info: <platform-details> # e.g., "Web/Chrome 120", "iOS 17"
+```
+
+**Implementation Notes:**
+
+* The `X-App-ID` SHOULD be generated during the build phase (e.g., UUID) and persist as a constant in the compiled app or stored locally.
+* The `X-App-ID` MAY be viewable to users in the app's settings or about page for transparency.
+* Send health checks:
+  * On app initialization (if network available)
+  * Periodically (every 10-60 minutes) during normal operation
+  * When connectivity is (re)established (if the Client was previously offline)
+* Health checks are lightweight and non-blocking; failures should be logged but not disrupt the UI.
+* Unlike Adapters and Nodes, Client health checks are optional and should degrade gracefully if PDV is unavailable.
+
+**Pseudocode Example (JavaScript/React):**
+
+```javascript
+// Define unique app ID at build time
+export const ClientBuildConfig = {
+    APP_NAME: "PCFx-Dashboard",
+    APP_TYPE: "client",
+    APP_VERSION: "1.0.0",
+    UNIQUE_APP_ID: localStorage.getItem('app_id') ||
+                   (() => {
+                       const id = crypto.randomUUID();
+                       localStorage.setItem('app_id', id);
+                       return id;
+                   })()
+};
+
+// Send health check
+async function sendHealthCheck(pdvUrl) {
+    try {
+        const platformInfo = `Web/${navigator.userAgent.split(' ').pop()}`;
+
+        const response = await fetch(`${pdvUrl}/health`, {
+            method: 'GET',
+            headers: {
+                'X-App-ID': ClientBuildConfig.UNIQUE_APP_ID,
+                'X-App-Type': ClientBuildConfig.APP_TYPE,
+                'X-App-Name': ClientBuildConfig.APP_NAME,
+                'X-App-Version': ClientBuildConfig.APP_VERSION,
+                'X-Platform-Info': platformInfo
+            }
+        });
+
+        if (response.ok) {
+            console.log('Health check sent');
+        } else {
+            console.warn(`Health check failed: ${response.status}`);
+        }
+    } catch (error) {
+        console.debug('Health check unavailable (PDV may be offline)');
+        // Non-fatal; Client continues to function
+    }
+}
+```
+
+### 7.2 PDV Health Check Registry
+
+The PDV maintains a health check registry with one record per unique `X-App-ID`. Each record includes:
+
+* `firstConnection`: Timestamp of first connection (set on initial health check)
+* `lastConnected`: Timestamp of most recent health check (updated on each check)
+* `connectionCount`: Total number of health checks received (incremented on each check)
+* `appType`, `appName`, `appVersion`, `platformInfo`: Metadata about the component
+
+This data is used by the PDV to:
+
+* **Display Statistics:** Show total and active (24h) Client counts in dashboards
+* **Monitor Adoption:** Track how many users are engaging with privacy tools
+* **Usage Analytics:** Understand which Client versions are in use
+* **Audit Compliance:** Maintain logs of which Clients have accessed the PDV
+
+---
+
+## 8) Standard Views and UX Patterns
 
 | View                    | Inputs              | Description                                  |
 | ----------------------- | ------------------- | -------------------------------------------- |
@@ -127,9 +223,9 @@ All views must include:
 
 ---
 
-## 8) Presentation Contracts (Recommended Schemas)
+## 9) Presentation Contracts (Recommended Schemas)
 
-### 8.1 `pcfx.view_spec/0.1`
+### 9.1 `pcfx.view_spec/0.1`
 
 Declarative description of a dashboard or visualization.
 
@@ -145,7 +241,7 @@ Declarative description of a dashboard or visualization.
 }
 ```
 
-### 8.2 `pcfx.alert/0.1`
+### 9.2 `pcfx.alert/0.1`
 
 Real-time notification structure.
 
@@ -164,7 +260,7 @@ Real-time notification structure.
 
 ---
 
-## 9) Security Requirements
+## 10) Security Requirements
 
 * **Read-Only Guarantee:** PDV exposes read endpoints with signed, non-mutating tokens.
 * **Transport:** HTTPS / localhost only.
@@ -174,7 +270,7 @@ Real-time notification structure.
 
 ---
 
-## 10) Performance Guidelines
+## 11) Performance Guidelines
 
 * Paginate large queries (default 100 atoms/page).
 * Cache immutable responses (ETag or `If-None-Match`).
@@ -184,7 +280,7 @@ Real-time notification structure.
 
 ---
 
-## 11) Error Handling
+## 12) Error Handling
 
 | Code  | Meaning                           | Client Action                 |
 | ----- | --------------------------------- | ----------------------------- |
@@ -196,7 +292,7 @@ Real-time notification structure.
 
 ---
 
-## 12) Telemetry & Feedback
+## 13) Telemetry & Feedback
 
 Clients MAY emit non-PII telemetry to PDV for debugging:
 
@@ -211,7 +307,7 @@ Telemetry is local-only and auto-purged.
 
 ---
 
-## 13) Reference Client Profiles
+## 14) Reference Client Profiles
 
 | Profile                    | Description                        | Outputs                                        |
 | -------------------------- | ---------------------------------- | ---------------------------------------------- |
@@ -224,7 +320,7 @@ All share identical PDV API usage.
 
 ---
 
-## 14) Compliance Checklist (for Client Implementers)
+## 15) Compliance Checklist (for Client Implementers)
 
 * [ ] Manifest signed; scopes minimal; no write access.
 * [ ] Consent confirmed; PDV redaction enabled.
@@ -236,9 +332,9 @@ All share identical PDV API usage.
 
 ---
 
-## 15) Example Pseudocode
+## 16) Example Pseudocode
 
-### 15.1 Query Atoms and Render Top Actors
+### 16.1 Query Atoms and Render Top Actors
 
 ```python
 atoms = pdv.get("/atoms?since=2025-10-13")
@@ -246,7 +342,7 @@ actors = aggregate_by_entity(atoms)
 chart.bar(actors, key="exposure_share")
 ```
 
-### 15.2 Subscribe to Metrics for Realtime Alerts
+### 16.2 Subscribe to Metrics for Realtime Alerts
 
 ```javascript
 const ws = new WebSocket("ws://localhost:8080/pcfx.metrics");

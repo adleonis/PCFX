@@ -12,7 +12,13 @@ import retrofit2.http.Query
 
 interface PdvService {
     @GET("/health")
-    suspend fun checkHealth(): Response<HealthResponse>
+    suspend fun checkHealth(
+        @Header("X-App-ID") appId: String,
+        @Header("X-App-Type") appType: String,
+        @Header("X-App-Name") appName: String,
+        @Header("X-App-Version") appVersion: String,
+        @Header("X-Platform-Info") platformInfo: String
+    ): Response<HealthResponse>
 
     @GET("/events")
     suspend fun getEvents(

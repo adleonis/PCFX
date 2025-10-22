@@ -27,11 +27,72 @@
 
 ### 1.1 Health
 
+#### 1.1.1 Health Check Heartbeat (Component Registration & Monitoring)
+
 `GET /health`
 
+Components (Adapters, Nodes, Clients) SHOULD periodically send health check heartbeats to the PDV to register their presence and availability. This allows the PDV to track connected apps and their activity.
+
+**Headers (required for component tracking):**
+
+* `X-App-ID`: Unique identifier for the app (UUID; should persist across app reinstalls)
+* `X-App-Type`: Type of component: `adapter`, `node`, or `client`
+* `X-App-Name`: Display name (e.g., `"Android-A1"`, `"Node-N1"`)
+* `X-App-Version`: Semantic version (e.g., `"1.0.0"`)
+* `X-Platform-Info`: Platform information (e.g., `"Android 34"`, `"Node.js 20.0"`)
+
+**Response:**
+
 ```json
-{ "status": "ok", "pdv_version": "0.1.0" }
+{ "status": "healthy" }
 ```
+
+**Behavior:**
+
+* On **first health check** from a new `X-App-ID`: PDV creates a health check record with:
+  * `firstConnection` timestamp (set to current time)
+  * `lastConnected` timestamp (set to current time)
+  * `connectionCount` = 1
+
+* On **subsequent health checks** from the same `X-App-ID`: PDV updates the record:
+  * `lastConnected` timestamp (updated to current time)
+  * `connectionCount` (incremented by 1)
+  * `firstConnection` remains unchanged
+
+**Purpose:**
+
+* **Component Discovery:** PDV maintains a registry of all Adapters, Nodes, and Clients that have connected.
+* **Activity Tracking:** Each component's last connection time and total connection count are recorded for monitoring and statistics.
+* **Stats Aggregation:** The PDV uses health check records to compute:
+  * Total unique apps connected (lifetime)
+  * Active apps in last 24 hours (using `lastConnected` timestamp)
+  * Per-type statistics (adapters, nodes, clients)
+
+**Example Request (Adapter):**
+
+```
+GET /health HTTP/1.1
+Host: 127.0.0.1:7777
+X-App-ID: 550e8400-e29b-41d4-a716-446655440000
+X-App-Type: adapter
+X-App-Name: Android-A1
+X-App-Version: 1.0.0
+X-Platform-Info: Android 34
+```
+
+**Example Request (Node):**
+
+```
+GET /health HTTP/1.1
+Host: 127.0.0.1:7777
+X-App-ID: 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+X-App-Type: node
+X-App-Name: Node-N1
+X-App-Version: 2.0.0
+X-Platform-Info: Node.js 20.0
+```
+
+**Recommended Frequency:** Every 5-30 minutes, or whenever the component successfully connects to perform other operations.
 
 ### 1.2 Blobs (media/artifacts; immutable)
 

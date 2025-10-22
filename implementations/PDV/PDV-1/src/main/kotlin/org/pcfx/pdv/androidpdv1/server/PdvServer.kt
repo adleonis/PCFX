@@ -25,7 +25,10 @@ import org.pcfx.pdv.androidpdv1.domain.AtomRepository
 import org.pcfx.pdv.androidpdv1.domain.MetricRepository
 import org.pcfx.pdv.androidpdv1.domain.BlobRepository
 import org.pcfx.pdv.androidpdv1.domain.ConsentRepository
+import org.pcfx.pdv.androidpdv1.domain.ConnectionTracker
+import org.pcfx.pdv.androidpdv1.domain.HealthCheckRepository
 import com.google.gson.Gson
+import kotlinx.coroutines.runBlocking
 
 class PdvServer(private val context: Context, private val port: Int = 7777) {
     private val db = PdvDatabase.getInstance(context)
@@ -34,6 +37,13 @@ class PdvServer(private val context: Context, private val port: Int = 7777) {
     private val metricRepo = MetricRepository(db.metricDao())
     private val blobRepo = BlobRepository(db.blobDao(), context)
     private val consentRepo = ConsentRepository(db.consentDao())
+    private val healthCheckRepo = HealthCheckRepository(db.healthCheckDao())
+    private val connectionTracker: ConnectionTracker
+
+    init {
+        ConnectionTracker.initialize(healthCheckRepo)
+        connectionTracker = ConnectionTracker.getInstance()
+    }
 
     private var server: io.ktor.server.engine.ApplicationEngine? = null
 
@@ -70,6 +80,13 @@ class PdvServer(private val context: Context, private val port: Int = 7777) {
         routing {
             get("/health") {
                 try {
+                    val appId = call.request.headers["X-App-ID"] ?: "unknown"
+                    val appType = call.request.headers["X-App-Type"] ?: "client"
+                    val appName = call.request.headers["X-App-Name"] ?: ""
+                    val appVersion = call.request.headers["X-App-Version"] ?: ""
+                    val platformInfo = call.request.headers["X-Platform-Info"] ?: ""
+
+                    connectionTracker.recordConnection(appId, appType, appName, appVersion, platformInfo)
                     call.respond(mapOf("status" to "healthy"))
                 } catch (e: Exception) {
                     Log.e(TAG, "Error in health check", e)
@@ -232,16 +249,36 @@ class PdvServer(private val context: Context, private val port: Int = 7777) {
                     val atomCount = atomRepo.getAtomCount()
                     val metricCount = metricRepo.getMetricCount()
                     val blobCount = blobRepo.getBlobCount()
-                    call.respond(mapOf(
+                    val connectionStats = runBlocking {
+                        connectionTracker.getStats()
+                    }
+                    val statsMap = mapOf(
                         "events" to eventCount,
                         "atoms" to atomCount,
                         "metrics" to metricCount,
-                        "blobs" to blobCount
-                    ))
+                        "blobs" to blobCount,
+                        "adapters" to mapOf(
+                            "total" to connectionStats.totalAdapters,
+                            "active_24h" to connectionStats.activeAdapters24h
+                        ),
+                        "nodes" to mapOf(
+                            "total" to connectionStats.totalNodes,
+                            "active_24h" to connectionStats.activeNodes24h
+                        ),
+                        "clients" to mapOf(
+                            "total" to connectionStats.totalClients,
+                            "active_24h" to connectionStats.activeClients24h
+                        )
+                    )
+                    val statsJson = gson.toJson(statsMap)
+                    call.respondText(statsJson, contentType = ContentType.Application.Json)
                 } catch (e: Exception) {
                     Log.e(TAG, "Error getting stats", e)
                     val errorMsg = e.message ?: "Unknown error"
-                    call.respond(mapOf("status" to "error", "message" to errorMsg))
+                    call.respondText(
+                        gson.toJson(mapOf("status" to "error", "message" to errorMsg)),
+                        contentType = ContentType.Application.Json
+                    )
                 }
             }
         }

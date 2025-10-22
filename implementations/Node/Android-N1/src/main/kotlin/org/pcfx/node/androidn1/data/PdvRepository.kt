@@ -1,18 +1,21 @@
 package org.pcfx.node.androidn1.data
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.pcfx.node.androidn1.config.NodeBuildConfig
 import org.pcfx.node.androidn1.model.ExposureEvent
 import org.pcfx.node.androidn1.model.KnowledgeAtom
+import org.pcfx.node.androidn1.network.HealthCheckClient
 import org.pcfx.node.androidn1.util.PreferencesManager
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class PdvRepository(context: Context) {
+class PdvRepository(private val context: Context) {
     private val preferencesManager = PreferencesManager(context)
     private val gson = Gson()
     private var pdvService: PdvService? = null
@@ -183,7 +186,14 @@ class PdvRepository(context: Context) {
             }
 
             Log.d(TAG, "Testing connectivity to $baseUrl")
-            val response = pdvService!!.checkHealth()
+            val platformInfo = "Android ${Build.VERSION.SDK_INT}"
+            val response = pdvService!!.checkHealth(
+                appId = NodeBuildConfig.UNIQUE_APP_ID,
+                appType = NodeBuildConfig.APP_TYPE,
+                appName = NodeBuildConfig.APP_NAME,
+                appVersion = NodeBuildConfig.APP_VERSION,
+                platformInfo = platformInfo
+            )
 
             when {
                 response.isSuccessful -> {

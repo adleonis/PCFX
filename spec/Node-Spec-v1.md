@@ -165,9 +165,98 @@ The PDV **Component Registry** records manifests and refuses unsigned/unregister
 
 ---
 
-## 8) Required fields (egress)
+## 8) Health Check Registration
 
-### 8.1 KnowledgeAtom (minimum)
+Every Node MUST register itself with the PDV by sending periodic health check heartbeats. This allows the PDV to:
+
+* Track which Nodes are active and available
+* Collect connection statistics and metrics
+* Maintain an accurate registry of installed components
+* Monitor data processing pipelines
+
+### 8.1 Health Check Implementation
+
+**Endpoint:** `GET /health`
+
+**Required Headers:**
+
+```
+X-App-ID: <unique-uuid>           # Unique app identifier (stable per build)
+X-App-Type: node                    # Must be "node"
+X-App-Name: <display-name>          # e.g., "Node-N1"
+X-App-Version: <version-string>     # e.g., "1.0.0"
+X-Platform-Info: <platform-details> # e.g., "Node.js 20.0"
+```
+
+**Implementation Notes:**
+
+* The `X-App-ID` MUST be generated during the build phase (e.g., UUID) and persist as a constant.
+* The `X-App-ID` should be viewable to users in the node's settings or logs for transparency and debugging.
+* Send health checks:
+  * On node startup
+  * Periodically (every 5-30 minutes) during normal operation
+  * When connectivity is (re)established
+* Health checks are lightweight and non-blocking; failures should be logged but not block data processing.
+
+**Pseudocode Example (Node.js/TypeScript):**
+
+```typescript
+// Define unique app ID at build time
+export const NodeBuildConfig = {
+    APP_NAME: "Node-N1",
+    APP_TYPE: "node",
+    APP_VERSION: "1.0.0",
+    UNIQUE_APP_ID: require('crypto').randomUUID()
+};
+
+// Send health check
+async function sendHealthCheck(pdvUrl: string) {
+    try {
+        const platformInfo = `Node.js ${process.version}`;
+
+        const response = await fetch(`${pdvUrl}/health`, {
+            method: 'GET',
+            headers: {
+                'X-App-ID': NodeBuildConfig.UNIQUE_APP_ID,
+                'X-App-Type': NodeBuildConfig.APP_TYPE,
+                'X-App-Name': NodeBuildConfig.APP_NAME,
+                'X-App-Version': NodeBuildConfig.APP_VERSION,
+                'X-Platform-Info': platformInfo
+            }
+        });
+
+        if (response.ok) {
+            console.log('Health check sent successfully');
+        } else {
+            console.warn(`Health check failed: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error sending health check:', error);
+    }
+}
+```
+
+### 8.2 PDV Health Check Registry
+
+The PDV maintains a health check registry with one record per unique `X-App-ID`. Each record includes:
+
+* `firstConnection`: Timestamp of first connection (set on initial health check)
+* `lastConnected`: Timestamp of most recent health check (updated on each check)
+* `connectionCount`: Total number of health checks received (incremented on each check)
+* `appType`, `appName`, `appVersion`, `platformInfo`: Metadata about the component
+
+This data is used by the PDV to:
+
+* **Display Statistics:** Show total and active (24h) Node counts in dashboards
+* **Monitor Availability:** Detect when Nodes become unavailable or disconnect
+* **Pipeline Management:** Determine which Nodes are available for data processing tasks
+* **Audit Compliance:** Maintain transparent logs of which Nodes accessed the PDV and when
+
+---
+
+## 9) Required fields (egress)
+
+### 9.1 KnowledgeAtom (minimum)
 
 ```json
 {
@@ -189,7 +278,7 @@ The PDV **Component Registry** records manifests and refuses unsigned/unregister
 }
 ```
 
-### 8.2 Relation
+### 9.2 Relation
 
 ```json
 {
@@ -205,7 +294,7 @@ The PDV **Component Registry** records manifests and refuses unsigned/unregister
 }
 ```
 
-### 8.3 Metric
+### 9.3 Metric
 
 ```json
 {
@@ -235,7 +324,7 @@ The PDV **Component Registry** records manifests and refuses unsigned/unregister
 
 ---
 
-## 10) Security & attestation
+## 11) Security & attestation
 
 * All Node output MUST be **signed** with Node key (issued at install/registration).
 * PDV stores signature and checks on read/write.
@@ -243,7 +332,7 @@ The PDV **Component Registry** records manifests and refuses unsigned/unregister
 
 ---
 
-## 11) Performance & resource guidance
+## 12) Performance & resource guidance
 
 * **Batching:** up to 128 events per pull recommended; keep payloads < 2MB each.
 * **Latency targets:** atomizer < 2s/event (audio excluded); heavy ASR runs on charging/idle windows.
@@ -252,7 +341,7 @@ The PDV **Component Registry** records manifests and refuses unsigned/unregister
 
 ---
 
-## 12) Error handling
+## 13) Error handling
 
 * **Retryable (5xx/429):** exponential backoff with jitter (base 500ms, max 60s).
 * **Non-retryable (4xx):** log + skip; include reason in Node telemetry.
@@ -261,7 +350,7 @@ The PDV **Component Registry** records manifests and refuses unsigned/unregister
 
 ---
 
-## 13) Versioning & compatibility
+## 14) Versioning & compatibility
 
 * Each Node declares supported input/output schemas (e.g., `pcfx.exposure_event/0.1`).
 * Minor schema upgrades MUST be handled without break (ignore unknown fields).
@@ -270,7 +359,7 @@ The PDV **Component Registry** records manifests and refuses unsigned/unregister
 
 ---
 
-## 14) Telemetry (local only)
+## 15) Telemetry (local only)
 
 Nodes MAY publish **local** operational metrics (no PII):
 
@@ -283,7 +372,7 @@ Exposed via PDV `GET /telemetry?node_id=…` for local dashboards.
 
 ---
 
-## 15) Reference Node classes (profiles)
+## 16) Reference Node classes (profiles)
 
 * **Atomizer Node**
   Inputs: `ExposureEvent`, Blobs → Outputs: `KnowledgeAtom`
@@ -299,7 +388,7 @@ Exposed via PDV `GET /telemetry?node_id=…` for local dashboards.
 
 ---
 
-## 16) Example processing sequences
+## 17) Example processing sequences
 
 ### 16.1 Atomizer (text) — ASCII sequence
 
@@ -324,7 +413,7 @@ Client → PDV             : GET /relations?type=same_template
 
 ---
 
-## 17) Compliance checklist (for implementers)
+## 18) Compliance checklist (for implementers)
 
 * [ ] Manifest signed; capabilities minimal; `requires_net` justified.
 * [ ] Subscriptions declare surfaces and PII excludes.
@@ -336,7 +425,7 @@ Client → PDV             : GET /relations?type=same_template
 
 ---
 
-## 18) Minimal pseudo-code (Atomizer)
+## 19) Minimal pseudo-code (Atomizer)
 
 ```python
 while True:

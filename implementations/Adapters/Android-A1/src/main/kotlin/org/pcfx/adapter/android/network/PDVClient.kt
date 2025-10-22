@@ -2,6 +2,7 @@ package org.pcfx.adapter.android.network
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.util.Base64
 import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
@@ -236,8 +237,14 @@ class PDVClient(private val context: Context) {
 
     suspend fun testConnectivity(): Result {
         return try {
+            val healthCheckClient = PDVHealthCheckClient.getInstance(context)
             val request = Request.Builder()
                 .url("${getPDVUrl()}/health")
+                .header("X-App-ID", healthCheckClient.getUniqueAppId())
+                .header("X-App-Type", "adapter")
+                .header("X-App-Name", healthCheckClient.getAppName())
+                .header("X-App-Version", healthCheckClient.getAppVersion())
+                .header("X-Platform-Info", "Android ${Build.VERSION.SDK_INT}")
                 .get()
                 .build()
 
@@ -254,7 +261,7 @@ class PDVClient(private val context: Context) {
     }
 
     fun isOnline(): Boolean {
-        return try {
+        val result = try {
             val request = Request.Builder()
                 .url("${getPDVUrl()}/health")
                 .get()
@@ -265,6 +272,12 @@ class PDVClient(private val context: Context) {
         } catch (e: Exception) {
             false
         }
+
+        if (result) {
+            PDVHealthCheckClient.getInstance(context).sendHealthCheck()
+        }
+
+        return result
     }
 
     private fun calculateBackoff(attempt: Int): Long {
