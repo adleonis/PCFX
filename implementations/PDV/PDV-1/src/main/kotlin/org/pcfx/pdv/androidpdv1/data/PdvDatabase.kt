@@ -9,11 +9,13 @@ import org.pcfx.pdv.androidpdv1.data.dao.BlobDao
 import org.pcfx.pdv.androidpdv1.data.dao.ConsentDao
 import org.pcfx.pdv.androidpdv1.data.dao.EventDao
 import org.pcfx.pdv.androidpdv1.data.dao.MetricDao
+import org.pcfx.pdv.androidpdv1.data.dao.HealthCheckDao
 import org.pcfx.pdv.androidpdv1.data.entity.AtomEntity
 import org.pcfx.pdv.androidpdv1.data.entity.BlobEntity
 import org.pcfx.pdv.androidpdv1.data.entity.ConsentEntity
 import org.pcfx.pdv.androidpdv1.data.entity.EventEntity
 import org.pcfx.pdv.androidpdv1.data.entity.MetricEntity
+import org.pcfx.pdv.androidpdv1.data.entity.HealthCheckEntity
 
 @Database(
     entities = [
@@ -21,9 +23,10 @@ import org.pcfx.pdv.androidpdv1.data.entity.MetricEntity
         AtomEntity::class,
         MetricEntity::class,
         BlobEntity::class,
-        ConsentEntity::class
+        ConsentEntity::class,
+        HealthCheckEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class PdvDatabase : RoomDatabase() {
@@ -32,6 +35,7 @@ abstract class PdvDatabase : RoomDatabase() {
     abstract fun metricDao(): MetricDao
     abstract fun blobDao(): BlobDao
     abstract fun consentDao(): ConsentDao
+    abstract fun healthCheckDao(): HealthCheckDao
 
     companion object {
         @Volatile
@@ -43,7 +47,9 @@ abstract class PdvDatabase : RoomDatabase() {
                     context.applicationContext,
                     PdvDatabase::class.java,
                     "pcfx_pdv.db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }
