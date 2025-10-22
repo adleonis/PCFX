@@ -1,0 +1,38 @@
+# Gradle
+.gradle/
+build/
+gradle/
+*.gradle
+gradlew
+gradlew.bat
+
+# Android Studio
+.idea/
+.gradle
+*.iml
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+obj/
+out/
+.classpath
+.project
+.settings/
+.externalNativeBuild
+
+# Local development
+local.properties
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Kotlin
+.kotlin/
+
+# Build output
+*.jar
+*.aar

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PDV Server</string>
+    <string name="server_running">PDV Server is running</string>
+    <string name="server_stopped">PDV Server is stopped</string>
+    <string name="start_server">Start Server</string>
+    <string name="stop_server">Stop Server</string>
+    <string name="server_url">Server URL: http://127.0.0.1:7777</string>
+    <string name="events_count">Events: %d</string>
+    <string name="atoms_count">Atoms: %d</string>
+    <string name="metrics_count">Metrics: %d</string>
+    <string name="blobs_count">Blobs: %d</string>
+</resources>

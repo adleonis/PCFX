@@ -7,7 +7,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.pcfx.node.androidn1.R
 import org.pcfx.node.androidn1.data.PdvRepository
 import org.pcfx.node.androidn1.util.PreferencesManager
@@ -86,9 +88,10 @@ class SettingsActivity : AppCompatActivity() {
         statusText.text = "Testing connectivity..."
 
         lifecycleScope.launch {
-            // Save URL temporarily for test
             preferencesManager.setPdvBaseUrl(url)
-            val result = pdvRepository.testConnectivity()
+            val result = withContext(Dispatchers.IO) {
+                pdvRepository.testConnectivity()
+            }
             result.onSuccess {
                 statusText.text = "✓ Connected successfully"
                 Toast.makeText(this@SettingsActivity, "Connection successful", Toast.LENGTH_SHORT).show()

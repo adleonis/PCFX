@@ -53,8 +53,41 @@ class PdvRepository(context: Context) {
             val response = pdvService!!.getEvents(since = since, limit = limit)
             when {
                 response.isSuccessful && response.body() != null -> {
-                    Log.d(TAG, "Fetched ${response.body()?.events?.size ?: 0} events since $since")
-                    Result.success(response.body()!!.events)
+                    val responseBody = response.body()!!.string()
+                    Log.d(TAG, "Events response body: $responseBody")
+
+                    val responseMap = gson.fromJson(responseBody, Map::class.java) as? Map<String, Any>
+                        ?: return Result.failure(Exception("Invalid response format"))
+
+                    Log.d(TAG, "Response map keys: ${responseMap.keys}")
+
+                    if (responseMap.containsKey("status") && responseMap["status"] == "error") {
+                        val errorMsg = responseMap["message"] as? String ?: "Unknown server error"
+                        Log.e(TAG, "Server error response: $errorMsg")
+                        return Result.failure(Exception("Server error: $errorMsg"))
+                    }
+
+                    @Suppress("UNCHECKED_CAST")
+                    val eventMaps = responseMap["events"] as? List<Map<String, Any>>
+                        ?: run {
+                            Log.e(TAG, "Events field: ${responseMap["events"]} (type: ${responseMap["events"]?.javaClass?.simpleName})")
+                            return Result.failure(Exception("Missing or invalid events field"))
+                        }
+
+                    Log.d(TAG, "Fetched ${eventMaps.size} events since $since")
+
+                    val events = eventMaps.mapNotNull { eventMap ->
+                        try {
+                            val eventData = eventMap["event"] as? Map<String, Any> ?: return@mapNotNull null
+                            val eventJson = gson.toJson(eventData)
+                            gson.fromJson(eventJson, ExposureEvent::class.java)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error parsing event: ${e.message}", e)
+                            null
+                        }
+                    }
+
+                    Result.success(events)
                 }
                 response.code() == 429 -> {
                     val retryAfter = response.headers()["Retry-After"]?.toIntOrNull() ?: 30
@@ -137,16 +170,35 @@ class PdvRepository(context: Context) {
         }
     }
 
-    fun testConnectivity(): Result<Unit> {
+    suspend fun testConnectivity(): Result<Unit> {
         return try {
+            pdvService ?: run {
+                buildPdvService()
+                pdvService ?: return Result.failure(Exception("Failed to initialize PdvService"))
+            }
+
             val baseUrl = preferencesManager.getPdvBaseUrl()
             if (baseUrl.isBlank()) {
                 return Result.failure(Exception("PDV base URL not configured"))
             }
 
             Log.d(TAG, "Testing connectivity to $baseUrl")
-            Result.success(Unit)
+            val response = pdvService!!.checkHealth()
+
+            when {
+                response.isSuccessful -> {
+                    Log.d(TAG, "PDV connectivity test successful")
+                    Result.success(Unit)
+                }
+                response.code() >= 500 -> {
+                    Result.failure(Exception("PDV server error: ${response.code()}"))
+                }
+                else -> {
+                    Result.failure(Exception("PDV unreachable: ${response.code()}"))
+                }
+            }
         } catch (e: Exception) {
+            Log.e(TAG, "PDV connectivity test failed: ${e.message ?: e.javaClass.simpleName}", e)
             Result.failure(e)
         }
     }

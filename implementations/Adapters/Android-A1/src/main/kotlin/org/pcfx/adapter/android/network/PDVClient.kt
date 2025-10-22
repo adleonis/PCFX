@@ -234,11 +234,30 @@ class PDVClient(private val context: Context) {
         }
     }
 
+    suspend fun testConnectivity(): Result {
+        return try {
+            val request = Request.Builder()
+                .url("${getPDVUrl()}/health")
+                .get()
+                .build()
+
+            val response = client.newCall(request).execute()
+            when {
+                response.isSuccessful -> Result.Success("Connected")
+                response.code >= 500 -> Result.Failure("PDV server error: ${response.code}", isRetryable = true)
+                else -> Result.Failure("PDV unreachable: ${response.code}", isRetryable = true)
+            }
+        } catch (e: Exception) {
+            val errorMsg = e.message ?: e.javaClass.simpleName ?: "Unknown connection error"
+            Result.Failure("Connection failed: $errorMsg", isRetryable = true)
+        }
+    }
+
     fun isOnline(): Boolean {
         return try {
             val request = Request.Builder()
                 .url("${getPDVUrl()}/health")
-                .head()
+                .get()
                 .build()
 
             val response = client.newCall(request).execute()
