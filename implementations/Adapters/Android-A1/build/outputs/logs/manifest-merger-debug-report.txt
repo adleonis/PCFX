@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-99:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-99:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-99:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-99:12
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-106:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-106:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-106:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-106:12
 MERGED from [androidx.databinding:viewbinding:8.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\71f8d6a582496d1658c1d33d9c5ee464\transformed\jetified-viewbinding-8.13.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\c0b9d0fe7e093e640799d3a7c518b5dc\transformed\constraintlayout-2.2.1\AndroidManifest.xml:2:1-9:12
@@ -122,8 +122,8 @@ ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidMani
 	android:name
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:28:22-74
 application
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-97:19
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-97:19
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-104:19
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-104:19
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\c0b9d0fe7e093e640799d3a7c518b5dc\transformed\constraintlayout-2.2.1\AndroidManifest.xml:7:5-20
@@ -248,6 +248,16 @@ ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidMani
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:95:13-60
 	android:name
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:92:13-83
+service#org.pcfx.adapter.android.recording.VideoChunkUploadWorker
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:98:9-102:56
+	android:enabled
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:100:13-35
+	android:exported
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:101:13-37
+	android:foregroundServiceType
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:102:13-53
+	android:name
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:99:13-85
 uses-sdk
 INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml

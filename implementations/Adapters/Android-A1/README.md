@@ -8,6 +8,8 @@ This adapter monitors foreground app changes and system notifications on Android
 
 - ✅ **Foreground app monitoring** via `AccessibilityService`
 - ✅ **Notification capture** via `NotificationListenerService`
+- ✅ **Screen video recording** with chunked capture (5-second frame-aligned chunks)
+- ✅ **Background chunk upload** to PDV with automatic cleanup
 - ✅ **Offline queue** with RoomDB and auto-flush when PDV comes online
 - ✅ **Ed25519 signing** with Android KeyStore for key storage
 - ✅ **Blob upload** support for media artifacts
@@ -49,6 +51,105 @@ This adapter monitors foreground app changes and system notifications on Android
 │                                                     │
 └─────────────────────────────────────────────────────┘
 ```
+
+## Video Recording (Chunked Capture)
+
+The adapter supports **continuous screen video recording with automatic chunking**. Videos are captured in 5-second chunks and uploaded to PDV in the background, ensuring no frames are lost and adapter storage remains bounded.
+
+### Architecture
+
+```
+Recording Thread              Chunk Manager               Upload Worker
+   |                              |                            |
+   +-> create chunk 0 ────────────┤                            |
+   |   encode frames              |                            |
+   |   every 5s: finalize ────────┤-> add to pending queue     |
+   |   transition to chunk 1       |                            |
+   |   continue recording (no gap) |   <── monitor pending ─────+
+   |                              |       upload to PDV
+   |                              |       delete local file
+   +-> emit chunk event ──────────┤-> event published to PDV
+```
+
+### Features
+
+- **Frame-aligned chunking**: 5-second chunks finalized at frame boundaries (no partial frames)
+- **Non-blocking recording**: Recording continues immediately after chunk finalization; uploads happen in parallel
+- **Storage-bounded adapter**: Chunks deleted from local cache immediately after successful PDV upload
+- **Resilient uploads**: Failed uploads retry with 5-second backoff; dropped after 5 failed attempts
+- **Sequence recovery**: Chunk sequence numbers persisted for recovery if app crashes
+- **Consent-aware**: All chunks respect consent settings and retention periods
+
+### Implementation Components
+
+| Component | Purpose |
+|-----------|---------|
+| `VideoChunkManager` | Manages chunk lifecycle, tracks sequences, pending uploads |
+| `VideoEncoder` (refactored) | Finalizes chunks every ~5 seconds instead of single monolithic file |
+| `RecordingThread` | Continuous recording with automatic chunk transitions |
+| `VideoChunkUploadWorker` | Background service that uploads finalized chunks independently |
+| `VideoRecordingEventManager` | Monitors pending chunks and emits metadata events to PDV |
+
+### How It Works
+
+1. **Start Recording**: `VideoRecorderService` spawns `RecordingThread` and starts `VideoChunkUploadWorker`
+2. **Chunk Creation**: Thread creates chunk 0 and begins encoding
+3. **Frame Encoding**: Every 33ms (~15fps), frames drain through encoder and write to current chunk
+4. **Chunk Finalization**: After ~75 frames (5 seconds at 15fps):
+   - Encoder finalizes current chunk (flushes and closes MediaMuxer)
+   - `VideoChunkManager.finalizeCurrentChunk()` records metadata
+   - Chunk marked as pending for upload
+   - **No delay**: New encoder/chunk created immediately; recording continues
+5. **Background Upload**:
+   - `VideoChunkUploadWorker` detects finalized chunks
+   - Uploads chunk bytes to PDV `/blobs` endpoint
+   - On success, deletes local file immediately
+   - On failure, retries with backoff (max 5 attempts)
+6. **Event Emission**:
+   - `VideoRecordingStartedEvent`: Emitted when recording begins
+   - `VideoChunkEvent`: Emitted for each finalized chunk (metadata + blobRef)
+   - `VideoRecordingStoppedEvent`: Emitted when recording ends
+
+### Configuration
+
+Default recording settings in `RecordingConfig.kt`:
+
+```kotlin
+val width: Int = 1280              // Video width
+val height: Int = 720              // Video height
+val bitrate: Int = 5000000         // 5 Mbps
+val frameRate: Int = 15            // 15 fps
+val codec: String = "video/avc"    // H.264
+val mimeType: String = "video/mp4"
+```
+
+### Data Flow
+
+```
+Device Screen
+    ↓
+MediaProjection + VirtualDisplay
+    ↓
+VideoEncoder (H.264)
+    ↓
+MediaMuxer → Chunk File (.mp4)
+    ↓
+VideoChunkManager (every ~5sec)
+    ↓
+VideoChunkUploadWorker (background)
+    ���
+POST /blobs → PDV Blob Storage
+    ↓
+Delete Local File (cleanup)
+```
+
+### Guarantees
+
+- **No data loss**: Frame-aligned chunks ensure every frame is captured
+- **No recording gaps**: Chunk transitions happen instantly; recording never pauses
+- **Memory-bounded**: Constant cache size regardless of recording duration
+- **Storage-bounded**: Adapter keeps only a rolling buffer of pending chunks; PDV owns all persistence
+- **Resilient**: Failed uploads don't block recording; chunks retry independently
 
 ## Prerequisites
 

@@ -41,10 +41,10 @@ class VideoEncoder(
             mediaMuxer = MediaMuxer(outputFile.absolutePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
             isInitialized = true
 
-            android.util.Log.d("VideoEncoder", "Encoder initialized successfully")
+            android.util.Log.d(TAG, "Encoder initialized for chunk: ${outputFile.absolutePath}")
             true
         } catch (e: Exception) {
-            android.util.Log.e("VideoEncoder", "Error initializing encoder", e)
+            android.util.Log.e(TAG, "Error initializing encoder", e)
             false
         }
     }
@@ -53,10 +53,10 @@ class VideoEncoder(
         return if (isInitialized) encoderSurface else null
     }
 
-    fun drainEncoder(endOfStream: Boolean = false) {
-        if (!isInitialized) return
+    fun drainEncoderForChunk(endOfChunk: Boolean = false): Int {
+        if (!isInitialized) return frameCount
 
-        if (endOfStream) {
+        if (endOfChunk) {
             mediaCodec.signalEndOfInputStream()
         }
 
@@ -74,11 +74,11 @@ class VideoEncoder(
                     videoTrackIndex = mediaMuxer.addTrack(outputFormat)
                     mediaMuxer.start()
                     isFormatSet = true
-                    android.util.Log.d("VideoEncoder", "Output format set: $outputFormat")
+                    android.util.Log.d(TAG, "Output format set for chunk: $outputFormat")
                 }
                 continue
             } else if (outputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
-                if (!endOfStream) break
+                if (!endOfChunk) break
             } else if (outputBufferIndex >= 0) {
                 val outputBuffer = mediaCodec.getOutputBuffer(outputBufferIndex)
                 if (outputBuffer != null && isFormatSet) {
@@ -98,6 +98,34 @@ class VideoEncoder(
                 }
             }
         }
+
+        return frameCount
+    }
+
+    fun finalizeChunk(): Int {
+        if (!isInitialized) return frameCount
+
+        try {
+            drainEncoderForChunk(endOfChunk = true)
+            
+            if (isFormatSet) {
+                mediaMuxer.stop()
+                mediaMuxer.release()
+            }
+
+            isInitialized = false
+            isFormatSet = false
+            videoTrackIndex = -1
+
+            val finalFrameCount = frameCount
+            frameCount = 0
+
+            android.util.Log.d(TAG, "Chunk finalized. Frames in chunk: $finalFrameCount, File: ${outputFile.absolutePath}")
+            return finalFrameCount
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "Error finalizing chunk", e)
+            return frameCount
+        }
     }
 
     fun stop() {
@@ -111,12 +139,16 @@ class VideoEncoder(
                 }
                 isInitialized = false
                 isFormatSet = false
-                android.util.Log.d("VideoEncoder", "Encoder stopped. Frames encoded: $frameCount")
+                android.util.Log.d(TAG, "Encoder stopped completely")
             } catch (e: Exception) {
-                android.util.Log.e("VideoEncoder", "Error stopping encoder", e)
+                android.util.Log.e(TAG, "Error stopping encoder", e)
             }
         }
     }
 
     fun getFrameCount(): Int = frameCount
+
+    companion object {
+        private const val TAG = "VideoEncoder"
+    }
 }

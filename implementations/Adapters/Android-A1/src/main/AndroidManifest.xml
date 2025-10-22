@@ -94,6 +94,13 @@
             android:exported="false"
             android:foregroundServiceType="mediaProjection" />
 
+        <!-- Video chunk upload worker -->
+        <service
+            android:name="org.pcfx.adapter.android.recording.VideoChunkUploadWorker"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
     </application>
 
 </manifest>
