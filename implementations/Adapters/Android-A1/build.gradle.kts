@@ -76,7 +76,10 @@ dependencies {
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0")
     implementation("org.json:json:20250517")
-    
+
+    // ML Kit Text Recognition
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+
     // Cryptography & Security
     implementation("androidx.security:security-crypto:1.1.0")
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")

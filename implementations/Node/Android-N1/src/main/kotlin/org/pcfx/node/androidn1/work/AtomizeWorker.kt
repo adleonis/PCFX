@@ -55,10 +55,12 @@ class AtomizeWorker : Service() {
             var eventsCount = 0
             var atomsCount = 0
             var error: String? = null
+            var batchCount = 0
+            val maxBatches = 10  // Process max 10 batches (640 events) per run
 
             // Fetch events in batches
             var cursor = watermark
-            while (true) {
+            while (batchCount < maxBatches) {
                 val eventsResult = pdvRepository.getEventsSince(cursor, limit = 64)
 
                 when {
@@ -87,15 +89,18 @@ class AtomizeWorker : Service() {
                             val postResult = pdvRepository.postAtom(atom)
                             if (postResult.isSuccess) {
                                 atomsCount++
-                                // Update watermark after successful publish
-                                preferencesManager.setLastWatermark(atom.ts)
                             } else {
                                 Log.e(TAG, "Failed to post atom ${atom.id}: ${postResult.exceptionOrNull()?.message}")
                             }
                         }
 
-                        // Move to next batch
-                        cursor = events.last().ts
+                        // Update watermark once per batch after all events processed
+                        // Use the last event's timestamp to advance the cursor for next fetch
+                        val lastEventTs = events.last().ts
+                        cursor = lastEventTs
+                        preferencesManager.setLastWatermark(lastEventTs)
+                        batchCount++
+                        Log.d(TAG, "Updated watermark to $lastEventTs (batch $batchCount/$maxBatches)")
                     }
                     eventsResult.exceptionOrNull() is RateLimitException -> {
                         val retryAfter = (eventsResult.exceptionOrNull() as? RateLimitException)?.retryAfterSeconds ?: 30
@@ -113,6 +118,10 @@ class AtomizeWorker : Service() {
                 }
             }
 
+            if (batchCount >= maxBatches) {
+                Log.i(TAG, "Reached maximum batches ($maxBatches). Run again to process remaining events.")
+            }
+
             preferencesManager.recordRunResult(
                 status = if (error == null) "success" else "partial_failure",
                 eventsCount = eventsCount,
@@ -120,7 +129,7 @@ class AtomizeWorker : Service() {
                 error = error
             )
 
-            Log.d(TAG, "Atomization job completed: processed $eventsCount events, published $atomsCount atoms")
+            Log.d(TAG, "Atomization job completed: processed $eventsCount events, published $atomsCount atoms in $batchCount batches")
 
         } catch (e: Exception) {
             Log.e(TAG, "Atomization job failed", e)

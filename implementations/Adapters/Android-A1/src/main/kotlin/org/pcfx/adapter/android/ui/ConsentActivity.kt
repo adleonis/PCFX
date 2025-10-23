@@ -21,6 +21,7 @@ import org.pcfx.adapter.android.consent.ConsentManager
 import org.pcfx.adapter.android.model.ConsentManifestBuilder
 import org.pcfx.adapter.android.network.PDVClient
 import org.pcfx.adapter.android.recording.VideoRecordingHelper
+import org.pcfx.adapter.android.screenshot.ScreenshotCaptureManager
 import org.pcfx.adapter.android.security.KeyManager
 import org.pcfx.adapter.android.service.EventPublisherService
 
@@ -28,10 +29,12 @@ class ConsentActivity : AppCompatActivity() {
     private lateinit var consentManager: ConsentManager
     private lateinit var keyManager: KeyManager
     private lateinit var recordingHelper: VideoRecordingHelper
+    private lateinit var screenshotCaptureManager: ScreenshotCaptureManager
     private lateinit var pdvClient: PDVClient
     private lateinit var pdvStatusIcon: ImageView
     private lateinit var pdvStatusText: TextView
     private var isRecording = false
+    private var isScreenshotCapturing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +44,7 @@ class ConsentActivity : AppCompatActivity() {
             consentManager = ConsentManager(this)
             keyManager = KeyManager(this)
             recordingHelper = VideoRecordingHelper(this)
+            screenshotCaptureManager = ScreenshotCaptureManager(this)
             pdvClient = PDVClient(this)
 
             setupUI()
@@ -155,14 +159,125 @@ class ConsentActivity : AppCompatActivity() {
 
         val videoRecordingButton = findViewById<Button>(R.id.video_recording_button)
         videoRecordingButton?.setOnClickListener {
-            toggleVideoRecording()
+            if (isScreenshotCapturing) {
+                Toast.makeText(
+                    this,
+                    "Stop screenshot capture first",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                toggleVideoRecording()
+            }
         }
+
+        setupScreenshotCaptureUI()
 
         pdvStatusIcon = findViewById(R.id.pdv_status_icon)
         pdvStatusText = findViewById(R.id.pdv_status_text)
 
         // Update button states based on current consent
         updateButtonStates()
+    }
+
+    private fun setupScreenshotCaptureUI() {
+        val screenshotIntervalSpinner = findViewById<android.widget.Spinner>(R.id.screenshot_interval_spinner)
+        val screenshotToggle = findViewById<android.widget.Switch>(R.id.screenshot_toggle)
+
+        if (screenshotIntervalSpinner == null || screenshotToggle == null) {
+            Log.w("ConsentActivity", "Screenshot UI views not found in layout")
+            return
+        }
+
+        val intervalOptions = arrayOf("1 sec", "2 sec", "3 sec", "4 sec", "5 sec")
+        val adapter = android.widget.ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            intervalOptions
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        screenshotIntervalSpinner.adapter = adapter
+
+        val currentInterval = screenshotCaptureManager.getInterval()
+        screenshotIntervalSpinner.setSelection(currentInterval - 1)
+
+        screenshotIntervalSpinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                val interval = position + 1
+                screenshotCaptureManager.setInterval(interval)
+            }
+
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
+        }
+
+        isScreenshotCapturing = screenshotCaptureManager.isCapturing()
+        updateScreenshotToggle(screenshotToggle)
+
+        screenshotToggle.setOnCheckedChangeListener { _, isChecked ->
+            if (!consentManager.isConsentActive()) {
+                Toast.makeText(
+                    this,
+                    "Please grant consent before capturing screenshots",
+                    Toast.LENGTH_SHORT
+                ).show()
+                screenshotToggle.isChecked = false
+                return@setOnCheckedChangeListener
+            }
+
+            if (isChecked && isRecording) {
+                Toast.makeText(
+                    this,
+                    "Stop video recording first",
+                    Toast.LENGTH_SHORT
+                ).show()
+                screenshotToggle.isChecked = false
+                return@setOnCheckedChangeListener
+            }
+
+            if (isChecked) {
+                startScreenshotCapture()
+            } else {
+                stopScreenshotCapture()
+            }
+        }
+    }
+
+    private fun startScreenshotCapture() {
+        val activeConsent = consentManager.getActiveConsent() ?: run {
+            Toast.makeText(this, "No active consent found", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val interval = screenshotCaptureManager.getInterval()
+
+        try {
+            screenshotCaptureManager.startCapture(
+                intervalSeconds = interval,
+                consentId = activeConsent.consentId,
+                retentionDays = activeConsent.grants.firstOrNull()?.retentionDays ?: 30
+            )
+            isScreenshotCapturing = true
+            updateScreenshotToggle(findViewById(R.id.screenshot_toggle))
+            Toast.makeText(this, "Screenshot capture started", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Log.e("ConsentActivity", "Error starting screenshot capture", e)
+            Toast.makeText(this, "Error starting screenshot capture: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun stopScreenshotCapture() {
+        try {
+            screenshotCaptureManager.stopCapture()
+            isScreenshotCapturing = false
+            updateScreenshotToggle(findViewById(R.id.screenshot_toggle))
+            Toast.makeText(this, "Screenshot capture stopped", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Log.e("ConsentActivity", "Error stopping screenshot capture", e)
+            Toast.makeText(this, "Error stopping screenshot capture: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateScreenshotToggle(toggle: android.widget.Switch?) {
+        toggle?.isChecked = isScreenshotCapturing
     }
 
     private fun checkAccessibilityServiceStatus() {
@@ -192,6 +307,8 @@ class ConsentActivity : AppCompatActivity() {
         val declineButton = findViewById<Button>(R.id.consent_decline_btn)
         val statusButton = findViewById<Button>(R.id.consent_status_btn)
         val videoRecordingButton = findViewById<Button>(R.id.video_recording_button)
+        val screenshotIntervalSpinner = findViewById<android.widget.Spinner>(R.id.screenshot_interval_spinner)
+        val screenshotToggle = findViewById<android.widget.Switch>(R.id.screenshot_toggle)
 
         if (consentManager.isConsentActive()) {
             acceptButton.text = "Consent Granted"
@@ -200,6 +317,8 @@ class ConsentActivity : AppCompatActivity() {
             declineButton.isEnabled = true
             statusButton.isEnabled = true
             videoRecordingButton?.isEnabled = true
+            screenshotIntervalSpinner?.isEnabled = true
+            screenshotToggle?.isEnabled = true
         } else {
             acceptButton.text = "Accept Consent"
             acceptButton.isEnabled = true
@@ -209,6 +328,10 @@ class ConsentActivity : AppCompatActivity() {
             videoRecordingButton?.isEnabled = false
             videoRecordingButton?.text = "Start Recording (Require Consent)"
             isRecording = false
+            screenshotIntervalSpinner?.isEnabled = false
+            screenshotToggle?.isEnabled = false
+            screenshotToggle?.isChecked = false
+            isScreenshotCapturing = false
         }
 
         updateVideoRecordingButtonText()

@@ -1,15 +1,25 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-106:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-106:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-106:12
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-106:12
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-115:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-115:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-115:12
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:2:1-115:12
 MERGED from [androidx.databinding:viewbinding:8.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\71f8d6a582496d1658c1d33d9c5ee464\transformed\jetified-viewbinding-8.13.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\c0b9d0fe7e093e640799d3a7c518b5dc\transformed\constraintlayout-2.2.1\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\2539d06cc618654e5c98cea108da6257\transformed\jetified-appcompat-resources-1.7.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.appcompat:appcompat:1.7.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3eb3008ba9a2e25dc29bac9548e55ced\transformed\appcompat-1.7.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\cd700422330b9cf8d85def06799551a8\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.mlkit:text-recognition:16.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\9fd6a85b67e4e2e8d135ec1482f71ed2\transformed\jetified-text-recognition-16.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-mlkit-text-recognition:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\bfba7184ed25ab6df3d92c44429df7f8\transformed\jetified-play-services-mlkit-text-recognition-19.0.0\AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.mlkit:text-recognition-bundled-common:16.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\9603867b0345e2da5e7f079133bb1786\transformed\jetified-text-recognition-bundled-common-16.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:2:1-18:12
+MERGED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:2:1-18:12
+MERGED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:2:1-26:12
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.mlkit:vision-interfaces:16.2.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\8cc685be36d7336bdc5bbc7a793a1dc6\transformed\jetified-vision-interfaces-16.2.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e78445486e2a9c74f7459ef9e03ca38a\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\b17262a06dead5c3873855190b849383\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
 MERGED from [androidx.fragment:fragment:1.5.4] C:\Users\Asus\.gradle\caches\8.14.3\transforms\5d3baef376af9c2c6df92abc9be5d47c\transformed\fragment-1.5.4\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\6241d6a2d21c888cf3781d6910766fbb\transformed\jetified-activity-1.8.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\ce49d42ec2c42b44d21b880bb31280e5\transformed\jetified-emoji2-views-helper-1.3.0\AndroidManifest.xml:2:1-7:12
@@ -51,9 +61,16 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\As
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\76fd18e4264867c8d3389400013c0984\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\050b894e5946b2df86abd2da6c9ea4c7\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\f414aa3b4e900c09b2f436dbbf3f6e4a\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:15:1-38:12
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.android.datatransport:transport-api:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\281c6d54a4a252cf73512b0c5277dfc7\transformed\jetified-transport-api-2.2.1\AndroidManifest.xml:15:1-22:12
+MERGED from [com.google.firebase:firebase-components:16.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\4b74c0fe727e94147266bd529629323f\transformed\jetified-firebase-components-16.1.0\AndroidManifest.xml:15:1-23:12
+MERGED from [com.google.firebase:firebase-encoders-json:17.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\67df434da5d35c17bbc60815db7ffcdf\transformed\jetified-firebase-encoders-json-17.1.0\AndroidManifest.xml:15:1-23:12
 MERGED from [androidx.sqlite:sqlite-framework-android:2.6.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\49ab3bb5e7fb830f2a3c9255bf8bd6b8\transformed\jetified-sqlite-framework\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.sqlite:sqlite-android:2.6.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\6802fe50de4c3da707812f56940c8b0a\transformed\jetified-sqlite\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\0b372319bbc7741e19b5e4dd5254361c\transformed\exifinterface-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.github.tony19:logback-android:3.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\5b20a47405caa9f04e5bc30ef095c082\transformed\jetified-logback-android-3.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\51cac9a62e75acdda60ff9580dcb2ea3\transformed\jetified-image-1.0.0-beta1\AndroidManifest.xml:2:1-9:12
 	package
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:3:5-39
 		INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml
@@ -79,12 +96,18 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:13:5-67
 MERGED from [com.squareup.okhttp3:okhttp-android:5.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\236eb2b4c9d8912b81c754ad54252289\transformed\jetified-okhttp-release\AndroidManifest.xml:8:5-67
 MERGED from [com.squareup.okhttp3:okhttp-android:5.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\236eb2b4c9d8912b81c754ad54252289\transformed\jetified-okhttp-release\AndroidManifest.xml:8:5-67
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:26:5-67
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:26:5-67
 	android:name
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:13:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:14:5-79
 MERGED from [androidx.work:work-runtime:2.9.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\35d8fbfa9ebaa62fef8b60c3a4a0d053\transformed\work-runtime-2.9.1\AndroidManifest.xml:24:5-79
 MERGED from [androidx.work:work-runtime:2.9.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\35d8fbfa9ebaa62fef8b60c3a4a0d053\transformed\work-runtime-2.9.1\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:25:5-79
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:25:5-79
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:22:5-79
 	android:name
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:14:22-76
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
@@ -109,25 +132,45 @@ uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION
 ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:23:5-94
 	android:name
 		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:23:22-91
+uses-permission#android.permission.CAMERA
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:26:5-65
+	android:name
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:26:22-62
 uses-permission#android.permission.CAPTURE_VIDEO_OUTPUT
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:26:5-79
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:27:5-79
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:26:22-76
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:27:22-76
+uses-permission#android.permission.CAPTURE_AUDIO_OUTPUT
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:28:5-79
+	android:name
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:28:22-76
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:27:5-71
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:29:5-71
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:27:22-68
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:29:22-68
 uses-permission#android.permission.QUERY_ALL_PACKAGES
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:28:5-77
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-77
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:28:22-74
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:22-74
 application
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-104:19
-INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:30:5-104:19
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:32:5-113:19
+INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:32:5-113:19
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.13.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3575126d10c44e2cb5a08b9ca89aed8a\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\c0b9d0fe7e093e640799d3a7c518b5dc\transformed\constraintlayout-2.2.1\AndroidManifest.xml:7:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\c0b9d0fe7e093e640799d3a7c518b5dc\transformed\constraintlayout-2.2.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:8:5-24:19
+MERGED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:8:5-24:19
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e78445486e2a9c74f7459ef9e03ca38a\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e78445486e2a9c74f7459ef9e03ca38a\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\b17262a06dead5c3873855190b849383\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\b17262a06dead5c3873855190b849383\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\98c4f810252e20e83f37fc0174a5005f\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\98c4f810252e20e83f37fc0174a5005f\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.work:work-runtime:2.9.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\35d8fbfa9ebaa62fef8b60c3a4a0d053\transformed\work-runtime-2.9.1\AndroidManifest.xml:28:5-143:19
@@ -146,118 +189,134 @@ MERGED from [androidx.startup:startup-runtime:1.2.0] C:\Users\Asus\.gradle\cache
 MERGED from [androidx.startup:startup-runtime:1.2.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\7497e832c2b34c1bac68fa26023767ac\transformed\jetified-startup-runtime-1.2.0\AndroidManifest.xml:23:5-29:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\7171004d619dad6d5dda16b064906678\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\7171004d619dad6d5dda16b064906678\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:28:5-36:19
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:28:5-36:19
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:25:5-39:19
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:25:5-39:19
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\51cac9a62e75acdda60ff9580dcb2ea3\transformed\jetified-image-1.0.0-beta1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\51cac9a62e75acdda60ff9580dcb2ea3\transformed\jetified-image-1.0.0-beta1\AndroidManifest.xml:7:5-20
 	android:extractNativeLibs
 		INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.17.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\22cc7b6a944a59e6be0b44925b88aa3a\transformed\core-1.17.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:36:9-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:38:9-35
 	android:label
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:34:9-41
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:36:9-41
 	android:debuggable
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:32:9-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:34:9-35
 	android:icon
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:33:9-43
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:35:9-43
 	android:allowBackup
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:31:9-36
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:33:9-36
 	android:theme
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:37:9-40
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:39:9-40
 	android:networkSecurityConfig
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:35:9-69
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:37:9-69
 activity#org.pcfx.adapter.android.ui.ConsentActivity
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:41:9-50:20
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:43:9-52:20
 	android:launchMode
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:44:13-43
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:46:13-43
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:43:13-36
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:45:13-36
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:42:13-71
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:44:13-71
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:46:13-49:29
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:48:13-51:29
 action#android.intent.action.MAIN
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:47:17-69
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:49:17-69
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:47:25-66
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:49:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:48:17-77
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:50:17-77
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:48:27-74
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:50:27-74
 activity#org.pcfx.adapter.android.ui.DebugExposureEventsActivity
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:53:9-56:55
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:55:9-58:55
 	android:label
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:56:13-52
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:58:13-52
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:55:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:57:13-37
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:54:13-83
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:56:13-83
 service#org.pcfx.adapter.android.service.AccessibilityMonitorService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:59:9-70:19
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:61:9-72:19
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:61:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:63:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:62:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:64:13-37
 	android:permission
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:63:13-79
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:65:13-79
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:60:13-88
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:62:13-88
 intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:64:13-66:29
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:66:13-68:29
 action#android.accessibilityservice.AccessibilityService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:65:17-92
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:67:17-92
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:65:25-89
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:67:25-89
 meta-data#android.accessibilityservice
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:67:13-69:72
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:69:13-71:72
 	android:resource
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:69:17-69
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:71:17-69
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:68:17-60
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:70:17-60
 service#org.pcfx.adapter.android.service.NotificationListenerService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:73:9-81:19
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:75:9-83:19
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:75:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:77:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:76:13-36
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:78:13-36
 	android:permission
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:77:13-87
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:79:13-87
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:74:13-88
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:76:13-88
 intent-filter#action:name:android.service.notification.NotificationListenerService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:78:13-80:29
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:80:13-82:29
 action#android.service.notification.NotificationListenerService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:79:17-99
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:81:17-99
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:79:25-96
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:81:25-96
 service#org.pcfx.adapter.android.service.EventPublisherService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:84:9-88:56
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:86:9-90:56
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:86:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:88:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:87:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:89:13-37
 	android:foregroundServiceType
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:88:13-53
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:90:13-53
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:85:13-82
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:87:13-82
 service#org.pcfx.adapter.android.recording.VideoRecorderService
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:91:9-95:63
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:93:9-97:63
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:93:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:95:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:94:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:96:13-37
 	android:foregroundServiceType
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:95:13-60
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:97:13-60
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:92:13-83
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:94:13-83
 service#org.pcfx.adapter.android.recording.VideoChunkUploadWorker
-ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:98:9-102:56
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:100:9-104:56
 	android:enabled
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:100:13-35
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:102:13-35
 	android:exported
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:101:13-37
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:103:13-37
 	android:foregroundServiceType
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:102:13-53
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:104:13-53
 	android:name
-		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:99:13-85
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:101:13-85
+service#org.pcfx.adapter.android.screenshot.ScreenshotCaptureService
+ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:107:9-111:63
+	android:enabled
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:109:13-35
+	android:exported
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:110:13-37
+	android:foregroundServiceType
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:111:13-60
+	android:name
+		ADDED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml:108:13-88
 uses-sdk
 INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml
@@ -274,6 +333,26 @@ MERGED from [androidx.appcompat:appcompat:1.7.1] C:\Users\Asus\.gradle\caches\8.
 MERGED from [androidx.appcompat:appcompat:1.7.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3eb3008ba9a2e25dc29bac9548e55ced\transformed\appcompat-1.7.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\cd700422330b9cf8d85def06799551a8\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\cd700422330b9cf8d85def06799551a8\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.mlkit:text-recognition:16.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\9fd6a85b67e4e2e8d135ec1482f71ed2\transformed\jetified-text-recognition-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.mlkit:text-recognition:16.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\9fd6a85b67e4e2e8d135ec1482f71ed2\transformed\jetified-text-recognition-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-mlkit-text-recognition:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\bfba7184ed25ab6df3d92c44429df7f8\transformed\jetified-play-services-mlkit-text-recognition-19.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.android.gms:play-services-mlkit-text-recognition:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\bfba7184ed25ab6df3d92c44429df7f8\transformed\jetified-play-services-mlkit-text-recognition-19.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.mlkit:text-recognition-bundled-common:16.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\9603867b0345e2da5e7f079133bb1786\transformed\jetified-text-recognition-bundled-common-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.mlkit:text-recognition-bundled-common:16.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\9603867b0345e2da5e7f079133bb1786\transformed\jetified-text-recognition-bundled-common-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.mlkit:vision-interfaces:16.2.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\8cc685be36d7336bdc5bbc7a793a1dc6\transformed\jetified-vision-interfaces-16.2.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.mlkit:vision-interfaces:16.2.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\8cc685be36d7336bdc5bbc7a793a1dc6\transformed\jetified-vision-interfaces-16.2.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e78445486e2a9c74f7459ef9e03ca38a\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e78445486e2a9c74f7459ef9e03ca38a\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\b17262a06dead5c3873855190b849383\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\b17262a06dead5c3873855190b849383\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
 MERGED from [androidx.fragment:fragment:1.5.4] C:\Users\Asus\.gradle\caches\8.14.3\transforms\5d3baef376af9c2c6df92abc9be5d47c\transformed\fragment-1.5.4\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.5.4] C:\Users\Asus\.gradle\caches\8.14.3\transforms\5d3baef376af9c2c6df92abc9be5d47c\transformed\fragment-1.5.4\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\6241d6a2d21c888cf3781d6910766fbb\transformed\jetified-activity-1.8.0\AndroidManifest.xml:20:5-44
@@ -356,16 +435,86 @@ MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Asus\.gradle\caches\8.14
 MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\050b894e5946b2df86abd2da6c9ea4c7\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\f414aa3b4e900c09b2f436dbbf3f6e4a\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\f414aa3b4e900c09b2f436dbbf3f6e4a\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-api:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\281c6d54a4a252cf73512b0c5277dfc7\transformed\jetified-transport-api-2.2.1\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-api:2.2.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\281c6d54a4a252cf73512b0c5277dfc7\transformed\jetified-transport-api-2.2.1\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-components:16.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\4b74c0fe727e94147266bd529629323f\transformed\jetified-firebase-components-16.1.0\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-components:16.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\4b74c0fe727e94147266bd529629323f\transformed\jetified-firebase-components-16.1.0\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-encoders-json:17.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\67df434da5d35c17bbc60815db7ffcdf\transformed\jetified-firebase-encoders-json-17.1.0\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-encoders-json:17.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\67df434da5d35c17bbc60815db7ffcdf\transformed\jetified-firebase-encoders-json-17.1.0\AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.sqlite:sqlite-framework-android:2.6.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\49ab3bb5e7fb830f2a3c9255bf8bd6b8\transformed\jetified-sqlite-framework\AndroidManifest.xml:20:5-44
 MERGED from [androidx.sqlite:sqlite-framework-android:2.6.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\49ab3bb5e7fb830f2a3c9255bf8bd6b8\transformed\jetified-sqlite-framework\AndroidManifest.xml:20:5-44
 MERGED from [androidx.sqlite:sqlite-android:2.6.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\6802fe50de4c3da707812f56940c8b0a\transformed\jetified-sqlite\AndroidManifest.xml:20:5-44
 MERGED from [androidx.sqlite:sqlite-android:2.6.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\6802fe50de4c3da707812f56940c8b0a\transformed\jetified-sqlite\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\0b372319bbc7741e19b5e4dd5254361c\transformed\exifinterface-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\0b372319bbc7741e19b5e4dd5254361c\transformed\exifinterface-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.github.tony19:logback-android:3.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\5b20a47405caa9f04e5bc30ef095c082\transformed\jetified-logback-android-3.0.0\AndroidManifest.xml:5:5-43
 MERGED from [com.github.tony19:logback-android:3.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\5b20a47405caa9f04e5bc30ef095c082\transformed\jetified-logback-android-3.0.0\AndroidManifest.xml:5:5-43
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\51cac9a62e75acdda60ff9580dcb2ea3\transformed\jetified-image-1.0.0-beta1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\51cac9a62e75acdda60ff9580dcb2ea3\transformed\jetified-image-1.0.0-beta1\AndroidManifest.xml:5:5-44
 	android:targetSdkVersion
 		INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from C:\CODE\PCFX\implementations\Adapters\Android-A1\src\main\AndroidManifest.xml
+service#com.google.mlkit.common.internal.MlKitComponentDiscoveryService
+ADDED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:15:9-23:19
+MERGED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:15:9-23:19
+	android:exported
+		ADDED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:11:13-37
+	tools:targetApi
+		ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:19:13-32
+	android:directBootAware
+		ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:17:13-43
+	android:name
+		ADDED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:10:13-91
+meta-data#com.google.firebase.components:com.google.mlkit.vision.text.internal.TextRegistrar
+ADDED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:12:13-14:85
+	android:value
+		ADDED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:14:17-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\58fadeab849c930429c391f0496a23ae\transformed\jetified-play-services-mlkit-text-recognition-common-19.0.0\AndroidManifest.xml:13:17-114
+meta-data#com.google.firebase.components:com.google.mlkit.vision.common.internal.VisionCommonRegistrar
+ADDED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:12:13-14:85
+	android:value
+		ADDED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:14:17-82
+	android:name
+		ADDED from [com.google.mlkit:vision-common:17.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\fc3fa4e6b39db35d5c085c3c6700dcc2\transformed\jetified-vision-common-17.3.0\AndroidManifest.xml:13:17-124
+provider#com.google.mlkit.common.internal.MlKitInitProvider
+ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:9:9-13:38
+	android:authorities
+		ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:11:13-69
+	android:exported
+		ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:12:13-37
+	android:initOrder
+		ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:13:13-35
+	android:name
+		ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:10:13-78
+meta-data#com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar
+ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:20:13-22:85
+	android:value
+		ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:22:17-82
+	android:name
+		ADDED from [com.google.mlkit:common:18.8.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\676b50535429cf3b312c7c200f527f93\transformed\jetified-common-18.8.0\AndroidManifest.xml:21:17-120
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\e15759822f7ca8359471093e50390235\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\b17262a06dead5c3873855190b849383\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\b17262a06dead5c3873855190b849383\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\b17262a06dead5c3873855190b849383\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
 provider#androidx.startup.InitializationProvider
 ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\98c4f810252e20e83f37fc0174a5005f\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
 MERGED from [androidx.work:work-runtime:2.9.1] C:\Users\Asus\.gradle\caches\8.14.3\transforms\35d8fbfa9ebaa62fef8b60c3a4a0d053\transformed\work-runtime-2.9.1\AndroidManifest.xml:29:9-37:20
@@ -692,3 +841,31 @@ action#androidx.profileinstaller.action.BENCHMARK_OPERATION
 ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\69353e49fd567d21f7bd971cf0d4dc9c\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
 	android:name
 		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Asus\.gradle\caches\8.14.3\transforms\69353e49fd567d21f7bd971cf0d4dc9c\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+service#com.google.android.datatransport.runtime.backends.TransportBackendDiscovery
+ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:29:9-35:19
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:36:9-38:40
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:36:9-38:40
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:31:13-37
+	android:name
+		ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:30:13-103
+meta-data#backend:com.google.android.datatransport.cct.CctBackendFactory
+ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:32:13-34:39
+	android:value
+		ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:34:17-36
+	android:name
+		ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Asus\.gradle\caches\8.14.3\transforms\feae72ded193c4df4cf8c2dc3a8a759c\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:33:17-94
+service#com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService
+ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:26:9-30:19
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:28:13-37
+	android:permission
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:29:13-69
+	android:name
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:27:13-117
+receiver#com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver
+ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:32:9-34:40
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:34:13-37
+	android:name
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Asus\.gradle\caches\8.14.3\transforms\3dce9e107a3006fd8f4b22bbb58993fb\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:33:13-132

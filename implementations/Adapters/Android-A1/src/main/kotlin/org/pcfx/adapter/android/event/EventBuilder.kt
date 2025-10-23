@@ -201,6 +201,64 @@ class EventBuilder(private val context: Context) {
         )
     }
 
+    fun buildScreenshotTextEvent(
+        extractedText: String,
+        textLanguage: String = "en",
+        ocrConfidence: Float = 0.5f,
+        ocrBlockCount: Int = 0,
+        consentId: String,
+        retentionDays: Int,
+        previousEventId: String? = null
+    ): ExposureEvent {
+        val capabilities = if (previousEventId != null) {
+            listOf("screen.ocr.read", "screen.ocr.deduplicate")
+        } else {
+            listOf("screen.ocr.read")
+        }
+
+        val source = ExposureEvent.Source(
+            surface = "android-screenshot",
+            app = null,
+            url = null,
+            frame = if (previousEventId != null) "duplicate" else "unique"
+        )
+
+        val content = ExposureEvent.Content(
+            kind = "ocr-text",
+            text = extractedText,
+            lang = textLanguage,
+            blobRef = null
+        )
+
+        val extensions = mutableMapOf<String, Any>(
+            "ocr_confidence" to ocrConfidence,
+            "ocr_block_count" to ocrBlockCount,
+            "ocr_text_length" to extractedText.length
+        )
+
+        if (previousEventId != null) {
+            extensions["duplicate_of_event_id"] = previousEventId
+        }
+
+        val event = ExposureEvent(
+            source = source,
+            content = content,
+            device = getDeviceIdentifier(),
+            adapterId = ADAPTER_ID,
+            capabilitiesUsed = capabilities,
+            privacy = ExposureEvent.Privacy(
+                consentId = consentId,
+                piiFlags = emptyList(),
+                retentionDays = retentionDays
+            ),
+            signature = "",
+            extensions = extensions
+        )
+
+        val signature = signEvent(event)
+        return event.copy(signature = signature)
+    }
+
     private fun createEvent(
         source: ExposureEvent.Source,
         content: ExposureEvent.Content,

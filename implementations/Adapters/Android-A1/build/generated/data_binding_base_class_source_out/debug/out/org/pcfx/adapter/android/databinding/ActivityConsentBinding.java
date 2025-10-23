@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,6 +60,12 @@ public final class ActivityConsentBinding implements ViewBinding {
   public final Button regenerateKeyBtn;
 
   @NonNull
+  public final Spinner screenshotIntervalSpinner;
+
+  @NonNull
+  public final Switch screenshotToggle;
+
+  @NonNull
   public final Button videoRecordingButton;
 
   private ActivityConsentBinding(@NonNull ScrollView rootView,
@@ -67,6 +75,7 @@ public final class ActivityConsentBinding implements ViewBinding {
       @NonNull TextView consentTitle, @NonNull Button debugButton,
       @NonNull Button enableAccessibilityButton, @NonNull ImageView pdvStatusIcon,
       @NonNull TextView pdvStatusText, @NonNull Button regenerateKeyBtn,
+      @NonNull Spinner screenshotIntervalSpinner, @NonNull Switch screenshotToggle,
       @NonNull Button videoRecordingButton) {
     this.rootView = rootView;
     this.accessibilityStatusText = accessibilityStatusText;
@@ -81,6 +90,8 @@ public final class ActivityConsentBinding implements ViewBinding {
     this.pdvStatusIcon = pdvStatusIcon;
     this.pdvStatusText = pdvStatusText;
     this.regenerateKeyBtn = regenerateKeyBtn;
+    this.screenshotIntervalSpinner = screenshotIntervalSpinner;
+    this.screenshotToggle = screenshotToggle;
     this.videoRecordingButton = videoRecordingButton;
   }
 
@@ -183,6 +194,18 @@ public final class ActivityConsentBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.screenshot_interval_spinner;
+      Spinner screenshotIntervalSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (screenshotIntervalSpinner == null) {
+        break missingId;
+      }
+
+      id = R.id.screenshot_toggle;
+      Switch screenshotToggle = ViewBindings.findChildViewById(rootView, id);
+      if (screenshotToggle == null) {
+        break missingId;
+      }
+
       id = R.id.video_recording_button;
       Button videoRecordingButton = ViewBindings.findChildViewById(rootView, id);
       if (videoRecordingButton == null) {
@@ -192,7 +215,7 @@ public final class ActivityConsentBinding implements ViewBinding {
       return new ActivityConsentBinding((ScrollView) rootView, accessibilityStatusText,
           consentAcceptBtn, consentDeclineBtn, consentDescription, consentGrants, consentStatusBtn,
           consentTitle, debugButton, enableAccessibilityButton, pdvStatusIcon, pdvStatusText,
-          regenerateKeyBtn, videoRecordingButton);
+          regenerateKeyBtn, screenshotIntervalSpinner, screenshotToggle, videoRecordingButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

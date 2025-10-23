@@ -21,6 +21,8 @@ id loading_text
 id pdv_status_icon
 id pdv_status_text
 id regenerate_key_btn
+id screenshot_interval_spinner
+id screenshot_toggle
 id video_recording_button
 layout activity_consent
 layout activity_debug_exposure_events
