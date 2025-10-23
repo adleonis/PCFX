@@ -20,6 +20,9 @@ interface AtomDao {
     @Query("SELECT * FROM atoms ORDER BY ts DESC LIMIT :limit")
     suspend fun getRecentAtoms(limit: Int): List<AtomEntity>
 
+    @Query("SELECT * FROM atoms ORDER BY ts DESC LIMIT :limit OFFSET :offset")
+    suspend fun getRecentAtomsWithOffset(limit: Int, offset: Int): List<AtomEntity>
+
     @Query("SELECT COUNT(*) FROM atoms")
     suspend fun getAtomCount(): Int
 

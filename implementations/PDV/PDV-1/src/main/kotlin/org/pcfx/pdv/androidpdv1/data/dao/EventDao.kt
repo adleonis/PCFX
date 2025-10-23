@@ -20,6 +20,9 @@ interface EventDao {
     @Query("SELECT * FROM events ORDER BY ts DESC LIMIT :limit")
     suspend fun getRecentEvents(limit: Int): List<EventEntity>
 
+    @Query("SELECT * FROM events ORDER BY ts DESC LIMIT :limit OFFSET :offset")
+    suspend fun getRecentEventsWithOffset(limit: Int, offset: Int): List<EventEntity>
+
     @Query("SELECT COUNT(*) FROM events")
     suspend fun getEventCount(): Int
 

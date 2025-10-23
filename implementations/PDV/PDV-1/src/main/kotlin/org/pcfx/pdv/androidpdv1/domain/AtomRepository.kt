@@ -54,6 +54,28 @@ class AtomRepository(private val atomDao: AtomDao) {
         }
     }
 
+    suspend fun getRecentAtoms(limit: Int, offset: Int = 0): List<Map<String, Any>> {
+        return try {
+            val atoms = if (offset == 0) {
+                atomDao.getRecentAtoms(limit)
+            } else {
+                atomDao.getRecentAtomsWithOffset(limit, offset)
+            }
+            atoms.map { atom ->
+                val atomJson = gson.fromJson(atom.atomJson, Map::class.java) as? Map<String, Any> ?: emptyMap()
+                mapOf(
+                    "id" to atom.id,
+                    "ts" to atom.ts,
+                    "node_id" to atom.nodeId,
+                    "atom" to atomJson
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting recent atoms", e)
+            emptyList()
+        }
+    }
+
     suspend fun getAtomById(id: String): AtomEntity? {
         return try {
             atomDao.getAtomById(id)

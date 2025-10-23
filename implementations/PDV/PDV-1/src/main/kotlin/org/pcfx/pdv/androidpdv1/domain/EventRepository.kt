@@ -57,6 +57,29 @@ class EventRepository(private val eventDao: EventDao) {
         }
     }
 
+    suspend fun getRecentEvents(limit: Int, offset: Int = 0): List<Map<String, Any>> {
+        return try {
+            val events = if (offset == 0) {
+                eventDao.getRecentEvents(limit)
+            } else {
+                eventDao.getRecentEventsWithOffset(limit, offset)
+            }
+            events.map { event ->
+                val eventJson = gson.fromJson(event.eventJson, Map::class.java) as? Map<String, Any> ?: emptyMap()
+                mapOf(
+                    "id" to event.id,
+                    "ts" to event.ts,
+                    "device" to event.device,
+                    "adapter_id" to event.adapterId,
+                    "event" to eventJson
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting recent events", e)
+            emptyList()
+        }
+    }
+
     suspend fun getEventById(id: String): EventEntity? {
         return try {
             eventDao.getEventById(id)

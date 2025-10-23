@@ -1,58 +1,62 @@
 [
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-xhdpi_ic_launcher_round.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-xhdpi/ic_launcher_round.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-hdpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-hdpi\\ic_launcher_round.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-hdpi_ic_launcher_round.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-hdpi/ic_launcher_round.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\drawable\\ic_launcher_background.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-hdpi_ic_launcher.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-hdpi/ic_launcher.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-xhdpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-xhdpi\\ic_launcher_round.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-xxhdpi_ic_launcher.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-xxhdpi/ic_launcher.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\drawable\\ic_launcher_foreground.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-xxxhdpi_ic_launcher_round.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-xxxhdpi/ic_launcher_round.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-hdpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-hdpi\\ic_launcher.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/drawable_ic_launcher_background.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/drawable/ic_launcher_background.xml"
+        "merged": "org.pcfx.client.c1-debug-4:/xml_network_security_config.xml.flat",
+        "source": "org.pcfx.client.c1-main-6:/xml/network_security_config.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-mdpi_ic_launcher.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-mdpi/ic_launcher.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-xxhdpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-xxhdpi\\ic_launcher_round.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-xhdpi_ic_launcher.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-xhdpi/ic_launcher.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-xxhdpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-xxhdpi\\ic_launcher.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-xxxhdpi_ic_launcher.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-xxxhdpi/ic_launcher.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-xxxhdpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-xxxhdpi\\ic_launcher_round.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-xhdpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-xhdpi\\ic_launcher.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-xxhdpi_ic_launcher_round.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-xxhdpi/ic_launcher_round.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-mdpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-mdpi\\ic_launcher.xml"
     },
     {
-        "merged": "org.pcfx.client.c1-debug-4:/mipmap-mdpi_ic_launcher_round.xml.flat",
-        "source": "org.pcfx.client.c1-main-6:/mipmap-mdpi/ic_launcher_round.xml"
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-mdpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-mdpi\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-debug-4:\\mipmap-xxxhdpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.13\\org.pcfx.client.c1-main-6:\\mipmap-xxxhdpi\\ic_launcher.xml"
     }
 ]

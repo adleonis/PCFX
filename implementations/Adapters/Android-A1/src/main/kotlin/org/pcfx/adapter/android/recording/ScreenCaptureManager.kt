@@ -37,6 +37,7 @@ class ScreenCaptureManager(
                 null,
                 null
             )
+            android.util.Log.d("ScreenCaptureManager", "Virtual display created successfully")
             virtualDisplay
         } catch (e: Exception) {
             android.util.Log.e("ScreenCaptureManager", "Error creating virtual display", e)
@@ -45,7 +46,12 @@ class ScreenCaptureManager(
     }
 
     fun releaseVirtualDisplay() {
-        virtualDisplay?.release()
+        try {
+            virtualDisplay?.release()
+            android.util.Log.d("ScreenCaptureManager", "Virtual display released")
+        } catch (e: Exception) {
+            android.util.Log.e("ScreenCaptureManager", "Error releasing virtual display", e)
+        }
         virtualDisplay = null
     }
 

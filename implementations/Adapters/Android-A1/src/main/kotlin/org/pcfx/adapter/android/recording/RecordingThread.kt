@@ -24,17 +24,19 @@ class RecordingThread(
         chunkManager = VideoChunkManager(context, recordingDir, targetChunkDurationMs = 5000)
         chunkManager.resetForNewRecording()
 
+        var screenCapture: ScreenCaptureManager? = null
+        var encoder: VideoEncoder? = null
+
         try {
-            val screenCapture = ScreenCaptureManager(
+            screenCapture = ScreenCaptureManager(
                 context,
                 mediaProjection,
                 config
             )
 
-            var encoder: VideoEncoder? = null
-            var currentChunk = chunkManager.createNewChunk()
+            val primaryChunk = chunkManager.createNewChunk()
 
-            encoder = VideoEncoder(currentChunk.file, config)
+            encoder = VideoEncoder(primaryChunk.file, config)
             if (!encoder.initialize()) {
                 stateManager.setState(RecordingState.Error("Failed to initialize encoder"))
                 encoder.stop()
@@ -55,7 +57,7 @@ class RecordingThread(
                 return
             }
 
-            var framesSinceChunkStart = 0
+            var frameCount = 0
 
             while (isRunning.get()) {
                 if (isPaused.get()) {
@@ -67,38 +69,7 @@ class RecordingThread(
                 }
 
                 encoder?.let { enc ->
-                    val framesInDrain = enc.drainEncoderForChunk(endOfChunk = false)
-                    framesSinceChunkStart += framesInDrain
-
-                    if (framesSinceChunkStart >= targetFramesPerChunk && isRunning.get()) {
-                        finalizeChunkAndStartNew(enc, chunkManager)
-                        currentChunk = chunkManager.createNewChunk()
-                        enc.stop()
-                        encoder = VideoEncoder(currentChunk.file, config)
-                        val newEncoder = encoder
-                        if (newEncoder == null || !newEncoder.initialize()) {
-                            stateManager.setState(RecordingState.Error("Failed to reinitialize encoder for new chunk"))
-                            newEncoder?.stop()
-                            screenCapture.releaseVirtualDisplay()
-                            return
-                        }
-                        val newInputSurface = newEncoder.getInputSurface()
-                        if (newInputSurface == null) {
-                            stateManager.setState(RecordingState.Error("Failed to get input surface for new chunk"))
-                            newEncoder.stop()
-                            screenCapture.releaseVirtualDisplay()
-                            return
-                        }
-                        screenCapture.releaseVirtualDisplay()
-                        val newVirtualDisplay = screenCapture.createVirtualDisplay(newInputSurface)
-                        if (newVirtualDisplay == null) {
-                            stateManager.setState(RecordingState.Error("Failed to create virtual display for new chunk"))
-                            newEncoder.stop()
-                            return
-                        }
-                        framesSinceChunkStart = 0
-                        Log.d(TAG, "Transitioned to new chunk, total chunks created: ${chunkManager.getAllChunks().size}")
-                    }
+                    frameCount += enc.drainEncoderForChunk(endOfChunk = false)
                 } ?: run {
                     stateManager.setState(RecordingState.Error("Encoder not initialized"))
                     return
@@ -108,10 +79,13 @@ class RecordingThread(
             }
 
             encoder?.let { enc ->
-                finalizeChunkAndStartNew(enc, chunkManager)
+                enc.drainEncoderForChunk(endOfChunk = true)
                 enc.stop()
+                chunkManager.finalizeCurrentChunk(frameCount)
+                Log.d(TAG, "Finalized recording with $frameCount total frames")
             }
-            screenCapture.releaseVirtualDisplay()
+
+            screenCapture?.releaseVirtualDisplay()
 
             Log.d(TAG, "Recording completed successfully. Total chunks: ${chunkManager.getAllChunks().size}")
             stateManager.setState(RecordingState.Idle)
@@ -119,6 +93,8 @@ class RecordingThread(
             Log.e(TAG, "Error during recording", e)
             stateManager.setState(RecordingState.Error("Recording failed: ${e.message}", e))
         } finally {
+            encoder?.stop()
+            screenCapture?.releaseVirtualDisplay()
             isRunning.set(false)
         }
     }

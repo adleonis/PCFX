@@ -1,5 +1,6 @@
 package org.pcfx.client.c1.ui.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +12,13 @@ import kotlinx.coroutines.launch
 import org.pcfx.client.c1.config.ClientBuildConfig
 import org.pcfx.client.c1.data.network.PDVClient
 import org.pcfx.client.c1.data.preferences.SettingsPreferences
+import org.pcfx.client.c1.network.PDVHealthCheckClient
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+
+enum class HealthCheckStatus {
+    CHECKING, HEALTHY, UNHEALTHY, UNKNOWN
+}
 
 data class SettingsState(
     val pdvHost: String = ClientBuildConfig.DEFAULT_PDV_HOST,
@@ -23,20 +30,25 @@ data class SettingsState(
     val isSearching: Boolean = false,
     val appId: String = ClientBuildConfig.UNIQUE_APP_ID,
     val appVersion: String = ClientBuildConfig.APP_VERSION,
-    val successMessage: String? = null
+    val successMessage: String? = null,
+    val healthCheckStatus: HealthCheckStatus = HealthCheckStatus.UNKNOWN,
+    val healthCheckMessage: String? = null,
+    val isCheckingHealth: Boolean = false
 )
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsPreferences: SettingsPreferences,
-    private val pdvClient: PDVClient
+    private val pdvClient: PDVClient,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
-    
+
     private val _state = MutableStateFlow(SettingsState())
     val state: StateFlow<SettingsState> = _state.asStateFlow()
 
     init {
         loadSettings()
+        performHealthCheck()
     }
 
     private fun loadSettings() {
@@ -136,6 +148,47 @@ class SettingsViewModel @Inject constructor(
 
     fun clearMessage() {
         _state.value = _state.value.copy(successMessage = null)
+    }
+
+    fun performHealthCheck() {
+        viewModelScope.launch {
+            try {
+                _state.value = _state.value.copy(
+                    isCheckingHealth = true,
+                    healthCheckStatus = HealthCheckStatus.CHECKING
+                )
+                Log.i(TAG, "Performing health check...")
+
+                val healthCheckClient = PDVHealthCheckClient.getInstance(context)
+                val isHealthy = healthCheckClient.sendHealthCheck(
+                    pdvHost = _state.value.pdvHost,
+                    pdvPort = _state.value.pdvPort
+                )
+
+                if (isHealthy) {
+                    _state.value = _state.value.copy(
+                        healthCheckStatus = HealthCheckStatus.HEALTHY,
+                        healthCheckMessage = "PDV server is healthy and reachable",
+                        isCheckingHealth = false
+                    )
+                    Log.i(TAG, "Health check successful")
+                } else {
+                    _state.value = _state.value.copy(
+                        healthCheckStatus = HealthCheckStatus.UNHEALTHY,
+                        healthCheckMessage = "PDV server is not responding",
+                        isCheckingHealth = false
+                    )
+                    Log.w(TAG, "Health check failed")
+                }
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    healthCheckStatus = HealthCheckStatus.UNHEALTHY,
+                    healthCheckMessage = "Error: ${e.message}",
+                    isCheckingHealth = false
+                )
+                Log.e(TAG, "Health check error", e)
+            }
+        }
     }
 
     companion object {

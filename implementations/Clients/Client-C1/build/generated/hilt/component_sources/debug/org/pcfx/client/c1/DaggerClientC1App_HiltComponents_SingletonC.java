@@ -401,30 +401,30 @@ public final class DaggerClientC1App_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel = "org.pcfx.client.c1.ui.viewmodel.ActivityFeedViewModel";
-
-      static String org_pcfx_client_c1_ui_viewmodel_SettingsViewModel = "org.pcfx.client.c1.ui.viewmodel.SettingsViewModel";
-
       static String org_pcfx_client_c1_ui_viewmodel_EventsViewModel = "org.pcfx.client.c1.ui.viewmodel.EventsViewModel";
+
+      static String org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel = "org.pcfx.client.c1.ui.viewmodel.ActivityFeedViewModel";
 
       static String org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel = "org.pcfx.client.c1.ui.viewmodel.StatisticsViewModel";
 
       static String org_pcfx_client_c1_ui_viewmodel_InsightsViewModel = "org.pcfx.client.c1.ui.viewmodel.InsightsViewModel";
 
-      @KeepFieldType
-      ActivityFeedViewModel org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel2;
-
-      @KeepFieldType
-      SettingsViewModel org_pcfx_client_c1_ui_viewmodel_SettingsViewModel2;
+      static String org_pcfx_client_c1_ui_viewmodel_SettingsViewModel = "org.pcfx.client.c1.ui.viewmodel.SettingsViewModel";
 
       @KeepFieldType
       EventsViewModel org_pcfx_client_c1_ui_viewmodel_EventsViewModel2;
+
+      @KeepFieldType
+      ActivityFeedViewModel org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel2;
 
       @KeepFieldType
       StatisticsViewModel org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel2;
 
       @KeepFieldType
       InsightsViewModel org_pcfx_client_c1_ui_viewmodel_InsightsViewModel2;
+
+      @KeepFieldType
+      SettingsViewModel org_pcfx_client_c1_ui_viewmodel_SettingsViewModel2;
     }
   }
 
@@ -477,30 +477,30 @@ public final class DaggerClientC1App_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
+      static String org_pcfx_client_c1_ui_viewmodel_EventsViewModel = "org.pcfx.client.c1.ui.viewmodel.EventsViewModel";
+
       static String org_pcfx_client_c1_ui_viewmodel_InsightsViewModel = "org.pcfx.client.c1.ui.viewmodel.InsightsViewModel";
+
+      static String org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel = "org.pcfx.client.c1.ui.viewmodel.StatisticsViewModel";
 
       static String org_pcfx_client_c1_ui_viewmodel_SettingsViewModel = "org.pcfx.client.c1.ui.viewmodel.SettingsViewModel";
 
       static String org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel = "org.pcfx.client.c1.ui.viewmodel.ActivityFeedViewModel";
 
-      static String org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel = "org.pcfx.client.c1.ui.viewmodel.StatisticsViewModel";
-
-      static String org_pcfx_client_c1_ui_viewmodel_EventsViewModel = "org.pcfx.client.c1.ui.viewmodel.EventsViewModel";
+      @KeepFieldType
+      EventsViewModel org_pcfx_client_c1_ui_viewmodel_EventsViewModel2;
 
       @KeepFieldType
       InsightsViewModel org_pcfx_client_c1_ui_viewmodel_InsightsViewModel2;
+
+      @KeepFieldType
+      StatisticsViewModel org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel2;
 
       @KeepFieldType
       SettingsViewModel org_pcfx_client_c1_ui_viewmodel_SettingsViewModel2;
 
       @KeepFieldType
       ActivityFeedViewModel org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel2;
-
-      @KeepFieldType
-      StatisticsViewModel org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel2;
-
-      @KeepFieldType
-      EventsViewModel org_pcfx_client_c1_ui_viewmodel_EventsViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -534,7 +534,7 @@ public final class DaggerClientC1App_HiltComponents_SingletonC {
           return (T) new InsightsViewModel(singletonCImpl.providePDVClientProvider.get());
 
           case 3: // org.pcfx.client.c1.ui.viewmodel.SettingsViewModel 
-          return (T) new SettingsViewModel(singletonCImpl.provideSettingsPreferencesProvider.get(), singletonCImpl.providePDVClientProvider.get());
+          return (T) new SettingsViewModel(singletonCImpl.provideSettingsPreferencesProvider.get(), singletonCImpl.providePDVClientProvider.get(), ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
           case 4: // org.pcfx.client.c1.ui.viewmodel.StatisticsViewModel 
           return (T) new StatisticsViewModel(singletonCImpl.providePDVClientProvider.get());
@@ -651,7 +651,7 @@ public final class DaggerClientC1App_HiltComponents_SingletonC {
     }
 
     @Override
-    public void injectClientC1App(ClientC1App arg0) {
+    public void injectClientC1App(ClientC1App clientC1App) {
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {

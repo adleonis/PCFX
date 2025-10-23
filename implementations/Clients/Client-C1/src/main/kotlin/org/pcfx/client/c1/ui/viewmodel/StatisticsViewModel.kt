@@ -48,9 +48,9 @@ class StatisticsViewModel @Inject constructor(
                 val eventsByContentKind = mutableMapOf<String, Int>()
                 
                 statsResult.onSuccess { stats ->
-                    totalEvents = (stats["event_count"] as? Number)?.toInt() ?: 0
-                    totalAtoms = (stats["atom_count"] as? Number)?.toInt() ?: 0
-                    totalMetrics = (stats["metric_count"] as? Number)?.toInt() ?: 0
+                    totalEvents = (stats["events"] as? Number)?.toInt() ?: 0
+                    totalAtoms = (stats["atoms"] as? Number)?.toInt() ?: 0
+                    totalMetrics = (stats["metrics"] as? Number)?.toInt() ?: 0
                 }
                 
                 eventsResult.onSuccess { eventResponse ->

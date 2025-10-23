@@ -113,9 +113,17 @@ class PdvServer(private val context: Context, private val port: Int = 7777) {
 
             get("/events") {
                 try {
-                    val since = call.request.queryParameters["since"] ?: "1970-01-01T00:00:00Z"
                     val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 64
-                    val events = eventRepo.getEventsSince(since, limit)
+                    val order = call.request.queryParameters["order"] ?: "recent"
+
+                    val events = if (order == "recent") {
+                        val offset = call.request.queryParameters["offset"]?.toIntOrNull() ?: 0
+                        eventRepo.getRecentEvents(limit, offset)
+                    } else {
+                        val since = call.request.queryParameters["since"] ?: "1970-01-01T00:00:00Z"
+                        eventRepo.getEventsSince(since, limit)
+                    }
+
                     Log.d(TAG, "Fetched ${events.size} events, serializing response")
 
                     val eventsJson = gson.toJson(events)
@@ -154,9 +162,17 @@ class PdvServer(private val context: Context, private val port: Int = 7777) {
 
             get("/atoms") {
                 try {
-                    val since = call.request.queryParameters["since"] ?: "1970-01-01T00:00:00Z"
                     val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 64
-                    val atoms = atomRepo.getAtomsSince(since, limit)
+                    val order = call.request.queryParameters["order"] ?: "recent"
+
+                    val atoms = if (order == "recent") {
+                        val offset = call.request.queryParameters["offset"]?.toIntOrNull() ?: 0
+                        atomRepo.getRecentAtoms(limit, offset)
+                    } else {
+                        val since = call.request.queryParameters["since"] ?: "1970-01-01T00:00:00Z"
+                        atomRepo.getAtomsSince(since, limit)
+                    }
+
                     val atomsJson = gson.toJson(atoms)
                     val responseJson = """{"atoms":$atomsJson,"count":${atoms.size}}"""
                     call.respondText(responseJson, contentType = ContentType.Application.Json)

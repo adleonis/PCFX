@@ -73,32 +73,34 @@ class PDVClient(private val context: Context) {
                 capabilitiesUsed = capabilitiesUsed
             )
 
-            when {
-                response.isSuccessful -> Result.Success(event.id)
-                response.code in 500..599 && retryCount < maxRetries -> {
-                    val backoffMs = calculateBackoff(retryCount)
-                    delay(backoffMs)
-                    postEventWithRetry(
-                        event = event,
-                        eventJson = eventJson,
-                        adapterId = adapterId,
-                        consentId = consentId,
-                        capabilitiesUsed = capabilitiesUsed,
-                        retryCount = retryCount + 1,
-                        maxRetries = maxRetries
-                    )
-                }
-                response.code in 400..499 -> {
-                    Result.Failure(
-                        "Client error ${response.code}: ${response.message}",
-                        isRetryable = false
-                    )
-                }
-                else -> {
-                    Result.Failure(
-                        "Server error ${response.code}: ${response.message}",
-                        isRetryable = true
-                    )
+            response.use { resp ->
+                when {
+                    resp.isSuccessful -> Result.Success(event.id)
+                    resp.code in 500..599 && retryCount < maxRetries -> {
+                        val backoffMs = calculateBackoff(retryCount)
+                        delay(backoffMs)
+                        postEventWithRetry(
+                            event = event,
+                            eventJson = eventJson,
+                            adapterId = adapterId,
+                            consentId = consentId,
+                            capabilitiesUsed = capabilitiesUsed,
+                            retryCount = retryCount + 1,
+                            maxRetries = maxRetries
+                        )
+                    }
+                    resp.code in 400..499 -> {
+                        Result.Failure(
+                            "Client error ${resp.code}: ${resp.message}",
+                            isRetryable = false
+                        )
+                    }
+                    else -> {
+                        Result.Failure(
+                            "Server error ${resp.code}: ${resp.message}",
+                            isRetryable = true
+                        )
+                    }
                 }
             }
         } catch (e: IOException) {
@@ -177,8 +179,7 @@ class PDVClient(private val context: Context) {
         maxRetries: Int
     ): Result {
         return try {
-            val hash = calculateSha256(blobData)
-            val url = "${getPDVUrl()}/blobs/$hash"
+            val url = "${getPDVUrl()}/blobs"
             val nonce = generateNonce()
 
             val headers = mapOf(
@@ -193,7 +194,7 @@ class PDVClient(private val context: Context) {
             val requestBody = blobData.toRequestBody(contentType.toMediaType())
             val requestBuilder = Request.Builder()
                 .url(url)
-                .put(requestBody)
+                .post(requestBody)
 
             headers.forEach { (key, value) ->
                 requestBuilder.header(key, value)
@@ -201,21 +202,32 @@ class PDVClient(private val context: Context) {
 
             val response = client.newCall(requestBuilder.build()).execute()
 
-            when {
-                response.isSuccessful -> Result.Success(hash)
-                response.code in 500..599 && retryCount < maxRetries -> {
-                    val backoffMs = calculateBackoff(retryCount)
-                    delay(backoffMs)
-                    postBlobWithRetry(
-                        blobData = blobData,
-                        contentType = contentType,
-                        adapterId = adapterId,
-                        consentId = consentId,
-                        retryCount = retryCount + 1,
-                        maxRetries = maxRetries
-                    )
+            response.use { resp ->
+                when {
+                    resp.isSuccessful -> {
+                        val responseBody = resp.body?.string() ?: ""
+                        val hashFromResponse = try {
+                            val jsonMap = com.google.gson.JsonParser.parseString(responseBody).asJsonObject
+                            jsonMap.get("hash")?.asString ?: calculateSha256(blobData)
+                        } catch (e: Exception) {
+                            calculateSha256(blobData)
+                        }
+                        Result.Success(hashFromResponse)
+                    }
+                    resp.code in 500..599 && retryCount < maxRetries -> {
+                        val backoffMs = calculateBackoff(retryCount)
+                        delay(backoffMs)
+                        postBlobWithRetry(
+                            blobData = blobData,
+                            contentType = contentType,
+                            adapterId = adapterId,
+                            consentId = consentId,
+                            retryCount = retryCount + 1,
+                            maxRetries = maxRetries
+                        )
+                    }
+                    else -> Result.Failure("Blob upload failed: ${resp.code}", isRetryable = true)
                 }
-                else -> Result.Failure("Blob upload failed: ${response.code}", isRetryable = true)
             }
         } catch (e: Exception) {
             if (retryCount < maxRetries) {
@@ -249,10 +261,12 @@ class PDVClient(private val context: Context) {
                 .build()
 
             val response = client.newCall(request).execute()
-            when {
-                response.isSuccessful -> Result.Success("Connected")
-                response.code >= 500 -> Result.Failure("PDV server error: ${response.code}", isRetryable = true)
-                else -> Result.Failure("PDV unreachable: ${response.code}", isRetryable = true)
+            response.use { resp ->
+                when {
+                    resp.isSuccessful -> Result.Success("Connected")
+                    resp.code >= 500 -> Result.Failure("PDV server error: ${resp.code}", isRetryable = true)
+                    else -> Result.Failure("PDV unreachable: ${resp.code}", isRetryable = true)
+                }
             }
         } catch (e: Exception) {
             val errorMsg = e.message ?: e.javaClass.simpleName ?: "Unknown connection error"
@@ -268,7 +282,9 @@ class PDVClient(private val context: Context) {
                 .build()
 
             val response = client.newCall(request).execute()
-            response.isSuccessful
+            response.use { resp ->
+                resp.isSuccessful
+            }
         } catch (e: Exception) {
             false
         }

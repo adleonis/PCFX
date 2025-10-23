@@ -14,20 +14,26 @@ import javax.inject.Inject
 data class EventsState(
     val events: List<Map<String, Any>> = emptyList(),
     val isLoading: Boolean = false,
+    val isLoadingMore: Boolean = false,
     val error: String? = null,
     val selectedContentKind: String? = null,
     val selectedSurface: String? = null,
     val contentKindOptions: List<String> = listOf("text", "audio", "image", "video", "ad", "system"),
-    val surfaceOptions: List<String> = listOf("app", "browser", "audio", "tv", "wearable", "system")
+    val surfaceOptions: List<String> = listOf("app", "browser", "audio", "tv", "wearable", "system"),
+    val hasMoreEvents: Boolean = true
 )
 
 @HiltViewModel
 class EventsViewModel @Inject constructor(
     private val pdvClient: PDVClient
 ) : ViewModel() {
-    
+
     private val _state = MutableStateFlow(EventsState())
     val state: StateFlow<EventsState> = _state.asStateFlow()
+
+    private val pageSize = 10
+    private var currentOffset = 0
+    private var lastLoadedCount = 0
 
     init {
         loadEvents()
@@ -37,15 +43,22 @@ class EventsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _state.value = _state.value.copy(isLoading = true, error = null)
-                
-                val result = pdvClient.getEvents(limit = 50)
-                
+                Log.i(TAG, "Loading events from PDV server...")
+
+                currentOffset = 0
+                val result = pdvClient.getRecentEvents(limit = pageSize, offset = 0)
+
                 result.onSuccess { response ->
+                    Log.i(TAG, "Successfully loaded ${response.count} events")
+                    lastLoadedCount = response.count
                     _state.value = _state.value.copy(
                         events = response.events,
-                        isLoading = false
+                        isLoading = false,
+                        hasMoreEvents = response.count >= pageSize
                     )
+                    currentOffset = pageSize
                 }.onFailure { e ->
+                    Log.e(TAG, "Failed to load events: ${e.message}", e)
                     _state.value = _state.value.copy(
                         isLoading = false,
                         error = e.message
@@ -55,6 +68,44 @@ class EventsViewModel @Inject constructor(
                 Log.e(TAG, "Error loading events", e)
                 _state.value = _state.value.copy(
                     isLoading = false,
+                    error = e.message
+                )
+            }
+        }
+    }
+
+    fun loadMoreEvents() {
+        if (_state.value.isLoadingMore || !_state.value.hasMoreEvents) {
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                _state.value = _state.value.copy(isLoadingMore = true)
+                Log.i(TAG, "Loading more events, offset=$currentOffset")
+
+                val result = pdvClient.getRecentEvents(limit = pageSize, offset = currentOffset)
+
+                result.onSuccess { response ->
+                    Log.i(TAG, "Successfully loaded ${response.count} more events")
+                    lastLoadedCount = response.count
+                    _state.value = _state.value.copy(
+                        events = _state.value.events + response.events,
+                        isLoadingMore = false,
+                        hasMoreEvents = response.count >= pageSize
+                    )
+                    currentOffset += pageSize
+                }.onFailure { e ->
+                    Log.e(TAG, "Failed to load more events: ${e.message}", e)
+                    _state.value = _state.value.copy(
+                        isLoadingMore = false,
+                        error = e.message
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error loading more events", e)
+                _state.value = _state.value.copy(
+                    isLoadingMore = false,
                     error = e.message
                 )
             }
