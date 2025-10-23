@@ -21,6 +21,21 @@ class EventRepository(private val eventDao: EventDao) {
             val adapterId = jsonObj.get("adapter_id")?.asString ?: "unknown"
             val signature = jsonObj.get("signature")?.asString ?: ""
 
+            val contentObj = jsonObj.getAsJsonObject("content")
+            val textField = contentObj?.get("text")?.asString ?: ""
+            val contentKind = contentObj?.get("kind")?.asString ?: "unknown"
+
+            Log.d(TAG, "========== EVENT INSERTION START ==========")
+            Log.d(TAG, "Event ID: $id")
+            Log.d(TAG, "Content Kind: $contentKind")
+            Log.d(TAG, "Text Field Present: ${!textField.isEmpty()}")
+            Log.d(TAG, "Text Length: ${textField.length}")
+            if (textField.isNotEmpty()) {
+                Log.d(TAG, "Text Preview: ${textField.substring(0, minOf(100, textField.length))}...")
+            }
+            Log.d(TAG, "JSON length: ${eventJson.length}")
+            Log.d(TAG, "========== EVENT INSERTION END ==========")
+
             val event = EventEntity(
                 id = id,
                 ts = ts,
@@ -30,10 +45,10 @@ class EventRepository(private val eventDao: EventDao) {
                 signature = signature
             )
             eventDao.insertEvent(event)
-            Log.d(TAG, "Inserted event: $id")
+            Log.d(TAG, "✓ Event persisted to database: $id")
             Result.success(id)
         } catch (e: Exception) {
-            Log.e(TAG, "Error inserting event", e)
+            Log.e(TAG, "✗ Error inserting event: ${e.message}", e)
             Result.failure(e)
         }
     }
@@ -41,7 +56,8 @@ class EventRepository(private val eventDao: EventDao) {
     suspend fun getEventsSince(since: String, limit: Int): List<Map<String, Any>> {
         return try {
             val events = eventDao.getEventsSince(since, limit)
-            events.map { event ->
+            // Ensure ascending timestamp order (oldest first, newest last)
+            events.sortedBy { it.ts }.map { event ->
                 val eventJson = gson.fromJson(event.eventJson, Map::class.java) as? Map<String, Any> ?: emptyMap()
                 mapOf(
                     "id" to event.id,
@@ -64,18 +80,52 @@ class EventRepository(private val eventDao: EventDao) {
             } else {
                 eventDao.getRecentEventsWithOffset(limit, offset)
             }
+
+            Log.d(TAG, "========== GET RECENT EVENTS START ==========")
+            Log.d(TAG, "Retrieved ${ events.size} events from database")
+
             events.map { event ->
+                Log.d(TAG, "\n--- Processing Event: ${event.id} ---")
                 val eventJson = gson.fromJson(event.eventJson, Map::class.java) as? Map<String, Any> ?: emptyMap()
-                mapOf(
+
+                // Extract content for logging
+                @Suppress("UNCHECKED_CAST")
+                val content = eventJson["content"] as? Map<String, Any>
+                val textField = content?.get("text") as? String ?: ""
+                val contentKind = content?.get("kind") as? String ?: "unknown"
+
+                Log.d(TAG, "Event ID: ${event.id}")
+                Log.d(TAG, "Content Kind: $contentKind")
+                Log.d(TAG, "Text Field Present: ${textField.isNotEmpty()}")
+                Log.d(TAG, "Text Length: ${textField.length}")
+                if (textField.isNotEmpty()) {
+                    Log.d(TAG, "Text Preview: ${textField.substring(0, minOf(80, textField.length))}...")
+                }
+
+                val response = mapOf(
                     "id" to event.id,
                     "ts" to event.ts,
                     "device" to event.device,
                     "adapter_id" to event.adapterId,
                     "event" to eventJson
                 )
+
+                // Verify structure in response
+                @Suppress("UNCHECKED_CAST")
+                val responseEvent = response["event"] as? Map<String, Any>
+                @Suppress("UNCHECKED_CAST")
+                val responseContent = responseEvent?.get("content") as? Map<String, Any>
+                val responseText = responseContent?.get("text") as? String ?: ""
+                Log.d(TAG, "Response Text Field Present: ${responseText.isNotEmpty()}")
+                Log.d(TAG, "Response Text Length: ${responseText.length}")
+
+                response
+            }.also {
+                Log.d(TAG, "========== GET RECENT EVENTS END ==========")
+                Log.d(TAG, "Returning ${it.size} events to client")
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting recent events", e)
+            Log.e(TAG, "✗ Error getting recent events: ${e.message}", e)
             emptyList()
         }
     }
@@ -104,6 +154,17 @@ class EventRepository(private val eventDao: EventDao) {
             Log.d(TAG, "Deleted events before $before")
         } catch (e: Exception) {
             Log.e(TAG, "Error deleting events", e)
+        }
+    }
+
+    suspend fun deleteAccessibilityEventsBefore(before: String): Int {
+        return try {
+            val deletedCount = eventDao.deleteAccessibilityEventsBefore(before)
+            Log.d(TAG, "Deleted $deletedCount accessibility events (content.kind=text) before $before")
+            deletedCount
+        } catch (e: Exception) {
+            Log.e(TAG, "Error deleting accessibility events", e)
+            0
         }
     }
 

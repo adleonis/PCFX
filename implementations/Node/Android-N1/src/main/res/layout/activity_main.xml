@@ -40,14 +40,32 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_run_now"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Run Atomizer Now"
-        android:textSize="16sp"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal"
+        android:spacing="8dp"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btn_run_now"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Run (10 batches)"
+            android:textSize="14sp"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/btn_run_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Process All"
+            android:textSize="14sp"
+            android:padding="12dp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_status"

@@ -98,17 +98,45 @@ class PDVClient @Inject constructor() {
 
             val httpResponse = httpClient.get(url)
             val jsonString = httpResponse.body<String>()
+
+            Log.d(TAG, "========== CLIENT RECEIVED RESPONSE START ==========")
+            Log.d(TAG, "Response status: ${httpResponse.status}")
+            Log.d(TAG, "Response JSON length: ${jsonString.length}")
+
             val jsonObject = Json.parseToJsonElement(jsonString).jsonObject
 
             @Suppress("UNCHECKED_CAST")
-            val eventsList = jsonObject["events"]?.jsonArray?.map { it.jsonObject.toMap() } ?: emptyList()
+            val eventsList = jsonObject["events"]?.jsonArray?.map {
+                val eventMap = it.jsonObject.toMap()
+
+                // Log each event's content.text field
+                @Suppress("UNCHECKED_CAST")
+                val eventData = eventMap["event"] as? Map<String, Any>
+                @Suppress("UNCHECKED_CAST")
+                val content = eventData?.get("content") as? Map<String, Any>
+                val textField = content?.get("text") as? String ?: ""
+                val contentKind = content?.get("kind") as? String ?: "unknown"
+                val eventId = eventMap["id"] as? String ?: "unknown"
+
+                Log.d(TAG, "\n--- Client Received Event: $eventId ---")
+                Log.d(TAG, "Content Kind: $contentKind")
+                Log.d(TAG, "Text Field Present: ${textField.isNotEmpty()}")
+                Log.d(TAG, "Text Length: ${textField.length}")
+                if (textField.isNotEmpty()) {
+                    Log.d(TAG, "Text Preview: ${textField.substring(0, minOf(80, textField.length))}...")
+                }
+
+                eventMap
+            } ?: emptyList()
             val count = jsonObject["count"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0
 
+            Log.d(TAG, "========== CLIENT RECEIVED RESPONSE END ==========")
+            Log.d(TAG, "✓ Successfully fetched $count recent events")
+
             val eventResponse = EventResponse(events = eventsList, count = count)
-            Log.d(TAG, "Successfully fetched $count recent events")
             Result.success(eventResponse)
         } catch (e: Exception) {
-            Log.e(TAG, "Error fetching recent events", e)
+            Log.e(TAG, "✗ Error fetching recent events: ${e.message}", e)
             Result.failure(e)
         }
     }

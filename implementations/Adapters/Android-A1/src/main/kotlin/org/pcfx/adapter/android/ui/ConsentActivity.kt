@@ -35,6 +35,9 @@ class ConsentActivity : AppCompatActivity() {
     private lateinit var pdvStatusText: TextView
     private var isRecording = false
     private var isScreenshotCapturing = false
+    private var pendingScreenshotCaptureInterval = 0
+    private var pendingScreenshotCaptureConsentId = ""
+    private var pendingScreenshotCaptureRetentionDays = 30
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,12 +174,41 @@ class ConsentActivity : AppCompatActivity() {
         }
 
         setupScreenshotCaptureUI()
+        setupAccessibilityRecordingToggle()
 
         pdvStatusIcon = findViewById(R.id.pdv_status_icon)
         pdvStatusText = findViewById(R.id.pdv_status_text)
 
         // Update button states based on current consent
         updateButtonStates()
+    }
+
+    private fun setupAccessibilityRecordingToggle() {
+        val accessibilityToggle = findViewById<android.widget.Switch>(R.id.accessibility_recording_toggle)
+
+        if (accessibilityToggle == null) {
+            Log.w("ConsentActivity", "Accessibility recording toggle not found in layout")
+            return
+        }
+
+        val sharedPreferences = getSharedPreferences("pcfx_preferences", MODE_PRIVATE)
+        val isEnabled = sharedPreferences.getBoolean("accessibility_recording_enabled", false)
+        accessibilityToggle.isChecked = isEnabled
+
+        accessibilityToggle.setOnCheckedChangeListener { _, isChecked ->
+            sharedPreferences.edit().apply {
+                putBoolean("accessibility_recording_enabled", isChecked)
+                apply()
+            }
+
+            val message = if (isChecked) {
+                "Accessibility event recording enabled"
+            } else {
+                "Accessibility event recording disabled"
+            }
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            Log.d("ConsentActivity", message)
+        }
     }
 
     private fun setupScreenshotCaptureUI() {
@@ -248,19 +280,19 @@ class ConsentActivity : AppCompatActivity() {
         }
 
         val interval = screenshotCaptureManager.getInterval()
+        val retentionDays = activeConsent.grants.firstOrNull()?.retentionDays ?: 30
 
         try {
-            screenshotCaptureManager.startCapture(
-                intervalSeconds = interval,
-                consentId = activeConsent.consentId,
-                retentionDays = activeConsent.grants.firstOrNull()?.retentionDays ?: 30
-            )
-            isScreenshotCapturing = true
-            updateScreenshotToggle(findViewById(R.id.screenshot_toggle))
-            Toast.makeText(this, "Screenshot capture started", Toast.LENGTH_SHORT).show()
+            // Store pending values for onActivityResult
+            pendingScreenshotCaptureInterval = interval
+            pendingScreenshotCaptureConsentId = activeConsent.consentId
+            pendingScreenshotCaptureRetentionDays = retentionDays
+
+            // Request MediaProjection permission
+            screenshotCaptureManager.requestScreenCapturePermission(this)
         } catch (e: Exception) {
-            Log.e("ConsentActivity", "Error starting screenshot capture", e)
-            Toast.makeText(this, "Error starting screenshot capture: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e("ConsentActivity", "Error requesting screenshot capture permission", e)
+            Toast.makeText(this, "Error requesting screenshot capture permission: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -363,10 +395,28 @@ class ConsentActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == VideoRecordingHelper.REQUEST_MEDIA_PROJECTION) {
-            recordingHelper.handleScreenCaptureResult(resultCode, data)
-            isRecording = true
-            updateVideoRecordingButtonText()
+        when (requestCode) {
+            VideoRecordingHelper.REQUEST_MEDIA_PROJECTION -> {
+                recordingHelper.handleScreenCaptureResult(resultCode, data)
+                isRecording = true
+                updateVideoRecordingButtonText()
+            }
+            ScreenshotCaptureManager.REQUEST_MEDIA_PROJECTION -> {
+                screenshotCaptureManager.handleScreenCaptureResult(
+                    resultCode = resultCode,
+                    data = data,
+                    intervalSeconds = pendingScreenshotCaptureInterval,
+                    consentId = pendingScreenshotCaptureConsentId,
+                    retentionDays = pendingScreenshotCaptureRetentionDays
+                )
+                isScreenshotCapturing = screenshotCaptureManager.isCapturing()
+                updateScreenshotToggle(findViewById(R.id.screenshot_toggle))
+                if (isScreenshotCapturing) {
+                    Toast.makeText(this, "Screenshot capture started", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Screenshot capture permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

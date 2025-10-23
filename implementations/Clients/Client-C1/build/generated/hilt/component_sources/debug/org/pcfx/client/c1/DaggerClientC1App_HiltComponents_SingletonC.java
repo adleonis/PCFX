@@ -401,30 +401,30 @@ public final class DaggerClientC1App_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
+      static String org_pcfx_client_c1_ui_viewmodel_SettingsViewModel = "org.pcfx.client.c1.ui.viewmodel.SettingsViewModel";
+
+      static String org_pcfx_client_c1_ui_viewmodel_InsightsViewModel = "org.pcfx.client.c1.ui.viewmodel.InsightsViewModel";
+
+      static String org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel = "org.pcfx.client.c1.ui.viewmodel.StatisticsViewModel";
+
       static String org_pcfx_client_c1_ui_viewmodel_EventsViewModel = "org.pcfx.client.c1.ui.viewmodel.EventsViewModel";
 
       static String org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel = "org.pcfx.client.c1.ui.viewmodel.ActivityFeedViewModel";
 
-      static String org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel = "org.pcfx.client.c1.ui.viewmodel.StatisticsViewModel";
+      @KeepFieldType
+      SettingsViewModel org_pcfx_client_c1_ui_viewmodel_SettingsViewModel2;
 
-      static String org_pcfx_client_c1_ui_viewmodel_InsightsViewModel = "org.pcfx.client.c1.ui.viewmodel.InsightsViewModel";
+      @KeepFieldType
+      InsightsViewModel org_pcfx_client_c1_ui_viewmodel_InsightsViewModel2;
 
-      static String org_pcfx_client_c1_ui_viewmodel_SettingsViewModel = "org.pcfx.client.c1.ui.viewmodel.SettingsViewModel";
+      @KeepFieldType
+      StatisticsViewModel org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel2;
 
       @KeepFieldType
       EventsViewModel org_pcfx_client_c1_ui_viewmodel_EventsViewModel2;
 
       @KeepFieldType
       ActivityFeedViewModel org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel2;
-
-      @KeepFieldType
-      StatisticsViewModel org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel2;
-
-      @KeepFieldType
-      InsightsViewModel org_pcfx_client_c1_ui_viewmodel_InsightsViewModel2;
-
-      @KeepFieldType
-      SettingsViewModel org_pcfx_client_c1_ui_viewmodel_SettingsViewModel2;
     }
   }
 
@@ -477,30 +477,30 @@ public final class DaggerClientC1App_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String org_pcfx_client_c1_ui_viewmodel_EventsViewModel = "org.pcfx.client.c1.ui.viewmodel.EventsViewModel";
-
-      static String org_pcfx_client_c1_ui_viewmodel_InsightsViewModel = "org.pcfx.client.c1.ui.viewmodel.InsightsViewModel";
-
-      static String org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel = "org.pcfx.client.c1.ui.viewmodel.StatisticsViewModel";
+      static String org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel = "org.pcfx.client.c1.ui.viewmodel.ActivityFeedViewModel";
 
       static String org_pcfx_client_c1_ui_viewmodel_SettingsViewModel = "org.pcfx.client.c1.ui.viewmodel.SettingsViewModel";
 
-      static String org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel = "org.pcfx.client.c1.ui.viewmodel.ActivityFeedViewModel";
+      static String org_pcfx_client_c1_ui_viewmodel_InsightsViewModel = "org.pcfx.client.c1.ui.viewmodel.InsightsViewModel";
+
+      static String org_pcfx_client_c1_ui_viewmodel_EventsViewModel = "org.pcfx.client.c1.ui.viewmodel.EventsViewModel";
+
+      static String org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel = "org.pcfx.client.c1.ui.viewmodel.StatisticsViewModel";
 
       @KeepFieldType
-      EventsViewModel org_pcfx_client_c1_ui_viewmodel_EventsViewModel2;
-
-      @KeepFieldType
-      InsightsViewModel org_pcfx_client_c1_ui_viewmodel_InsightsViewModel2;
-
-      @KeepFieldType
-      StatisticsViewModel org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel2;
+      ActivityFeedViewModel org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel2;
 
       @KeepFieldType
       SettingsViewModel org_pcfx_client_c1_ui_viewmodel_SettingsViewModel2;
 
       @KeepFieldType
-      ActivityFeedViewModel org_pcfx_client_c1_ui_viewmodel_ActivityFeedViewModel2;
+      InsightsViewModel org_pcfx_client_c1_ui_viewmodel_InsightsViewModel2;
+
+      @KeepFieldType
+      EventsViewModel org_pcfx_client_c1_ui_viewmodel_EventsViewModel2;
+
+      @KeepFieldType
+      StatisticsViewModel org_pcfx_client_c1_ui_viewmodel_StatisticsViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {

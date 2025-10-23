@@ -143,6 +143,25 @@ class PdvServer(private val context: Context, private val port: Int = 7777) {
                 }
             }
 
+            post("/events/purge") {
+                try {
+                    val before = call.request.queryParameters["before"]
+                        ?: return@post call.respond(mapOf("status" to "error", "message" to "Missing 'before' parameter"))
+
+                    val deletedCount = eventRepo.deleteAccessibilityEventsBefore(before)
+                    Log.d(TAG, "Purged $deletedCount accessibility events before $before")
+                    call.respond(mapOf(
+                        "status" to "ok",
+                        "deleted" to deletedCount,
+                        "message" to "Deleted $deletedCount accessibility events (content.kind=text) before $before"
+                    ))
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error purging accessibility events", e)
+                    val errorMsg = e.message ?: "Unknown error"
+                    call.respond(mapOf("status" to "error", "message" to errorMsg))
+                }
+            }
+
             post("/atoms") {
                 try {
                     val atomJson = call.receiveText()

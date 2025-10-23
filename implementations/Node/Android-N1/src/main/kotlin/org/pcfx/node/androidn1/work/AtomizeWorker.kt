@@ -37,7 +37,7 @@ class AtomizeWorker : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == ACTION_RUN_ATOMIZE) {
             scope.launch {
-                runAtomize()
+                runAtomize(intent)
             }
             return START_STICKY
         }
@@ -46,37 +46,133 @@ class AtomizeWorker : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-    private suspend fun runAtomize() {
+    private suspend fun runAtomize(intent: Intent?) {
         try {
             showRunningNotification()
+            Log.d(TAG, "========== ATOMIZATION JOB START ==========")
             Log.d(TAG, "Starting atomization job")
+
+            val maxBatches = intent?.getIntExtra(EXTRA_MAX_BATCHES, DEFAULT_MAX_BATCHES) ?: DEFAULT_MAX_BATCHES
+            val isProcessAll = maxBatches == Int.MAX_VALUE
+            Log.d(TAG, if (isProcessAll) "Mode: Process ALL events" else "Mode: Process max $maxBatches batches")
 
             val watermark = preferencesManager.getLastWatermark()
             var eventsCount = 0
             var atomsCount = 0
             var error: String? = null
             var batchCount = 0
-            val maxBatches = 10  // Process max 10 batches (640 events) per run
+            val startTime = System.currentTimeMillis()
+            val maxExecutionTimeMs = 30 * 60 * 1000L  // 30 minute limit for Process All
+            var emptyBatchCount = 0  // Track consecutive empty batches
+
+            // Event type statistics
+            val eventTypeStats = mutableMapOf<String, Int>()
+            val contentKindStats = mutableMapOf<String, Int>()
 
             // Fetch events in batches
             var cursor = watermark
+            Log.d(TAG, "Starting from watermark: $watermark")
+
             while (batchCount < maxBatches) {
+                // Check execution time limit for Process All mode
+                if (isProcessAll) {
+                    val elapsedMs = System.currentTimeMillis() - startTime
+                    if (elapsedMs > maxExecutionTimeMs) {
+                        Log.i(TAG, "⚠️ Process All exceeded 30-minute time limit. Stopping to prevent infinite processing.")
+                        error = "Execution time limit exceeded (30 minutes)"
+                        break
+                    }
+                }
+
                 val eventsResult = pdvRepository.getEventsSince(cursor, limit = 64)
 
                 when {
                     eventsResult.isSuccess -> {
                         val events = eventsResult.getOrNull() ?: emptyList()
                         if (events.isEmpty()) {
-                            Log.d(TAG, "No more events to process")
-                            break
+                            emptyBatchCount++
+                            if (isProcessAll && emptyBatchCount >= 2) {
+                                Log.d(TAG, "✓ No more events to process (${emptyBatchCount} consecutive empty batches)")
+                                break
+                            } else if (!isProcessAll) {
+                                Log.d(TAG, "✓ No more events to process")
+                                break
+                            }
+                            // For Process All mode, skip this iteration if empty and continue checking
+                            continue
                         }
 
-                        eventsCount += events.size
+                        emptyBatchCount = 0  // Reset empty batch counter on successful fetch
+
+                        Log.d(TAG, "\n========== BATCH ${batchCount + 1}/$maxBatches ==========")
                         Log.d(TAG, "Processing ${events.size} events")
 
+                        // Analyze event types
+                        var accessibilityEventCount = 0
+                        var ocrEventCount = 0
+                        var otherEventCount = 0
+
+                        events.forEach { event ->
+                            val source = event.source?.surface ?: "unknown"
+                            val contentKind = event.content?.kind ?: "unknown"
+
+                            eventTypeStats[source] = eventTypeStats.getOrDefault(source, 0) + 1
+                            contentKindStats[contentKind] = contentKindStats.getOrDefault(contentKind, 0) + 1
+
+                            when (contentKind) {
+                                "text" -> accessibilityEventCount++
+                                "ocr-text" -> ocrEventCount++
+                                else -> otherEventCount++
+                            }
+                        }
+
+                        Log.d(TAG, "Raw event breakdown for this batch:")
+                        Log.d(TAG, "  - Accessibility events (text): $accessibilityEventCount")
+                        Log.d(TAG, "  - Screenshot events (ocr-text): $ocrEventCount")
+                        Log.d(TAG, "  - Other events: $otherEventCount")
+                        Log.d(TAG, "Event sources: $eventTypeStats")
+                        Log.d(TAG, "Content kinds: $contentKindStats")
+
+                        // Filter events by content kind based on user preferences
+                        val preferences = getApplicationContext().getSharedPreferences("node_preferences", android.content.Context.MODE_PRIVATE)
+                        val processAccessibilityEvents = preferences.getBoolean("process_event_type_text", false)
+                        val processOcrEvents = preferences.getBoolean("process_event_type_ocr-text", true)
+
+                        Log.d(TAG, "Processing filters applied:")
+                        Log.d(TAG, "  - Process accessibility (text) events: $processAccessibilityEvents")
+                        Log.d(TAG, "  - Process OCR (ocr-text) events: $processOcrEvents")
+
+                        val filteredEvents = events.filter { event ->
+                            when (event.content?.kind) {
+                                "text" -> processAccessibilityEvents
+                                "ocr-text" -> processOcrEvents
+                                else -> false
+                            }
+                        }
+
+                        if (filteredEvents.size < events.size) {
+                            val filtered = events.size - filteredEvents.size
+                            Log.d(
+                                TAG,
+                                "📊 Filtering summary: ${events.size} events → ${filteredEvents.size} kept, $filtered discarded"
+                            )
+                            Log.d(
+                                TAG,
+                                "  - Accessibility events filtered: ${if (processAccessibilityEvents) 0 else accessibilityEventCount} of $accessibilityEventCount"
+                            )
+                            Log.d(
+                                TAG,
+                                "  - OCR events filtered: ${if (processOcrEvents) 0 else ocrEventCount} of $ocrEventCount"
+                            )
+                        }
+
+                        // Only count filtered events that are actually being processed
+                        eventsCount += filteredEvents.size
+                        Log.d(TAG, "✓ Processing ${filteredEvents.size} filtered events (discarded ${events.size - filteredEvents.size})")
+
                         // Atomize events
-                        val atoms = atomizer.process(events)
-                        Log.d(TAG, "Generated ${atoms.size} atoms")
+                        val atoms = atomizer.process(filteredEvents)
+                        Log.d(TAG, "Generated ${atoms.size} atoms from ${filteredEvents.size} events")
 
                         // Publish atoms
                         for (atom in atoms) {
@@ -95,12 +191,15 @@ class AtomizeWorker : Service() {
                         }
 
                         // Update watermark once per batch after all events processed
-                        // Use the last event's timestamp to advance the cursor for next fetch
-                        val lastEventTs = events.last().ts
-                        cursor = lastEventTs
-                        preferencesManager.setLastWatermark(lastEventTs)
+                        // API returns events in ASCENDING timestamp order (oldest first, newest last)
+                        // Use the LAST (newest) event's timestamp to advance the cursor for next fetch
+                        val oldestEventTs = events.first().ts
+                        val newestEventTs = events.last().ts
+                        cursor = newestEventTs
+                        preferencesManager.setLastWatermark(newestEventTs)
                         batchCount++
-                        Log.d(TAG, "Updated watermark to $lastEventTs (batch $batchCount/$maxBatches)")
+                        Log.d(TAG, "Updated watermark from $oldestEventTs to $newestEventTs (batch $batchCount/$maxBatches)")
+                        Log.d(TAG, "Next fetch will start from: $newestEventTs")
                     }
                     eventsResult.exceptionOrNull() is RateLimitException -> {
                         val retryAfter = (eventsResult.exceptionOrNull() as? RateLimitException)?.retryAfterSeconds ?: 30
@@ -118,8 +217,10 @@ class AtomizeWorker : Service() {
                 }
             }
 
-            if (batchCount >= maxBatches) {
-                Log.i(TAG, "Reached maximum batches ($maxBatches). Run again to process remaining events.")
+            if (batchCount >= maxBatches && maxBatches != Int.MAX_VALUE) {
+                Log.i(TAG, "⚠️ Reached maximum batches ($maxBatches). Run again to process remaining events.")
+            } else if (maxBatches == Int.MAX_VALUE) {
+                Log.i(TAG, "✓ Process All completed - all available events have been processed.")
             }
 
             preferencesManager.recordRunResult(
@@ -129,7 +230,32 @@ class AtomizeWorker : Service() {
                 error = error
             )
 
-            Log.d(TAG, "Atomization job completed: processed $eventsCount events, published $atomsCount atoms in $batchCount batches")
+            Log.d(TAG, "\n========== ATOMIZATION JOB SUMMARY ==========")
+            Log.d(TAG, "📊 Events processed:")
+            Log.d(TAG, "  - Total events fetched: $eventsCount")
+            Log.d(TAG, "  - Total atoms published: $atomsCount")
+            Log.d(TAG, "  - Batches processed: $batchCount/$maxBatches")
+            Log.d(TAG, "  - Event success rate: ${if (eventsCount > 0) "${(atomsCount * 100 / eventsCount)}%" else "N/A"}")
+
+            Log.d(TAG, "📈 Event breakdown by source: $eventTypeStats")
+            Log.d(TAG, "📋 Event breakdown by kind: $contentKindStats")
+
+            if (eventTypeStats.isNotEmpty()) {
+                val accessibilityCount = contentKindStats["text"] ?: 0
+                val ocrCount = contentKindStats["ocr-text"] ?: 0
+                if (accessibilityCount > 0 || ocrCount > 0) {
+                    Log.d(TAG, "🔍 Detailed breakdown:")
+                    Log.d(TAG, "  - Accessibility events (text): $accessibilityCount")
+                    Log.d(TAG, "  - Screenshot events (ocr-text): $ocrCount")
+                }
+            }
+
+            if (error != null) {
+                Log.w(TAG, "⚠️ Error: $error")
+            } else {
+                Log.d(TAG, "✓ Atomization completed successfully")
+            }
+            Log.d(TAG, "========== JOB COMPLETED ==========\n")
 
         } catch (e: Exception) {
             Log.e(TAG, "Atomization job failed", e)
@@ -176,5 +302,7 @@ class AtomizeWorker : Service() {
         private const val CHANNEL_ID = "pcfx_atomizer_channel"
         private const val NOTIFICATION_ID = 1
         const val ACTION_RUN_ATOMIZE = "org.pcfx.node.androidn1.RUN_ATOMIZE"
+        const val EXTRA_MAX_BATCHES = "max_batches"
+        private const val DEFAULT_MAX_BATCHES = 10
     }
 }

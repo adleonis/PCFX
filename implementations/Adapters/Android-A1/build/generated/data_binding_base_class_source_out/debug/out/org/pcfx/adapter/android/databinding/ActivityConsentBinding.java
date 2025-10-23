@@ -24,6 +24,9 @@ public final class ActivityConsentBinding implements ViewBinding {
   private final ScrollView rootView;
 
   @NonNull
+  public final Switch accessibilityRecordingToggle;
+
+  @NonNull
   public final TextView accessibilityStatusText;
 
   @NonNull
@@ -69,15 +72,16 @@ public final class ActivityConsentBinding implements ViewBinding {
   public final Button videoRecordingButton;
 
   private ActivityConsentBinding(@NonNull ScrollView rootView,
-      @NonNull TextView accessibilityStatusText, @NonNull Button consentAcceptBtn,
-      @NonNull Button consentDeclineBtn, @NonNull TextView consentDescription,
-      @NonNull TextView consentGrants, @NonNull Button consentStatusBtn,
-      @NonNull TextView consentTitle, @NonNull Button debugButton,
+      @NonNull Switch accessibilityRecordingToggle, @NonNull TextView accessibilityStatusText,
+      @NonNull Button consentAcceptBtn, @NonNull Button consentDeclineBtn,
+      @NonNull TextView consentDescription, @NonNull TextView consentGrants,
+      @NonNull Button consentStatusBtn, @NonNull TextView consentTitle, @NonNull Button debugButton,
       @NonNull Button enableAccessibilityButton, @NonNull ImageView pdvStatusIcon,
       @NonNull TextView pdvStatusText, @NonNull Button regenerateKeyBtn,
       @NonNull Spinner screenshotIntervalSpinner, @NonNull Switch screenshotToggle,
       @NonNull Button videoRecordingButton) {
     this.rootView = rootView;
+    this.accessibilityRecordingToggle = accessibilityRecordingToggle;
     this.accessibilityStatusText = accessibilityStatusText;
     this.consentAcceptBtn = consentAcceptBtn;
     this.consentDeclineBtn = consentDeclineBtn;
@@ -122,6 +126,12 @@ public final class ActivityConsentBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.accessibility_recording_toggle;
+      Switch accessibilityRecordingToggle = ViewBindings.findChildViewById(rootView, id);
+      if (accessibilityRecordingToggle == null) {
+        break missingId;
+      }
+
       id = R.id.accessibility_status_text;
       TextView accessibilityStatusText = ViewBindings.findChildViewById(rootView, id);
       if (accessibilityStatusText == null) {
@@ -212,10 +222,11 @@ public final class ActivityConsentBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityConsentBinding((ScrollView) rootView, accessibilityStatusText,
-          consentAcceptBtn, consentDeclineBtn, consentDescription, consentGrants, consentStatusBtn,
-          consentTitle, debugButton, enableAccessibilityButton, pdvStatusIcon, pdvStatusText,
-          regenerateKeyBtn, screenshotIntervalSpinner, screenshotToggle, videoRecordingButton);
+      return new ActivityConsentBinding((ScrollView) rootView, accessibilityRecordingToggle,
+          accessibilityStatusText, consentAcceptBtn, consentDeclineBtn, consentDescription,
+          consentGrants, consentStatusBtn, consentTitle, debugButton, enableAccessibilityButton,
+          pdvStatusIcon, pdvStatusText, regenerateKeyBtn, screenshotIntervalSpinner,
+          screenshotToggle, videoRecordingButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

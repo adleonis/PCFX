@@ -28,4 +28,7 @@ interface EventDao {
 
     @Query("DELETE FROM events WHERE ts < :before")
     suspend fun deleteEventsBefore(before: String)
+
+    @Query("DELETE FROM events WHERE json_extract(eventJson, '$.content.kind') = 'text' AND ts < :before")
+    suspend fun deleteAccessibilityEventsBefore(before: String): Int
 }

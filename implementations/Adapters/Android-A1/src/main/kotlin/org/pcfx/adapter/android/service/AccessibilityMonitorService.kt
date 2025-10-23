@@ -17,6 +17,10 @@ class AccessibilityMonitorService : AccessibilityService() {
     private val scope = CoroutineScope(Dispatchers.Default)
     private val gson = Gson()
     private var lastPackage: String? = null
+    private var currentForegroundApp: String? = null
+    private var eventCountByType = mutableMapOf<String, Int>()
+    private var eventCountTotal = 0
+    private var sessionStartTime = System.currentTimeMillis()
 
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -24,20 +28,60 @@ class AccessibilityMonitorService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
-        android.util.Log.d("AccessibilityMonitor", "Event received: type=${event.eventType}, package=${event.packageName}")
+        val packageName = event.packageName?.toString() ?: "unknown"
+        eventCountTotal++
+
+        // Track event type statistics
+        val eventTypeName = getEventTypeName(event.eventType)
+        eventCountByType[eventTypeName] = eventCountByType.getOrDefault(eventTypeName, 0) + 1
+
+        // Log total event count periodically (every 100 events)
+        if (eventCountTotal % 100 == 0) {
+            val elapsedSeconds = (System.currentTimeMillis() - sessionStartTime) / 1000
+            android.util.Log.d(
+                "AccessibilityMonitor",
+                "📊 Event count: $eventCountTotal total (${elapsedSeconds}s session) | Types: $eventCountByType"
+            )
+        }
+
+        // Check if accessibility event recording is disabled
+        if (!isAccessibilityRecordingEnabled()) {
+            android.util.Log.d(
+                "AccessibilityMonitor",
+                "⊘ Accessibility event recording disabled (ignored event type: $eventTypeName from $packageName)"
+            )
+            return
+        }
 
         if (!isConsentGranted()) {
-            android.util.Log.d("AccessibilityMonitor", "No consent granted, ignoring event")
+            android.util.Log.d("AccessibilityMonitor", "⊘ No consent granted, ignoring event")
             return
+        }
+
+        // Update foreground app on WINDOW_STATE_CHANGED
+        if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            currentForegroundApp = packageName
+            android.util.Log.d("AccessibilityMonitor", "✓ Foreground app updated to: $packageName")
         }
 
         when (event.eventType) {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                android.util.Log.d("AccessibilityMonitor", "Window state changed event detected")
+                android.util.Log.d("AccessibilityMonitor", "Window state changed event detected for: $packageName")
                 handleWindowStateChanged(event)
             }
             else -> {
-                android.util.Log.d("AccessibilityMonitor", "Event type ${event.eventType} not handled")
+                // Only process other events if they come from foreground app
+                if (packageName == currentForegroundApp) {
+                    android.util.Log.d(
+                        "AccessibilityMonitor",
+                        "Event type $eventTypeName from foreground app $packageName (will be ignored - only window changes recorded)"
+                    )
+                } else {
+                    android.util.Log.d(
+                        "AccessibilityMonitor",
+                        "⊘ Event from background app $packageName (not foreground: $currentForegroundApp) - ignoring"
+                    )
+                }
             }
         }
     }
@@ -69,7 +113,10 @@ class AccessibilityMonitorService : AccessibilityService() {
 
     private suspend fun publishAppFocusEvent(packageName: String, windowTitle: String?) {
         try {
-            android.util.Log.d("AccessibilityMonitor", "publishAppFocusEvent called for package: $packageName")
+            android.util.Log.d(
+                "AccessibilityMonitor",
+                "📝 Publishing app focus event for: $packageName (total accessibility events created: $eventCountTotal)"
+            )
 
             val consentManager = ConsentManager(this@AccessibilityMonitorService)
             val consent = consentManager.getActiveConsent()
@@ -131,6 +178,34 @@ class AccessibilityMonitorService : AccessibilityService() {
             consentManager.getActiveConsent() != null
         } catch (e: Exception) {
             false
+        }
+    }
+
+    private fun isAccessibilityRecordingEnabled(): Boolean {
+        return try {
+            val sharedPreferences = getSharedPreferences("pcfx_preferences", MODE_PRIVATE)
+            val isEnabled = sharedPreferences.getBoolean("accessibility_recording_enabled", false)
+            isEnabled
+        } catch (e: Exception) {
+            android.util.Log.e("AccessibilityMonitor", "Error checking accessibility recording setting", e)
+            false
+        }
+    }
+
+    private fun getEventTypeName(eventType: Int): String {
+        return when (eventType) {
+            AccessibilityEvent.TYPE_VIEW_CLICKED -> "VIEW_CLICKED"
+            AccessibilityEvent.TYPE_VIEW_LONG_CLICKED -> "VIEW_LONG_CLICKED"
+            AccessibilityEvent.TYPE_VIEW_SELECTED -> "VIEW_SELECTED"
+            AccessibilityEvent.TYPE_VIEW_FOCUSED -> "VIEW_FOCUSED"
+            AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> "VIEW_TEXT_CHANGED"
+            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> "WINDOW_STATE_CHANGED"
+            AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> "NOTIFICATION_STATE_CHANGED"
+            AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_START -> "TOUCH_EXPLORATION_GESTURE_START"
+            AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_END -> "TOUCH_EXPLORATION_GESTURE_END"
+            AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> "WINDOW_CONTENT_CHANGED"
+            AccessibilityEvent.TYPE_ANNOUNCEMENT -> "ANNOUNCEMENT"
+            else -> "UNKNOWN_TYPE_$eventType"
         }
     }
 }

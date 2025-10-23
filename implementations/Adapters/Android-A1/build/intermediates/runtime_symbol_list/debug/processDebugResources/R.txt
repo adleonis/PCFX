@@ -3744,6 +3744,7 @@ int id accessibility_custom_action_6 0x7f08002d
 int id accessibility_custom_action_7 0x7f08002e
 int id accessibility_custom_action_8 0x7f08002f
 int id accessibility_custom_action_9 0x7f080030
+int id accessibility_recording_toggle 0x7f080223
 int id accessibility_status_text 0x7f080031
 int id actionDown 0x7f080032
 int id actionDownUp 0x7f080033

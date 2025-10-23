@@ -3,6 +3,7 @@ package org.pcfx.node.androidn1.ui
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var saveButton: Button
     private lateinit var testButton: Button
     private lateinit var statusText: TextView
+    private lateinit var processAccessibilityToggle: Switch
+    private lateinit var processOcrToggle: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +44,20 @@ class SettingsActivity : AppCompatActivity() {
         saveButton = findViewById(R.id.btn_save)
         testButton = findViewById(R.id.btn_test_connectivity)
         statusText = findViewById(R.id.tv_connection_status)
+
+        // Event type filter toggles
+        processAccessibilityToggle = findViewById(R.id.toggle_process_accessibility_events)
+        processOcrToggle = findViewById(R.id.toggle_process_ocr_events)
     }
 
     private fun loadSettings() {
         urlEditText.setText(preferencesManager.getPdvBaseUrl())
         tokenEditText.setText(preferencesManager.getPdvCapabilityToken())
+
+        // Load event type filter preferences
+        val sharedPreferences = getSharedPreferences("node_preferences", MODE_PRIVATE)
+        processAccessibilityToggle.isChecked = sharedPreferences.getBoolean("process_event_type_text", false)
+        processOcrToggle.isChecked = sharedPreferences.getBoolean("process_event_type_ocr-text", true)
     }
 
     private fun setupListeners() {
@@ -55,6 +67,27 @@ class SettingsActivity : AppCompatActivity() {
 
         testButton.setOnClickListener {
             testConnectivity()
+        }
+
+        // Event type filter listeners
+        processAccessibilityToggle.setOnCheckedChangeListener { _, isChecked ->
+            val sharedPreferences = getSharedPreferences("node_preferences", MODE_PRIVATE)
+            sharedPreferences.edit().putBoolean("process_event_type_text", isChecked).apply()
+            Toast.makeText(
+                this,
+                if (isChecked) "Accessibility events will be processed" else "Accessibility events will be skipped",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        processOcrToggle.setOnCheckedChangeListener { _, isChecked ->
+            val sharedPreferences = getSharedPreferences("node_preferences", MODE_PRIVATE)
+            sharedPreferences.edit().putBoolean("process_event_type_ocr-text", isChecked).apply()
+            Toast.makeText(
+                this,
+                if (isChecked) "OCR events will be processed" else "OCR events will be skipped",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

@@ -25,13 +25,18 @@ data class ActivityItem(
     val details: Map<String, Any>
 )
 
+enum class FeedType {
+    EVENTS, ATOMS
+}
+
 data class ActivityFeedState(
     val items: List<ActivityItem> = emptyList(),
     val isLoading: Boolean = false,
     val isLoadingMore: Boolean = false,
     val error: String? = null,
     val lastRefresh: Long = 0,
-    val hasMoreItems: Boolean = true
+    val hasMoreItems: Boolean = true,
+    val feedType: FeedType = FeedType.EVENTS
 )
 
 @HiltViewModel
@@ -65,26 +70,33 @@ class ActivityFeedViewModel @Inject constructor(
         }
     }
 
+    fun switchFeedType(feedType: FeedType) {
+        if (_state.value.feedType == feedType) return
+        _state.value = _state.value.copy(feedType = feedType, items = emptyList())
+        currentOffset = 0
+        loadActivity()
+    }
+
     fun loadActivity() {
         viewModelScope.launch {
             try {
                 _state.value = _state.value.copy(isLoading = true, error = null)
                 currentOffset = 0
 
-                val eventsResult = pdvClient.getRecentEvents(limit = pageSize, offset = 0)
-                val atomsResult = pdvClient.getRecentAtoms(limit = pageSize, offset = 0)
-
-                val items = buildActivityItems(eventsResult, atomsResult)
+                val items = when (_state.value.feedType) {
+                    FeedType.EVENTS -> loadEventItems()
+                    FeedType.ATOMS -> loadAtomItems()
+                }
                 lastLoadedCount = items.size
 
                 _state.value = _state.value.copy(
                     items = items,
                     isLoading = false,
-                    hasMoreItems = lastLoadedCount >= pageSize * 2,
+                    hasMoreItems = lastLoadedCount >= pageSize,
                     lastRefresh = System.currentTimeMillis()
                 )
 
-                currentOffset = pageSize * 2
+                currentOffset = pageSize
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading activity", e)
                 _state.value = _state.value.copy(
@@ -93,6 +105,51 @@ class ActivityFeedViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private suspend fun loadEventItems(): List<ActivityItem> {
+        val items = mutableListOf<ActivityItem>()
+        val eventsResult = pdvClient.getRecentEvents(limit = pageSize, offset = 0)
+
+        eventsResult.onSuccess { eventResponse: EventResponse ->
+            eventResponse.events.forEach { event ->
+                @Suppress("UNCHECKED_CAST")
+                val eventData = event["event"] as? Map<String, Any> ?: return@forEach
+                items.add(ActivityItem(
+                    id = event["id"]?.toString() ?: "",
+                    ts = event["ts"]?.toString() ?: "",
+                    type = "event",
+                    title = "${eventData["source"]?.toString()} captured ${eventData["content"]?.toString()}",
+                    subtitle = event["device"]?.toString() ?: "Unknown device",
+                    details = eventData
+                ))
+            }
+        }
+
+        return items
+    }
+
+    private suspend fun loadAtomItems(): List<ActivityItem> {
+        val items = mutableListOf<ActivityItem>()
+        val atomsResult = pdvClient.getRecentAtoms(limit = pageSize, offset = 0)
+
+        atomsResult.onSuccess { atomResponse: AtomResponse ->
+            atomResponse.atoms.forEach { atom ->
+                @Suppress("UNCHECKED_CAST")
+                val atomData = atom["atom"] as? Map<String, Any> ?: return@forEach
+                items.add(ActivityItem(
+                    id = atom["id"]?.toString() ?: "",
+                    ts = atom["ts"]?.toString() ?: "",
+                    type = "atom",
+                    title = atomData["text"]?.toString() ?: "Knowledge Insight",
+                    subtitle = "From node ${atom["node_id"]?.toString()}",
+                    details = atomData
+                ))
+            }
+        }
+
+        items.sortByDescending { it.ts }
+        return items
     }
 
     fun loadMoreActivity() {
@@ -105,19 +162,56 @@ class ActivityFeedViewModel @Inject constructor(
                 _state.value = _state.value.copy(isLoadingMore = true)
                 Log.i(TAG, "Loading more activity, offset=$currentOffset")
 
-                val eventsResult = pdvClient.getRecentEvents(limit = pageSize, offset = currentOffset)
-                val atomsResult = pdvClient.getRecentAtoms(limit = pageSize, offset = currentOffset)
+                val newItems = when (_state.value.feedType) {
+                    FeedType.EVENTS -> {
+                        val eventResult = pdvClient.getRecentEvents(limit = pageSize, offset = currentOffset)
+                        val items = mutableListOf<ActivityItem>()
+                        eventResult.onSuccess { eventResponse: EventResponse ->
+                            eventResponse.events.forEach { event ->
+                                @Suppress("UNCHECKED_CAST")
+                                val eventData = event["event"] as? Map<String, Any> ?: return@forEach
+                                items.add(ActivityItem(
+                                    id = event["id"]?.toString() ?: "",
+                                    ts = event["ts"]?.toString() ?: "",
+                                    type = "event",
+                                    title = "${eventData["source"]?.toString()} captured ${eventData["content"]?.toString()}",
+                                    subtitle = event["device"]?.toString() ?: "Unknown device",
+                                    details = eventData
+                                ))
+                            }
+                        }
+                        items
+                    }
+                    FeedType.ATOMS -> {
+                        val atomResult = pdvClient.getRecentAtoms(limit = pageSize, offset = currentOffset)
+                        val items = mutableListOf<ActivityItem>()
+                        atomResult.onSuccess { atomResponse: AtomResponse ->
+                            atomResponse.atoms.forEach { atom ->
+                                @Suppress("UNCHECKED_CAST")
+                                val atomData = atom["atom"] as? Map<String, Any> ?: return@forEach
+                                items.add(ActivityItem(
+                                    id = atom["id"]?.toString() ?: "",
+                                    ts = atom["ts"]?.toString() ?: "",
+                                    type = "atom",
+                                    title = atomData["text"]?.toString() ?: "Knowledge Insight",
+                                    subtitle = "From node ${atom["node_id"]?.toString()}",
+                                    details = atomData
+                                ))
+                            }
+                        }
+                        items
+                    }
+                }
 
-                val newItems = buildActivityItems(eventsResult, atomsResult)
                 lastLoadedCount = newItems.size
 
                 _state.value = _state.value.copy(
                     items = _state.value.items + newItems,
                     isLoadingMore = false,
-                    hasMoreItems = lastLoadedCount >= pageSize * 2
+                    hasMoreItems = lastLoadedCount >= pageSize
                 )
 
-                currentOffset += pageSize * 2
+                currentOffset += pageSize
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading more activity", e)
                 _state.value = _state.value.copy(

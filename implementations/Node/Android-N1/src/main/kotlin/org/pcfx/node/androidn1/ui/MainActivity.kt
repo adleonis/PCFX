@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var pdvRepository: PdvRepository
     private lateinit var runNowButton: Button
+    private lateinit var runAllButton: Button
     private lateinit var statusText: TextView
     private lateinit var settingsButton: Button
     private lateinit var scheduleButton: Button
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeViews() {
         runNowButton = findViewById(R.id.btn_run_now)
+        runAllButton = findViewById(R.id.btn_run_all)
         statusText = findViewById(R.id.tv_status)
         settingsButton = findViewById(R.id.btn_settings)
         scheduleButton = findViewById(R.id.btn_schedule)
@@ -56,7 +58,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         runNowButton.setOnClickListener {
-            runAtomizeNow()
+            runAtomizeNow(maxBatches = 10)
+        }
+
+        runAllButton.setOnClickListener {
+            runAtomizeNow(maxBatches = Int.MAX_VALUE)
         }
 
         settingsButton.setOnClickListener {
@@ -68,14 +74,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun runAtomizeNow() {
+    private fun runAtomizeNow(maxBatches: Int = 10) {
         runNowButton.isEnabled = false
-        Toast.makeText(this, "Starting atomization...", Toast.LENGTH_SHORT).show()
+        runAllButton.isEnabled = false
+
+        val message = if (maxBatches == Int.MAX_VALUE) {
+            "Processing all events..."
+        } else {
+            "Starting atomization (10 batches)..."
+        }
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, AtomizeWorker::class.java).apply {
             action = AtomizeWorker.ACTION_RUN_ATOMIZE
+            putExtra(AtomizeWorker.EXTRA_MAX_BATCHES, maxBatches)
         }
         startService(intent)
+
+        lifecycleScope.launch {
+            kotlinx.coroutines.delay(1000)
+            runNowButton.isEnabled = true
+            runAllButton.isEnabled = true
+        }
     }
 
     private fun updateStatus() {

@@ -5,6 +5,7 @@ color primary
 color primary_dark
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+id accessibility_recording_toggle
 id accessibility_status_text
 id back_button
 id consent_accept_btn

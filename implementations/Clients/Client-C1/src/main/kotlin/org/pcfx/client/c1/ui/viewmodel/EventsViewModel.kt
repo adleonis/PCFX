@@ -43,13 +43,39 @@ class EventsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _state.value = _state.value.copy(isLoading = true, error = null)
+                Log.i(TAG, "========== VIEWMODEL LOAD EVENTS START ==========")
                 Log.i(TAG, "Loading events from PDV server...")
 
                 currentOffset = 0
                 val result = pdvClient.getRecentEvents(limit = pageSize, offset = 0)
 
                 result.onSuccess { response ->
+                    Log.i(TAG, "\n========== VIEWMODEL RECEIVED RESPONSE ==========")
                     Log.i(TAG, "Successfully loaded ${response.count} events")
+
+                    // Log detailed info about each event
+                    response.events.forEachIndexed { index, event ->
+                        Log.i(TAG, "\n--- Event #$index ---")
+                        val eventId = event["id"] as? String ?: "unknown"
+                        Log.i(TAG, "Event ID: $eventId")
+
+                        @Suppress("UNCHECKED_CAST")
+                        val eventData = event["event"] as? Map<String, Any>
+                        @Suppress("UNCHECKED_CAST")
+                        val content = eventData?.get("content") as? Map<String, Any>
+                        val textField = content?.get("text") as? String ?: ""
+                        val contentKind = content?.get("kind") as? String ?: "unknown"
+
+                        Log.i(TAG, "Content Kind: $contentKind")
+                        Log.i(TAG, "Text Field Present: ${textField.isNotEmpty()}")
+                        Log.i(TAG, "Text Length: ${textField.length}")
+                        if (textField.isNotEmpty()) {
+                            Log.i(TAG, "Text Preview: ${textField.substring(0, minOf(80, textField.length))}...")
+                        } else {
+                            Log.w(TAG, "⚠️ Text field is EMPTY or NULL!")
+                        }
+                    }
+
                     lastLoadedCount = response.count
                     _state.value = _state.value.copy(
                         events = response.events,
@@ -57,15 +83,16 @@ class EventsViewModel @Inject constructor(
                         hasMoreEvents = response.count >= pageSize
                     )
                     currentOffset = pageSize
+                    Log.i(TAG, "========== VIEWMODEL LOAD EVENTS SUCCESS ==========")
                 }.onFailure { e ->
-                    Log.e(TAG, "Failed to load events: ${e.message}", e)
+                    Log.e(TAG, "✗ Failed to load events: ${e.message}", e)
                     _state.value = _state.value.copy(
                         isLoading = false,
                         error = e.message
                     )
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Error loading events", e)
+                Log.e(TAG, "✗ Error loading events", e)
                 _state.value = _state.value.copy(
                     isLoading = false,
                     error = e.message
